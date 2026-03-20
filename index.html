@@ -8,29 +8,59 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Inter', sans-serif; background: #0f0f0f; color: #fafafa; min-height: 100vh; }
-        .sidebar { width: 280px; background: #1a1a1a; border-right: 1px solid #242424; padding: 2rem; position: fixed; height: 100vh; }
+        .sidebar { width: 280px; background: #1a1a1a; border-right: 1px solid #242424; padding: 2rem; position: fixed; height: 100vh; z-index: 100; }
         .logo { display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem; }
         .logo-icon { width: 48px; height: 48px; background: linear-gradient(135deg, #f97316, #f59e0b); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; }
         .logo-text { font-size: 1.25rem; font-weight: 700; background: linear-gradient(135deg, #f97316, #f59e0b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .nav-item { padding: 1rem; border-radius: 12px; cursor: pointer; color: #a3a3a3; margin-bottom: 0.5rem; transition: all 0.2s; }
         .nav-item:hover { background: #242424; color: #fafafa; }
         .nav-item.active { background: linear-gradient(135deg, #f97316, #f59e0b); color: white; }
-        .main { margin-left: 280px; padding: 3rem; }
+        .main { margin-left: 280px; padding: 3rem; min-height: 100vh; }
         .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 3rem; }
         h1 { font-size: 2.5rem; font-weight: 700; margin-bottom: 0.5rem; }
         .subtitle { color: #a3a3a3; font-size: 1.125rem; }
         .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; margin-bottom: 3rem; }
-        .stat-card { background: #1c1c1c; border: 1px solid #242424; border-radius: 16px; padding: 1.5rem; }
-        .stat-card:hover { border-color: #f97316; }
+        @media (max-width: 1200px) { .stats { grid-template-columns: repeat(2, 1fr); } }
+        .stat-card { background: #1c1c1c; border: 1px solid #242424; border-radius: 16px; padding: 1.5rem; transition: all 0.3s; }
+        .stat-card:hover { border-color: #f97316; transform: translateY(-2px); }
         .stat-icon { font-size: 2rem; margin-bottom: 1rem; }
         .stat-label { font-size: 0.75rem; color: #a3a3a3; text-transform: uppercase; margin-bottom: 0.5rem; }
         .stat-value { font-size: 2.5rem; font-weight: 700; }
         .stat-change { color: #10b981; font-size: 0.875rem; }
-        .btn { padding: 0.75rem 1.5rem; border-radius: 12px; border: none; cursor: pointer; font-weight: 600; }
+        .btn { padding: 0.75rem 1.5rem; border-radius: 12px; border: none; cursor: pointer; font-weight: 600; transition: all 0.2s; }
+        .btn:hover { transform: translateY(-1px); }
         .btn-primary { background: linear-gradient(135deg, #f97316, #f59e0b); color: white; }
         .btn-secondary { background: #242424; color: #fafafa; border: 1px solid #2a2a2a; }
         .card { background: #1c1c1c; border: 1px solid #242424; border-radius: 16px; padding: 1.5rem; margin-bottom: 1.5rem; }
         .card-title { font-size: 1.125rem; font-weight: 600; margin-bottom: 1rem; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .project-card { background: #242424; border-radius: 12px; padding: 1.5rem; margin-bottom: 1rem; border-left: 3px solid #22c55e; }
+        .project-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem; }
+        .project-title { font-weight: 600; font-size: 1.0625rem; }
+        .project-status { padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.75rem; font-weight: 600; background: rgba(34, 197, 94, 0.15); color: #22c55e; }
+        .project-desc { font-size: 0.875rem; color: #a3a3a3; margin-bottom: 0.75rem; line-height: 1.5; }
+        .project-meta { display: flex; gap: 1rem; font-size: 0.8125rem; color: #737373; margin-bottom: 0.75rem; }
+        .file-link { display: flex; align-items: center; gap: 1rem; padding: 1rem; background: #242424; border-radius: 12px; margin-bottom: 0.75rem; text-decoration: none; color: #fafafa; transition: all 0.2s; }
+        .file-link:hover { background: #2a2a2a; border-left: 3px solid #f97316; }
+        .goal-item { display: flex; align-items: center; gap: 1rem; padding: 1rem; background: #242424; border-radius: 12px; margin-bottom: 0.75rem; }
+        .goal-checkbox { width: 20px; height: 20px; border: 2px solid #525252; border-radius: 6px; cursor: pointer; }
+        .goal-text { flex: 1; }
+        .tag { display: inline-flex; align-items: center; padding: 0.25rem 0.625rem; border-radius: 20px; font-size: 0.75rem; font-weight: 600; margin-right: 0.5rem; }
+        .tag-orange { background: rgba(249, 115, 22, 0.15); color: #f97316; }
+        .tag-green { background: rgba(34, 197, 94, 0.15); color: #22c55e; }
+        .tag-blue { background: rgba(59, 130, 246, 0.15); color: #3b82f6; }
+        .progress-item { margin-bottom: 1.25rem; }
+        .progress-header { display: flex; justify-content: space-between; margin-bottom: 0.5rem; }
+        .progress-bar { height: 6px; background: #242424; border-radius: 3px; overflow: hidden; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, #f97316, #f59e0b); border-radius: 3px; }
+        .timeline { position: relative; padding-left: 1.5rem; }
+        .timeline::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: linear-gradient(180deg, #f97316, #f59e0b); }
+        .timeline-item { position: relative; margin-bottom: 1rem; padding: 1rem; background: #242424; border-radius: 12px; }
+        .timeline-item::before { content: ''; position: absolute; left: -1.375rem; top: 1.25rem; width: 10px; height: 10px; background: #f97316; border-radius: 50%; border: 3px solid #1c1c1c; }
+        .timeline-date { font-size: 0.75rem; color: #737373; margin-bottom: 0.25rem; }
+        .timeline-title { font-weight: 600; margin-bottom: 0.5rem; }
     </style>
 </head>
 <body>
@@ -39,51 +69,326 @@
             <div class="logo-icon">📊</div>
             <div class="logo-text">Life Dashboard</div>
         </div>
-        <div class="nav-item active">🏠 Dashboard</div>
-        <div class="nav-item">📓 Diaries</div>
-        <div class="nav-item">🚀 Projects</div>
-        <div class="nav-item">🎯 Goals</div>
-        <div class="nav-item">🐙 GitHub</div>
-        <div class="nav-item">💡 Insights</div>
+        <div class="nav-item active" onclick="showTab('overview', this)">🏠 Dashboard</div>
+        <div class="nav-item" onclick="showTab('diaries', this)">📓 Diaries</div>
+        <div class="nav-item" onclick="showTab('projects', this)">🚀 Projects</div>
+        <div class="nav-item" onclick="showTab('goals', this)">🎯 Goals</div>
+        <div class="nav-item" onclick="showTab('github', this)">🐙 GitHub</div>
+        <div class="nav-item" onclick="showTab('insights', this)">💡 Insights</div>
     </div>
+
     <div class="main">
-        <div class="header">
-            <div>
-                <h1>Dashboard</h1>
-                <div class="subtitle">Track your progress, projects, and productivity</div>
+        <!-- Overview Tab -->
+        <div id="overview" class="tab-content active">
+            <div class="header">
+                <div>
+                    <h1>Dashboard</h1>
+                    <div class="subtitle">Track your progress, projects, and productivity</div>
+                </div>
+                <button class="btn btn-primary" onclick="alert('Opening diary folder...')">📁 Open Diaries</button>
             </div>
-            <button class="btn btn-primary">📁 Open Diaries</button>
+
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-icon">📅</div>
+                    <div class="stat-label">Weeks Tracked</div>
+                    <div class="stat-value">2</div>
+                    <div class="stat-change">↑ Started March 2026</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🚀</div>
+                    <div class="stat-label">Active Projects</div>
+                    <div class="stat-value">8</div>
+                    <div class="stat-change">↑ +3 this week</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">⚡</div>
+                    <div class="stat-label">Apps Built</div>
+                    <div class="stat-value">4</div>
+                    <div class="stat-change">↑ All on GitHub</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🤖</div>
+                    <div class="stat-label">Tokens Used</div>
+                    <div class="stat-value">18.6K</div>
+                    <div class="stat-change">↑ This week</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">🌅 Daily Insight</div>
+                <p style="color: #a3a3a3;">Focus on completing one project before starting three new ones. Quality over quantity this week.</p>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem;">
+                <div class="card">
+                    <div class="card-title">📅 Recent Activity</div>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-date">Today, 11:30 PM</div>
+                            <div class="timeline-title">Deployed Portfolio Site</div>
+                            <span class="tag tag-orange">GitHub Pages</span>
+                            <span class="tag tag-green">Live</span>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-date">Today, 11:15 PM</div>
+                            <div class="timeline-title">Updated Life Dashboard UI</div>
+                            <span class="tag tag-orange">Design</span>
+                            <span class="tag tag-blue">Enhancement</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">📊 Progress</div>
+                    <div class="progress-item">
+                        <div class="progress-header">
+                            <span>Projects</span>
+                            <span>62%</span>
+                        </div>
+                        <div class="progress-bar"><div class="progress-fill" style="width: 62%;"></div></div>
+                    </div>
+                    <div class="progress-item">
+                        <div class="progress-header">
+                            <span>Learning</span>
+                            <span>45%</span>
+                        </div>
+                        <div class="progress-bar"><div class="progress-fill" style="width: 45%;"></div></div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="stats">
-            <div class="stat-card">
-                <div class="stat-icon">📅</div>
-                <div class="stat-label">Weeks Tracked</div>
-                <div class="stat-value">2</div>
-                <div class="stat-change">↑ Started March 2026</div>
+
+        <!-- Diaries Tab -->
+        <div id="diaries" class="tab-content">
+            <div class="header">
+                <div>
+                    <h1>Weekly Diaries</h1>
+                    <div class="subtitle">Reflections and progress tracking</div>
+                </div>
             </div>
-            <div class="stat-card">
-                <div class="stat-icon">🚀</div>
-                <div class="stat-label">Active Projects</div>
-                <div class="stat-value">8</div>
-                <div class="stat-change">↑ +3 this week</div>
+
+            <a href="#" class="file-link" onclick="alert('Opening Week of March 8-15...')">
+                <span>📓</span>
+                <div style="flex: 1;">
+                    <div style="font-weight: 600;">Week of March 8-15, 2026</div>
+                    <div style="font-size: 0.875rem; color: #737373;">First diary with owner reflections</div>
+                </div>
+                <span style="color: #737373;">→</span>
+            </a>
+
+            <a href="#" class="file-link" onclick="alert('Opening Week of March 17...')">
+                <span>📓</span>
+                <div style="flex: 1;">
+                    <div style="font-weight: 600;">Week of March 17, 2026</div>
+                    <div style="font-size: 0.875rem; color: #737373;">System setup and automation</div>
+                </div>
+                <span style="color: #737373;">→</span>
+            </a>
+        </div>
+
+        <!-- Projects Tab -->
+        <div id="projects" class="tab-content">
+            <div class="header">
+                <div>
+                    <h1>Projects</h1>
+                    <div class="subtitle">All your active and planned projects</div>
+                </div>
             </div>
-            <div class="stat-card">
-                <div class="stat-icon">⚡</div>
-                <div class="stat-label">Apps Built</div>
-                <div class="stat-value">4</div>
-                <div class="stat-change">↑ All live</div>
+
+            <div class="project-card">
+                <div class="project-header">
+                    <div>
+                        <div class="project-title">🗺️ MindMap AI Pro</div>
+                        <div style="font-size: 0.875rem; color: #737373; margin-top: 0.25rem;">Transform text into interactive mind maps</div>
+                    </div>
+                    <span class="project-status">LIVE</span>
+                </div>
+                <div class="project-desc">Purpose: Visualize ideas and organize thoughts. Target: Students, writers, project managers.</div>
+                <div class="project-meta">
+                    <span>🤖 4,200 tokens</span>
+                    <span>⏱️ 2 hours</span>
+                </div>
+                <div>
+                    <a href="https://raymariner20.github.io/MindMap/" target="_blank" class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.75rem; margin-right: 0.5rem;">Live Site</a>
+                    <a href="https://github.com/raymariner20/MindMap" target="_blank" class="btn btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.75rem;">GitHub</a>
+                </div>
             </div>
-            <div class="stat-card">
-                <div class="stat-icon">🤖</div>
-                <div class="stat-label">Tokens Used</div>
-                <div class="stat-value">18.6K</div>
-                <div class="stat-change">↑ This week</div>
+
+            <div class="project-card">
+                <div class="project-header">
+                    <div>
+                        <div class="project-title">🎙️ Voice Journal AI</div>
+                        <div style="font-size: 0.875rem; color: #737373; margin-top: 0.25rem;">Voice-to-text journaling with AI</div>
+                    </div>
+                    <span class="project-status">LIVE</span>
+                </div>
+                <div class="project-desc">Purpose: Capture thoughts naturally. Target: Journalers, creatives, professionals.</div>
+                <div class="project-meta">
+                    <span>🤖 3,800 tokens</span>
+                    <span>⏱️ 1.5 hours</span>
+                </div>
+                <div>
+                    <a href="https://raymariner20.github.io/voice-journal/" target="_blank" class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.75rem; margin-right: 0.5rem;">Live Site</a>
+                    <a href="https://github.com/raymariner20/voice-journal" target="_blank" class="btn btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.75rem;">GitHub</a>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-header">
+                    <div>
+                        <div class="project-title">📊 Life Dashboard</div>
+                        <div style="font-size: 0.875rem; color: #737373; margin-top: 0.25rem;">Personal analytics and tracking</div>
+                    </div>
+                    <span class="project-status">LIVE</span>
+                </div>
+                <div class="project-desc">Purpose: Central command for projects. Target: Self-trackers, productivity enthusiasts.</div>
+                <div class="project-meta">
+                    <span>🤖 8,500 tokens</span>
+                    <span>⏱️ 4 hours</span>
+                </div>
+                <div>
+                    <a href="https://raymariner20.github.io/life-dashboard/" target="_blank" class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.75rem; margin-right: 0.5rem;">Live Site</a>
+                    <a href="https://github.com/raymariner20/life-dashboard" target="_blank" class="btn btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.75rem;">GitHub</a>
+                </div>
             </div>
         </div>
-        <div class="card">
-            <div class="card-title">🎨 NEW DESIGN DEPLOYED</div>
-            <p style="color: #a3a3a3;">This is the new modern design with left sidebar navigation and warm orange accents!</p>
+
+        <!-- Goals Tab -->
+        <div id="goals" class="tab-content">
+            <div class="header">
+                <div>
+                    <h1>Goals</h1>
+                    <div class="subtitle">Monthly and weekly objectives</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">🎯 March 2026 Goals</div>
+                <div class="goal-item">
+                    <div class="goal-checkbox" style="background: #22c55e; border-color: #22c55e;"></div>
+                    <div class="goal-text" style="text-decoration: line-through; color: #525252;">Launch 3 working applications</div>
+                    <span class="tag tag-green">Done</span>
+                </div>
+                <div class="goal-item">
+                    <div class="goal-checkbox"></div>
+                    <div class="goal-text">Set up automated email system</div>
+                    <span class="tag tag-orange">In Progress</span>
+                </div>
+                <div class="goal-item">
+                    <div class="goal-checkbox"></div>
+                    <div class="goal-text">Create first revenue-generating feature</div>
+                    <span class="tag tag-blue">Planning</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- GitHub Tab -->
+        <div id="github" class="tab-content">
+            <div class="header">
+                <div>
+                    <h1>GitHub Activity</h1>
+                    <div class="subtitle">Code commits and repository stats</div>
+                </div>
+            </div>
+
+            <div class="stats" style="grid-template-columns: repeat(3, 1fr);">
+                <div class="stat-card">
+                    <div class="stat-value" style="color: #f97316;">4</div>
+                    <div class="stat-label">Repositories</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" style="color: #22c55e;">15</div>
+                    <div class="stat-label">Commits Today</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" style="color: #3b82f6;">4</div>
+                    <div class="stat-label">Live Projects</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">📁 All Repositories</div>
+                <a href="https://github.com/raymariner20/MindMap" target="_blank" class="file-link">
+                    <span>🗺️</span>
+                    <div style="flex: 1;">
+                        <div style="font-weight: 600;">MindMap</div>
+                        <div style="font-size: 0.875rem; color: #737373;">Interactive mind mapping</div>
+                    </div>
+                    <span style="color: #22c55e;">● Live</span>
+                </a>
+                <a href="https://github.com/raymariner20/voice-journal" target="_blank" class="file-link">
+                    <span>🎙️</span>
+                    <div style="flex: 1;">
+                        <div style="font-weight: 600;">voice-journal</div>
+                        <div style="font-size: 0.875rem; color: #737373;">Voice-to-text journaling</div>
+                    </div>
+                    <span style="color: #22c55e;">● Live</span>
+                </a>
+                <a href="https://github.com/raymariner20/life-dashboard" target="_blank" class="file-link">
+                    <span>📊</span>
+                    <div style="flex: 1;">
+                        <div style="font-weight: 600;">life-dashboard</div>
+                        <div style="font-size: 0.875rem; color: #737373;">Personal analytics</div>
+                    </div>
+                    <span style="color: #22c55e;">● Live</span>
+                </a>
+                <a href="https://github.com/raymariner20/portfolio" target="_blank" class="file-link">
+                    <span>🌐</span>
+                    <div style="flex: 1;">
+                        <div style="font-weight: 600;">portfolio</div>
+                        <div style="font-size: 0.875rem; color: #737373;">Portfolio site</div>
+                    </div>
+                    <span style="color: #22c55e;">● Live</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Insights Tab -->
+        <div id="insights" class="tab-content">
+            <div class="header">
+                <div>
+                    <h1>Insights</h1>
+                    <div class="subtitle">Key learnings and takeaways</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">💡 Key Learnings</div>
+                <div class="goal-item" style="background: transparent; padding-left: 0;">
+                    <span>🎯</span>
+                    <div><strong>Simple > Complex</strong> — Working solutions beat perfect setups</div>
+                </div>
+                <div class="goal-item" style="background: transparent; padding-left: 0;">
+                    <span>🚀</span>
+                    <div><strong>GitHub Pages</strong> — Free, fast, reliable hosting for static sites</div>
+                </div>
+                <div class="goal-item" style="background: transparent; padding-left: 0;">
+                    <span>🤖</span>
+                    <div><strong>AI Assistance</strong> — Speeds up development dramatically</div>
+                </div>
+            </div>
         </div>
     </div>
+
+    <script>
+        function showTab(tabName, element) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Remove active from all nav items
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active to clicked nav item
+            element.classList.add('active');
+        }
+    </script>
 </body>
 </html>
