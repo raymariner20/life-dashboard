@@ -594,6 +594,10 @@
                         <span class="nav-icon">💡</span>
                         <span>Insights</span>
                     </div>
+                    <div class="nav-item" onclick="showTab('skills', this)">
+                        <span class="nav-icon">🎯</span>
+                        <span>Skills</span>
+                    </div>
                 </div>
             </nav>
         </aside>
@@ -1296,6 +1300,144 @@
                                 <span class="project-status status-beta" style="background: rgba(249, 115, 22, 0.2); color: #f97316;">FINALE</span>
                             </div>
                             <div class="project-desc">The ultimate agent - creates, manages, and improves other agents automatically. The culmination of all 49 previous projects.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Skills Tab -->
+            <div id="skills" class="tab-content">
+                <div class="page-header">
+                    <div class="page-title-wrapper">
+                        <div class="greeting">Building capabilities</div>
+                        <h1>Skills Acquired</h1>
+                    </div>
+                </div>
+
+                <!-- Skills Overview -->
+                <div class="bento-grid" style="margin-bottom: var(--space-xl);">
+                    <div class="bento-card">
+                        <div class="bento-icon">🎯</div>
+                        <div class="bento-label">Total Skills</div>
+                        <div class="bento-value">5</div>
+                        <div class="bento-change">Target: 50</div>
+                    </div>
+                    <div class="bento-card">
+                        <div class="bento-icon">🤖</div>
+                        <div class="bento-label">Agent Skills</div>
+                        <div class="bento-value">0</div>
+                        <div class="bento-change">Target: 10</div>
+                    </div>
+                    <div class="bento-card">
+                        <div class="bento-icon">🛠️</div>
+                        <div class="bento-label">Technical Skills</div>
+                        <div class="bento-value">0</div>
+                        <div class="bento-change">Target: 15</div>
+                    </div>
+                    <div class="bento-card">
+                        <div class="bento-icon">🎨</div>
+                        <div class="bento-label">Design Skills</div>
+                        <div class="bento-value">5</div>
+                        <div class="bento-change">From Life Dashboard</div>
+                    </div>
+                </div>
+
+                <!-- Acquired Skills -->
+                <div class="glass-card">
+                    <div class="glass-header">
+                        <div class="glass-title">✅ Skills Acquired</div>
+                        <span class="tag tag-green">5 Total</span>
+                    </div>
+                    <div class="glass-body">
+                        <div class="timeline-item" style="margin-bottom: var(--space-md);">
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                                <div>
+                                    <div style="font-weight: 600; margin-bottom: var(--space-xs);">UI/UX Design Principles</div>
+                                    <div style="font-size: 0.875rem; color: var(--color-text-secondary);">User-centered design, visual hierarchy, F-pattern scanning</div>
+                                </div>
+                                <span class="tag tag-green" style="flex-shrink: 0;">Design</span>
+                            </div>
+                            <div style="margin-top: var(--space-sm); font-size: 0.75rem; color: var(--color-text-muted);">📅 Mar 19, 2026 | 🚀 Life Dashboard</div>
+                        </div>
+
+                        <div class="timeline-item" style="margin-bottom: var(--space-md);">
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                                <div>
+                                    <div style="font-weight: 600; margin-bottom: var(--space-xs);">Glass-morphism Design</div>
+                                    <div style="font-size: 0.875rem; color: var(--color-text-secondary);">Backdrop blur, translucent surfaces, modern UI aesthetics</div>
+                                </div>
+                                <span class="tag tag-green" style="flex-shrink: 0;">Design</span>
+                            </div>
+                            <div style="margin-top: var(--space-sm); font-size: 0.75rem; color: var(--color-text-muted);">📅 Mar 19, 2026 | 🚀 Life Dashboard</div>
+                        </div>
+
+                        <div class="timeline-item" style="margin-bottom: var(--space-md);">
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                                <div>
+                                    <div style="font-weight: 600; margin-bottom: var(--space-xs);">Animation & Micro-interactions</div>
+                                    <div style="font-size: 0.875rem; color: var(--color-text-secondary);">Smooth transitions, hover effects, 60fps animations</div>
+                                </div>
+                                <span class="tag tag-green" style="flex-shrink: 0;">Design</span>
+                            </div>
+                            <div style="margin-top: var(--space-sm); font-size: 0.75rem; color: var(--color-text-muted);">📅 Mar 19, 2026 | 🚀 Life Dashboard</div>
+                        </div>
+
+                        <div class="timeline-item" style="margin-bottom: var(--space-md);">
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                                <div>
+                                    <div style="font-weight: 600; margin-bottom: var(--space-xs);">Responsive Design</div>
+                                    <div style="font-size: 0.875rem; color: var(--color-text-secondary);">Mobile-first, flexible grids, touch-friendly interfaces</div>
+                                </div>
+                                <span class="tag tag-green" style="flex-shrink: 0;">Design</span>
+                            </div>
+                            <div style="margin-top: var(--space-sm); font-size: 0.75rem; color: var(--color-text-muted);">📅 Mar 19, 2026 | 🚀 Life Dashboard</div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                                <div>
+                                    <div style="font-weight: 600; margin-bottom: var(--space-xs);">CSS Grid & Flexbox</div>
+                                    <div style="font-size: 0.875rem; color: var(--color-text-secondary);">Advanced layouts, bento grids, modern CSS architecture</div>
+                                </div>
+                                <span class="tag tag-green" style="flex-shrink: 0;">Technical</span>
+                            </div>
+                            <div style="margin-top: var(--space-sm); font-size: 0.75rem; color: var(--color-text-muted);">📅 Mar 19, 2026 | 🚀 Life Dashboard</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pending Skills -->
+                <div class="glass-card" style="margin-top: var(--space-xl);">
+                    <div class="glass-header">
+                        <div class="glass-title">⏳ Skills In Progress</div>
+                        <span class="tag tag-orange">45 Remaining</span>
+                    </div>
+                    <div class="glass-body">
+                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-md);">
+                            <div class="goal-item" style="background: transparent; padding-left: 0;">
+                                <span>🎯</span>
+                                <div>Goal Decomposition & Planning</div>
+                            </div>
+                            <div class="goal-item" style="background: transparent; padding-left: 0;">
+                                <span>🛠️</span>
+                                <div>Tool Use & Action Execution</div>
+                            </div>
+                            <div class="goal-item" style="background: transparent; padding-left: 0;">
+                                <span>🧠</span>
+                                <div>Memory Management</div>
+                            </div>
+                            <div class="goal-item" style="background: transparent; padding-left: 0;">
+                                <span>🔍</span>
+                                <div>Self-Reflection & Evaluation</div>
+                            </div>
+                            <div class="goal-item" style="background: transparent; padding-left: 0;">
+                                <span>📚</span>
+                                <div>Learning & Adaptation</div>
+                            </div>
+                            <div class="goal-item" style="background: transparent; padding-left: 0;">
+                                <span>👥</span>
+                                <div>Multi-Agent Coordination</div>
+                            </div>
                         </div>
                     </div>
                 </div>
