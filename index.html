@@ -302,8 +302,62 @@
 
         @media (max-width: 768px) {
             .bento-grid { grid-template-columns: 1fr; }
-            .main { margin-left: 0; padding: var(--space-lg); max-width: 100%; }
-            .sidebar { transform: translateX(-100%); }
+            .main { margin-left: 0; padding: var(--space-lg); max-width: 100%; padding-bottom: 100px; }
+            .sidebar { display: none; }
+            .mobile-nav { display: flex; }
+        }
+        
+        /* Mobile Navigation */
+        .mobile-nav {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(15, 15, 15, 0.95);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid var(--color-border);
+            padding: var(--space-sm) 0;
+            z-index: 1000;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .mobile-nav-items {
+            display: flex;
+            gap: var(--space-xs);
+            padding: 0 var(--space-md);
+            min-width: max-content;
+        }
+        
+        .mobile-nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            padding: var(--space-sm) var(--space-md);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            min-width: 60px;
+        }
+        
+        .mobile-nav-item:hover {
+            background: rgba(255,255,255,0.05);
+        }
+        
+        .mobile-nav-item.active {
+            background: rgba(249, 115, 22, 0.15);
+            color: #f97316;
+        }
+        
+        .mobile-nav-icon {
+            font-size: 1.25rem;
+        }
+        
+        .mobile-nav-label {
+            font-size: 0.625rem;
+            white-space: nowrap;
         }
 
         .bento-card {
@@ -1151,6 +1205,36 @@
         </main>
     </div>
 
+    <!-- Mobile Navigation -->
+    <nav class="mobile-nav">
+        <div class="mobile-nav-items">
+            <div class="mobile-nav-item active" onclick="showTabMobile('overview', this)">
+                <span class="mobile-nav-icon">🏠</span>
+                <span class="mobile-nav-label">Home</span>
+            </div>
+            <div class="mobile-nav-item" onclick="showTabMobile('projects', this)">
+                <span class="mobile-nav-icon">🚀</span>
+                <span class="mobile-nav-label">Projects</span>
+            </div>
+            <div class="mobile-nav-item" onclick="showTabMobile('fiftyprojects', this)">
+                <span class="mobile-nav-icon">🔥</span>
+                <span class="mobile-nav-label">50 Days</span>
+            </div>
+            <div class="mobile-nav-item" onclick="showTabMobile('skills', this)">
+                <span class="mobile-nav-icon">🎯</span>
+                <span class="mobile-nav-label">Skills</span>
+            </div>
+            <div class="mobile-nav-item" onclick="showTabMobile('agents', this)">
+                <span class="mobile-nav-icon">🤖</span>
+                <span class="mobile-nav-label">Agents</span>
+            </div>
+            <div class="mobile-nav-item" onclick="showTabMobile('setup', this)">
+                <span class="mobile-nav-icon">⚙️</span>
+                <span class="mobile-nav-label">Setup</span>
+            </div>
+        </div>
+    </nav>
+
     <script>
         function showTab(tabName, element) {
             // Hide all tabs
@@ -1162,6 +1246,72 @@
             document.querySelectorAll('.nav-item').forEach(item => {
                 item.classList.remove('active');
             });
+            
+            // Also update mobile nav
+            document.querySelectorAll('.mobile-nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active to clicked nav item
+            if (element) {
+                element.classList.add('active');
+            }
+            
+            // Update mobile nav if desktop nav was clicked
+            updateMobileNavActive(tabName);
+        }
+        
+        function showTabMobile(tabName, element) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Remove active from all mobile nav items
+            document.querySelectorAll('.mobile-nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Remove active from desktop nav
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active to clicked mobile nav item
+            if (element) {
+                element.classList.add('active');
+            }
+            
+            // Update desktop nav if mobile nav was clicked
+            updateDesktopNavActive(tabName);
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        function updateMobileNavActive(tabName) {
+            document.querySelectorAll('.mobile-nav-item').forEach(item => {
+                item.classList.remove('active');
+                if (item.getAttribute('onclick') && item.getAttribute('onclick').includes(tabName)) {
+                    item.classList.add('active');
+                }
+            });
+        }
+        
+        function updateDesktopNavActive(tabName) {
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+                if (item.getAttribute('onclick') && item.getAttribute('onclick').includes(tabName)) {
+                    item.classList.add('active');
+                }
+            });
+        }
             
             // Show selected tab
             document.getElementById(tabName).classList.add('active');
