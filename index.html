@@ -3,372 +3,770 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Life Dashboard — Ray Mariner v2</title>
+    <title>Life Dashboard — Ray Mariner</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --space-xs: 4px;
+            --space-sm: 8px;
+            --space-md: 16px;
+            --space-lg: 24px;
+            --space-xl: 32px;
+            --space-2xl: 48px;
+            --space-3xl: 64px;
+            
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+            
+            --color-bg: #0a0a0a;
+            --color-surface: rgba(20, 20, 20, 0.6);
+            --color-surface-hover: rgba(30, 30, 30, 0.8);
+            --color-border: rgba(255, 255, 255, 0.08);
+            --color-text: #fafafa;
+            --color-text-secondary: #a3a3a3;
+            --color-text-muted: #737373;
+            
+            --gradient-primary: linear-gradient(135deg, #f97316 0%, #f59e0b 50%, #eab308 100%);
+            --gradient-surface: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0) 100%);
+            --gradient-glow: radial-gradient(ellipse at top, rgba(249, 115, 22, 0.15) 0%, transparent 50%);
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Inter', sans-serif; background: #0f0f0f; color: #fafafa; min-height: 100vh; }
-        .sidebar { width: 280px; background: #1a1a1a; border-right: 1px solid #242424; padding: 2rem; position: fixed; height: 100vh; z-index: 100; }
-        .logo { display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem; }
-        .logo-icon { width: 48px; height: 48px; background: linear-gradient(135deg, #f97316, #f59e0b); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; }
-        .logo-text { font-size: 1.25rem; font-weight: 700; background: linear-gradient(135deg, #f97316, #f59e0b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .nav-item { padding: 1rem; border-radius: 12px; cursor: pointer; color: #a3a3a3; margin-bottom: 0.5rem; transition: all 0.2s; }
-        .nav-item:hover { background: #242424; color: #fafafa; }
-        .nav-item.active { background: linear-gradient(135deg, #f97316, #f59e0b); color: white; }
-        .main { margin-left: 280px; padding: 3rem; min-height: 100vh; }
-        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 3rem; }
-        h1 { font-size: 2.5rem; font-weight: 700; margin-bottom: 0.5rem; }
-        .subtitle { color: #a3a3a3; font-size: 1.125rem; }
-        .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; margin-bottom: 3rem; }
-        @media (max-width: 1200px) { .stats { grid-template-columns: repeat(2, 1fr); } }
-        .stat-card { background: #1c1c1c; border: 1px solid #242424; border-radius: 16px; padding: 1.5rem; transition: all 0.3s; }
-        .stat-card:hover { border-color: #f97316; transform: translateY(-2px); }
-        .stat-icon { font-size: 2rem; margin-bottom: 1rem; }
-        .stat-label { font-size: 0.75rem; color: #a3a3a3; text-transform: uppercase; margin-bottom: 0.5rem; }
-        .stat-value { font-size: 2.5rem; font-weight: 700; }
-        .stat-change { color: #10b981; font-size: 0.875rem; }
-        .btn { padding: 0.75rem 1.5rem; border-radius: 12px; border: none; cursor: pointer; font-weight: 600; transition: all 0.2s; }
-        .btn:hover { transform: translateY(-1px); }
-        .btn-primary { background: linear-gradient(135deg, #f97316, #f59e0b); color: white; }
-        .btn-secondary { background: #242424; color: #fafafa; border: 1px solid #2a2a2a; }
-        .card { background: #1c1c1c; border: 1px solid #242424; border-radius: 16px; padding: 1.5rem; margin-bottom: 1.5rem; }
-        .card-title { font-size: 1.125rem; font-weight: 600; margin-bottom: 1rem; }
+        
+        html { scroll-behavior: smooth; }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--color-bg);
+            color: var(--color-text);
+            min-height: 100vh;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        .bg-mesh {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 0;
+            background: 
+                radial-gradient(ellipse at 20% 20%, rgba(249, 115, 22, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(245, 158, 11, 0.06) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(234, 179, 8, 0.04) 0%, transparent 70%);
+            animation: meshMove 20s ease-in-out infinite;
+        }
+
+        @keyframes meshMove {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(2%, -2%) scale(1.02); }
+            66% { transform: translate(-1%, 1%) scale(0.98); }
+        }
+
+        .bg-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 1;
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none;
+        }
+
+        /* Layout */
+        .app-container {
+            display: flex;
+            position: relative;
+            z-index: 10;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background: rgba(15, 15, 15, 0.8);
+            backdrop-filter: blur(20px);
+            border-right: 1px solid var(--color-border);
+            padding: var(--space-xl);
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 100;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+            margin-bottom: var(--space-2xl);
+            padding-bottom: var(--space-xl);
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .logo-icon {
+            width: 44px;
+            height: 44px;
+            background: var(--gradient-primary);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            box-shadow: 0 8px 32px rgba(249, 115, 22, 0.3);
+        }
+
+        .logo-text {
+            font-size: 1.125rem;
+            font-weight: 700;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-section {
+            margin-bottom: var(--space-xl);
+        }
+
+        .nav-label {
+            font-size: 0.6875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--color-text-muted);
+            margin-bottom: var(--space-md);
+            padding-left: var(--space-md);
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+            padding: var(--space-md) var(--space-lg);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            color: var(--color-text-secondary);
+            font-size: 0.9375rem;
+            font-weight: 500;
+            margin-bottom: var(--space-xs);
+            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: var(--gradient-primary);
+            transform: scaleY(0);
+            transition: transform 0.2s ease;
+        }
+
+        .nav-item:hover {
+            background: var(--color-surface-hover);
+            color: var(--color-text);
+        }
+
+        .nav-item:hover::before {
+            transform: scaleY(1);
+        }
+
+        .nav-item.active {
+            background: var(--gradient-primary);
+            color: white;
+            box-shadow: 0 4px 20px rgba(249, 115, 22, 0.4);
+        }
+
+        .nav-item.active::before {
+            display: none;
+        }
+
+        .nav-icon {
+            font-size: 1.125rem;
+            width: 24px;
+            text-align: center;
+        }
+
+        /* Main Content */
+        .main {
+            flex: 1;
+            margin-left: 280px;
+            padding: var(--space-2xl) var(--space-3xl);
+            max-width: calc(100% - 280px);
+        }
+
+        /* Header */
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: var(--space-2xl);
+        }
+
+        .page-title-wrapper {
+            position: relative;
+        }
+
+        .greeting {
+            font-size: 0.875rem;
+            color: var(--color-text-secondary);
+            margin-bottom: var(--space-xs);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            background: linear-gradient(180deg, #fff 0%, #a3a3a3 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: var(--space-md);
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-sm);
+            padding: var(--space-md) var(--space-lg);
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: white;
+            box-shadow: 0 4px 20px rgba(249, 115, 22, 0.3);
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 8px 30px rgba(249, 115, 22, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--color-surface);
+            color: var(--color-text);
+            border: 1px solid var(--color-border);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-secondary:hover {
+            background: var(--color-surface-hover);
+            border-color: rgba(255,255,255,0.15);
+        }
+
+        /* Bento Grid Stats */
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--space-lg);
+            margin-bottom: var(--space-2xl);
+        }
+
+        @media (max-width: 1400px) {
+            .bento-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 768px) {
+            .bento-grid { grid-template-columns: 1fr; }
+            .main { margin-left: 0; padding: var(--space-lg); max-width: 100%; }
+            .sidebar { transform: translateX(-100%); }
+        }
+
+        .bento-card {
+            background: var(--color-surface);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-xl);
+            padding: var(--space-xl);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .bento-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: var(--gradient-surface);
+        }
+
+        .bento-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(249, 115, 22, 0.3);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3), 0 0 40px rgba(249, 115, 22, 0.1);
+        }
+
+        .bento-card.featured {
+            grid-column: span 2;
+            background: linear-gradient(135deg, rgba(249, 115, 22, 0.1) 0%, rgba(20, 20, 20, 0.6) 100%);
+        }
+
+        .bento-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(255,255,255,0.05);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: var(--space-lg);
+            border: 1px solid var(--color-border);
+        }
+
+        .bento-label {
+            font-size: 0.75rem;
+            color: var(--color-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: var(--space-sm);
+        }
+
+        .bento-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: var(--space-sm);
+            background: linear-gradient(180deg, #fff 0%, #d4d4d4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .bento-change {
+            font-size: 0.875rem;
+            color: #22c55e;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: var(--space-xs);
+        }
+
+        /* Glass Cards */
+        .glass-card {
+            background: var(--color-surface);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            margin-bottom: var(--space-xl);
+        }
+
+        .glass-header {
+            padding: var(--space-lg) var(--space-xl);
+            border-bottom: 1px solid var(--color-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .glass-title {
+            font-size: 1rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+        }
+
+        .glass-body {
+            padding: var(--space-xl);
+        }
+
+        /* Insight Box */
+        .insight-box {
+            background: linear-gradient(135deg, rgba(249, 115, 22, 0.08) 0%, rgba(245, 158, 11, 0.05) 100%);
+            border: 1px solid rgba(249, 115, 22, 0.2);
+            border-radius: var(--radius-xl);
+            padding: var(--space-xl);
+            margin-bottom: var(--space-xl);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .insight-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--gradient-primary);
+        }
+
+        .insight-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #f97316;
+            margin-bottom: var(--space-md);
+        }
+
+        .insight-text {
+            font-size: 1.125rem;
+            line-height: 1.6;
+            color: var(--color-text);
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding-left: var(--space-xl);
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 6px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, #f97316 0%, #f59e0b 50%, transparent 100%);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: var(--space-lg);
+            padding: var(--space-lg);
+            background: rgba(255,255,255,0.02);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--color-border);
+            transition: all 0.2s ease;
+        }
+
+        .timeline-item:hover {
+            background: rgba(255,255,255,0.04);
+            border-color: rgba(249, 115, 22, 0.2);
+            transform: translateX(4px);
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -18px;
+            top: 20px;
+            width: 10px;
+            height: 10px;
+            background: #f97316;
+            border-radius: 50%;
+            border: 3px solid var(--color-bg);
+            box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.2);
+        }
+
+        .timeline-date {
+            font-size: 0.75rem;
+            color: var(--color-text-muted);
+            margin-bottom: var(--space-xs);
+        }
+
+        .timeline-title {
+            font-weight: 600;
+            margin-bottom: var(--space-sm);
+        }
+
+        /* Tags */
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            padding: var(--space-xs) var(--space-md);
+            border-radius: var(--radius-full);
+            font-size: 0.6875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        .tag-orange { background: rgba(249, 115, 22, 0.15); color: #f97316; border: 1px solid rgba(249, 115, 22, 0.2); }
+        .tag-green { background: rgba(34, 197, 94, 0.15); color: #22c55e; border: 1px solid rgba(34, 197, 94, 0.2); }
+        .tag-blue { background: rgba(59, 130, 246, 0.15); color: #3b82f6; border: 1px solid rgba(59, 130, 246, 0.2); }
+
+        /* Progress */
+        .progress-item { margin-bottom: var(--space-lg); }
+        .progress-header { display: flex; justify-content: space-between; margin-bottom: var(--space-sm); font-size: 0.9375rem; }
+        .progress-label { font-weight: 500; }
+        .progress-value { color: var(--color-text-secondary); }
+        .progress-bar { height: 6px; background: rgba(255,255,255,0.05); border-radius: var(--radius-full); overflow: hidden; }
+        .progress-fill { height: 100%; background: var(--gradient-primary); border-radius: var(--radius-full); transition: width 0.5s ease; }
+
+        /* Content Grid */
+        .content-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: var(--space-xl); }
+        @media (max-width: 1200px) { .content-grid { grid-template-columns: 1fr; } }
+
+        /* Tab Content */
         .tab-content { display: none; }
         .tab-content.active { display: block; animation: fadeIn 0.3s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .project-card { background: #242424; border-radius: 12px; padding: 1.5rem; margin-bottom: 1rem; border-left: 3px solid #22c55e; }
-        .project-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem; }
-        .project-title { font-weight: 600; font-size: 1.0625rem; }
-        .project-status { padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.75rem; font-weight: 600; background: rgba(34, 197, 94, 0.15); color: #22c55e; }
-        .project-desc { font-size: 0.875rem; color: #a3a3a3; margin-bottom: 0.75rem; line-height: 1.5; }
-        .project-meta { display: flex; gap: 1rem; font-size: 0.8125rem; color: #737373; margin-bottom: 0.75rem; }
-        .file-link { display: flex; align-items: center; gap: 1rem; padding: 1rem; background: #242424; border-radius: 12px; margin-bottom: 0.75rem; text-decoration: none; color: #fafafa; transition: all 0.2s; }
-        .file-link:hover { background: #2a2a2a; border-left: 3px solid #f97316; }
-        .goal-item { display: flex; align-items: center; gap: 1rem; padding: 1rem; background: #242424; border-radius: 12px; margin-bottom: 0.75rem; }
-        .goal-checkbox { width: 20px; height: 20px; border: 2px solid #525252; border-radius: 6px; cursor: pointer; }
-        .goal-text { flex: 1; }
-        .tag { display: inline-flex; align-items: center; padding: 0.25rem 0.625rem; border-radius: 20px; font-size: 0.75rem; font-weight: 600; margin-right: 0.5rem; }
-        .tag-orange { background: rgba(249, 115, 22, 0.15); color: #f97316; }
-        .tag-green { background: rgba(34, 197, 94, 0.15); color: #22c55e; }
-        .tag-blue { background: rgba(59, 130, 246, 0.15); color: #3b82f6; }
-        .progress-item { margin-bottom: 1.25rem; }
-        .progress-header { display: flex; justify-content: space-between; margin-bottom: 0.5rem; }
-        .progress-bar { height: 6px; background: #242424; border-radius: 3px; overflow: hidden; }
-        .progress-fill { height: 100%; background: linear-gradient(90deg, #f97316, #f59e0b); border-radius: 3px; }
-        .timeline { position: relative; padding-left: 1.5rem; }
-        .timeline::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: linear-gradient(180deg, #f97316, #f59e0b); }
-        .timeline-item { position: relative; margin-bottom: 1rem; padding: 1rem; background: #242424; border-radius: 12px; }
-        .timeline-item::before { content: ''; position: absolute; left: -1.375rem; top: 1.25rem; width: 10px; height: 10px; background: #f97316; border-radius: 50%; border: 3px solid #1c1c1c; }
-        .timeline-date { font-size: 0.75rem; color: #737373; margin-bottom: 0.25rem; }
-        .timeline-title { font-weight: 600; margin-bottom: 0.5rem; }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: var(--radius-full); }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
+
+        /* Empty States */
+        .empty-state { text-align: center; padding: var(--space-3xl); color: var(--color-text-muted); }
+        .empty-state-icon { font-size: 3rem; margin-bottom: var(--space-lg); opacity: 0.5; }
     </style>
 </head>
 <body>
-    <div class="sidebar">
-        <div class="logo">
-            <div class="logo-icon">📊</div>
-            <div class="logo-text">Life Dashboard</div>
-        </div>
-        <div class="nav-item active" onclick="showTab('overview', this)">🏠 Dashboard</div>
-        <div class="nav-item" onclick="showTab('diaries', this)">📓 Diaries</div>
-        <div class="nav-item" onclick="showTab('projects', this)">🚀 Projects</div>
-        <div class="nav-item" onclick="showTab('goals', this)">🎯 Goals</div>
-        <div class="nav-item" onclick="showTab('github', this)">🐙 GitHub</div>
-        <div class="nav-item" onclick="showTab('insights', this)">💡 Insights</div>
-    </div>
+    <!-- Animated Background -->
+    <div class="bg-mesh"></div>
+    <div class="bg-grid"></div>
 
-    <div class="main">
-        <!-- Overview Tab -->
-        <div id="overview" class="tab-content active">
-            <div class="header">
-                <div>
-                    <h1>Dashboard</h1>
-                    <div class="subtitle">Track your progress, projects, and productivity</div>
-                </div>
-                <button class="btn btn-primary" onclick="alert('Opening diary folder...')">📁 Open Diaries</button>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <div class="logo-icon">📊</div>
+                <div class="logo-text">Life Dashboard</div>
             </div>
+            
+            <nav>
+                <div class="nav-section">
+                    <div class="nav-label">Overview</div>
+                    <div class="nav-item active" onclick="showTab('overview', this)">
+                        <span class="nav-icon">🏠</span>
+                        <span>Dashboard</span>
+                    </div>
+                    <div class="nav-item" onclick="showTab('diaries', this)">
+                        <span class="nav-icon">📓</span>
+                        <span>Diaries</span>
+                    </div>
+                    <div class="nav-item" onclick="showTab('projects', this)">
+                        <span class="nav-icon">🚀</span>
+                        <span>Projects</span>
+                    </div>
+                </div>
+                
+                <div class="nav-section">
+                    <div class="nav-label">Analytics</div>
+                    <div class="nav-item" onclick="showTab('goals', this)">
+                        <span class="nav-icon">🎯</span>
+                        <span>Goals</span>
+                    </div>
+                    <div class="nav-item" onclick="showTab('github', this)">
+                        <span class="nav-icon">🐙</span>
+                        <span>GitHub</span>
+                    </div>
+                    <div class="nav-item" onclick="showTab('insights', this)">
+                        <span class="nav-icon">💡</span>
+                        <span>Insights</span>
+                    </div>
+                </div>
+            </nav>
+        </aside>
 
-            <div class="stats">
-                <div class="stat-card">
-                    <div class="stat-icon">📅</div>
-                    <div class="stat-label">Weeks Tracked</div>
-                    <div class="stat-value">2</div>
-                    <div class="stat-change">↑ Started March 2026</div>
+        <!-- Main Content -->
+        <main class="main">
+            <!-- Overview Tab -->
+            <div id="overview" class="tab-content active">
+                <div class="page-header">
+                    <div class="page-title-wrapper">
+                        <div class="greeting">Good evening, Ray</div>
+                        <h1>Dashboard</h1>
+                    </div>
+                    <div class="header-actions">
+                        <button class="btn btn-secondary">🔄 Refresh</button>
+                        <button class="btn btn-primary">📁 Open Diaries</button>
+                    </div>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-icon">🚀</div>
-                    <div class="stat-label">Active Projects</div>
-                    <div class="stat-value">8</div>
-                    <div class="stat-change">↑ +3 this week</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">⚡</div>
-                    <div class="stat-label">Apps Built</div>
-                    <div class="stat-value">4</div>
-                    <div class="stat-change">↑ All on GitHub</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">🤖</div>
-                    <div class="stat-label">Tokens Used</div>
-                    <div class="stat-value">18.6K</div>
-                    <div class="stat-change">↑ This week</div>
-                </div>
-            </div>
 
-            <div class="card">
-                <div class="card-title">🌅 Daily Insight</div>
-                <p style="color: #a3a3a3;">Focus on completing one project before starting three new ones. Quality over quantity this week.</p>
-            </div>
+                <!-- Daily Insight -->
+                <div class="insight-box">
+                    <div class="insight-label">🌅 Daily Insight</div>
+                    <div class="insight-text">Focus on completing one project before starting three new ones. Quality over quantity this week.</div>
+                </div>
 
-            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem;">
-                <div class="card">
-                    <div class="card-title">📅 Recent Activity</div>
-                    <div class="timeline">
-                        <div class="timeline-item">
-                            <div class="timeline-date">Today, 11:30 PM</div>
-                            <div class="timeline-title">Deployed Portfolio Site</div>
-                            <span class="tag tag-orange">GitHub Pages</span>
-                            <span class="tag tag-green">Live</span>
+                <!-- Bento Grid Stats -->
+                <div class="bento-grid">
+                    <div class="bento-card">
+                        <div class="bento-icon">📅</div>
+                        <div class="bento-label">Weeks Tracked</div>
+                        <div class="bento-value">2</div>
+                        <div class="bento-change">↑ Started March 2026</div>
+                    </div>
+                    <div class="bento-card">
+                        <div class="bento-icon">🚀</div>
+                        <div class="bento-label">Active Projects</div>
+                        <div class="bento-value">8</div>
+                        <div class="bento-change">↑ +3 this week</div>
+                    </div>
+                    <div class="bento-card">
+                        <div class="bento-icon">⚡</div>
+                        <div class="bento-label">Apps Built</div>
+                        <div class="bento-value">4</div>
+                        <div class="bento-change">↑ All on GitHub Pages</div>
+                    </div>
+                    <div class="bento-card">
+                        <div class="bento-icon">🤖</div>
+                        <div class="bento-label">Tokens Used</div>
+                        <div class="bento-value">18.6K</div>
+                        <div class="bento-change">↑ This week</div>
+                    </div>
+                </div>
+
+                <!-- Content Grid -->
+                <div class="content-grid">
+                    <!-- Recent Activity -->
+                    <div class="glass-card">
+                        <div class="glass-header">
+                            <div class="glass-title">📅 Recent Activity</div>
+                            <button class="btn btn-secondary" style="padding: var(--space-sm) var(--space-md); font-size: 0.75rem;">View All</button>
                         </div>
-                        <div class="timeline-item">
-                            <div class="timeline-date">Today, 11:15 PM</div>
-                            <div class="timeline-title">Updated Life Dashboard UI</div>
-                            <span class="tag tag-orange">Design</span>
-                            <span class="tag tag-blue">Enhancement</span>
+                        <div class="glass-body">
+                            <div class="timeline">
+                                <div class="timeline-item">
+                                    <div class="timeline-date">Today, 11:30 PM</div>
+                                    <div class="timeline-title">Deployed Portfolio Site</div>
+                                    <span class="tag tag-orange">GitHub Pages</span>
+                                    <span class="tag tag-green">Live</span>
+                                </div>
+                                <div class="timeline-item">
+                                    <div class="timeline-date">Today, 11:15 PM</div>
+                                    <div class="timeline-title">Updated Life Dashboard UI</div>
+                                    <span class="tag tag-orange">Design</span>
+                                    <span class="tag tag-blue">Enhancement</span>
+                                </div>
+                                <div class="timeline-item">
+                                    <div class="timeline-date">Today, 6:00 PM</div>
+                                    <div class="timeline-title">Voice Journal AI Deployed</div>
+                                    <span class="tag tag-orange">GitHub Pages</span>
+                                    <span class="tag tag-green">Live</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Progress -->
+                    <div class="glass-card">
+                        <div class="glass-header">
+                            <div class="glass-title">📊 Weekly Progress</div>
+                        </div>
+                        <div class="glass-body">
+                            <div class="progress-item">
+                                <div class="progress-header">
+                                    <span class="progress-label">Project Completion</span>
+                                    <span class="progress-value">62%</span>
+                                </div>
+                                <div class="progress-bar"><div class="progress-fill" style="width: 62%;"></div></div>
+                            </div>
+                            <div class="progress-item">
+                                <div class="progress-header">
+                                    <span class="progress-label">Learning Goals</span>
+                                    <span class="progress-value">45%</span>
+                                </div>
+                                <div class="progress-bar"><div class="progress-fill" style="width: 45%;"></div></div>
+                            </div>
+                            <div class="progress-item">
+                                <div class="progress-header">
+                                    <span class="progress-label">System Automation</span>
+                                    <span class="progress-value">78%</span>
+                                </div>
+                                <div class="progress-bar"><div class="progress-fill" style="width: 78%;"></div></div>
+                            </div>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <div class="card">
-                    <div class="card-title">📊 Progress</div>
-                    <div class="progress-item">
-                        <div class="progress-header">
-                            <span>Projects</span>
-                            <span>62%</span>
-                        </div>
-                        <div class="progress-bar"><div class="progress-fill" style="width: 62%;"></div></div>
+            <!-- Other tabs placeholder -->
+            <div id="diaries" class="tab-content">
+                <div class="page-header">
+                    <div class="page-title-wrapper">
+                        <div class="greeting">Your journey</div>
+                        <h1>Weekly Diaries</h1>
                     </div>
-                    <div class="progress-item">
-                        <div class="progress-header">
-                            <span>Learning</span>
-                            <span>45%</span>
-                        </div>
-                        <div class="progress-bar"><div class="progress-fill" style="width: 45%;"></div></div>
+                </div>
+                <div class="glass-card">
+                    <div class="glass-body">
+                        <p style="color: var(--color-text-secondary);">Diary entries will appear here...</p>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Diaries Tab -->
-        <div id="diaries" class="tab-content">
-            <div class="header">
-                <div>
-                    <h1>Weekly Diaries</h1>
-                    <div class="subtitle">Reflections and progress tracking</div>
-                </div>
-            </div>
-
-            <a href="#" class="file-link" onclick="alert('Opening Week of March 8-15...')">
-                <span>📓</span>
-                <div style="flex: 1;">
-                    <div style="font-weight: 600;">Week of March 8-15, 2026</div>
-                    <div style="font-size: 0.875rem; color: #737373;">First diary with owner reflections</div>
-                </div>
-                <span style="color: #737373;">→</span>
-            </a>
-
-            <a href="#" class="file-link" onclick="alert('Opening Week of March 17...')">
-                <span>📓</span>
-                <div style="flex: 1;">
-                    <div style="font-weight: 600;">Week of March 17, 2026</div>
-                    <div style="font-size: 0.875rem; color: #737373;">System setup and automation</div>
-                </div>
-                <span style="color: #737373;">→</span>
-            </a>
-        </div>
-
-        <!-- Projects Tab -->
-        <div id="projects" class="tab-content">
-            <div class="header">
-                <div>
-                    <h1>Projects</h1>
-                    <div class="subtitle">All your active and planned projects</div>
-                </div>
-            </div>
-
-            <div class="project-card">
-                <div class="project-header">
-                    <div>
-                        <div class="project-title">🗺️ MindMap AI Pro</div>
-                        <div style="font-size: 0.875rem; color: #737373; margin-top: 0.25rem;">Transform text into interactive mind maps</div>
+            <div id="projects" class="tab-content">
+                <div class="page-header">
+                    <div class="page-title-wrapper">
+                        <div class="greeting">What you're building</div>
+                        <h1>Projects</h1>
                     </div>
-                    <span class="project-status">LIVE</span>
                 </div>
-                <div class="project-desc">Purpose: Visualize ideas and organize thoughts. Target: Students, writers, project managers.</div>
-                <div class="project-meta">
-                    <span>🤖 4,200 tokens</span>
-                    <span>⏱️ 2 hours</span>
-                </div>
-                <div>
-                    <a href="https://raymariner20.github.io/MindMap/" target="_blank" class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.75rem; margin-right: 0.5rem;">Live Site</a>
-                    <a href="https://github.com/raymariner20/MindMap" target="_blank" class="btn btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.75rem;">GitHub</a>
-                </div>
-            </div>
-
-            <div class="project-card">
-                <div class="project-header">
-                    <div>
-                        <div class="project-title">🎙️ Voice Journal AI</div>
-                        <div style="font-size: 0.875rem; color: #737373; margin-top: 0.25rem;">Voice-to-text journaling with AI</div>
+                <div class="glass-card">
+                    <div class="glass-body">
+                        <p style="color: var(--color-text-secondary);">Project details will appear here...</p>
                     </div>
-                    <span class="project-status">LIVE</span>
-                </div>
-                <div class="project-desc">Purpose: Capture thoughts naturally. Target: Journalers, creatives, professionals.</div>
-                <div class="project-meta">
-                    <span>🤖 3,800 tokens</span>
-                    <span>⏱️ 1.5 hours</span>
-                </div>
-                <div>
-                    <a href="https://raymariner20.github.io/voice-journal/" target="_blank" class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.75rem; margin-right: 0.5rem;">Live Site</a>
-                    <a href="https://github.com/raymariner20/voice-journal" target="_blank" class="btn btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.75rem;">GitHub</a>
                 </div>
             </div>
 
-            <div class="project-card">
-                <div class="project-header">
-                    <div>
-                        <div class="project-title">📊 Life Dashboard</div>
-                        <div style="font-size: 0.875rem; color: #737373; margin-top: 0.25rem;">Personal analytics and tracking</div>
+            <div id="goals" class="tab-content">
+                <div class="page-header">
+                    <div class="page-title-wrapper">
+                        <div class="greeting">What you're aiming for</div>
+                        <h1>Goals</h1>
                     </div>
-                    <span class="project-status">LIVE</span>
                 </div>
-                <div class="project-desc">Purpose: Central command for projects. Target: Self-trackers, productivity enthusiasts.</div>
-                <div class="project-meta">
-                    <span>🤖 8,500 tokens</span>
-                    <span>⏱️ 4 hours</span>
-                </div>
-                <div>
-                    <a href="https://raymariner20.github.io/life-dashboard/" target="_blank" class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.75rem; margin-right: 0.5rem;">Live Site</a>
-                    <a href="https://github.com/raymariner20/life-dashboard" target="_blank" class="btn btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.75rem;">GitHub</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Goals Tab -->
-        <div id="goals" class="tab-content">
-            <div class="header">
-                <div>
-                    <h1>Goals</h1>
-                    <div class="subtitle">Monthly and weekly objectives</div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-title">🎯 March 2026 Goals</div>
-                <div class="goal-item">
-                    <div class="goal-checkbox" style="background: #22c55e; border-color: #22c55e;"></div>
-                    <div class="goal-text" style="text-decoration: line-through; color: #525252;">Launch 3 working applications</div>
-                    <span class="tag tag-green">Done</span>
-                </div>
-                <div class="goal-item">
-                    <div class="goal-checkbox"></div>
-                    <div class="goal-text">Set up automated email system</div>
-                    <span class="tag tag-orange">In Progress</span>
-                </div>
-                <div class="goal-item">
-                    <div class="goal-checkbox"></div>
-                    <div class="goal-text">Create first revenue-generating feature</div>
-                    <span class="tag tag-blue">Planning</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- GitHub Tab -->
-        <div id="github" class="tab-content">
-            <div class="header">
-                <div>
-                    <h1>GitHub Activity</h1>
-                    <div class="subtitle">Code commits and repository stats</div>
-                </div>
-            </div>
-
-            <div class="stats" style="grid-template-columns: repeat(3, 1fr);">
-                <div class="stat-card">
-                    <div class="stat-value" style="color: #f97316;">4</div>
-                    <div class="stat-label">Repositories</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" style="color: #22c55e;">15</div>
-                    <div class="stat-label">Commits Today</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" style="color: #3b82f6;">4</div>
-                    <div class="stat-label">Live Projects</div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-title">📁 All Repositories</div>
-                <a href="https://github.com/raymariner20/MindMap" target="_blank" class="file-link">
-                    <span>🗺️</span>
-                    <div style="flex: 1;">
-                        <div style="font-weight: 600;">MindMap</div>
-                        <div style="font-size: 0.875rem; color: #737373;">Interactive mind mapping</div>
+                <div class="glass-card">
+                    <div class="glass-body">
+                        <p style="color: var(--color-text-secondary);">Goals will appear here...</p>
                     </div>
-                    <span style="color: #22c55e;">● Live</span>
-                </a>
-                <a href="https://github.com/raymariner20/voice-journal" target="_blank" class="file-link">
-                    <span>🎙️</span>
-                    <div style="flex: 1;">
-                        <div style="font-weight: 600;">voice-journal</div>
-                        <div style="font-size: 0.875rem; color: #737373;">Voice-to-text journaling</div>
-                    </div>
-                    <span style="color: #22c55e;">● Live</span>
-                </a>
-                <a href="https://github.com/raymariner20/life-dashboard" target="_blank" class="file-link">
-                    <span>📊</span>
-                    <div style="flex: 1;">
-                        <div style="font-weight: 600;">life-dashboard</div>
-                        <div style="font-size: 0.875rem; color: #737373;">Personal analytics</div>
-                    </div>
-                    <span style="color: #22c55e;">● Live</span>
-                </a>
-                <a href="https://github.com/raymariner20/portfolio" target="_blank" class="file-link">
-                    <span>🌐</span>
-                    <div style="flex: 1;">
-                        <div style="font-weight: 600;">portfolio</div>
-                        <div style="font-size: 0.875rem; color: #737373;">Portfolio site</div>
-                    </div>
-                    <span style="color: #22c55e;">● Live</span>
-                </a>
-            </div>
-        </div>
-
-        <!-- Insights Tab -->
-        <div id="insights" class="tab-content">
-            <div class="header">
-                <div>
-                    <h1>Insights</h1>
-                    <div class="subtitle">Key learnings and takeaways</div>
                 </div>
             </div>
 
-            <div class="card">
-                <div class="card-title">💡 Key Learnings</div>
-                <div class="goal-item" style="background: transparent; padding-left: 0;">
-                    <span>🎯</span>
-                    <div><strong>Simple > Complex</strong> — Working solutions beat perfect setups</div>
+            <div id="github" class="tab-content">
+                <div class="page-header">
+                    <div class="page-title-wrapper">
+                        <div class="greeting">Your code</div>
+                        <h1>GitHub Activity</h1>
+                    </div>
                 </div>
-                <div class="goal-item" style="background: transparent; padding-left: 0;">
-                    <span>🚀</span>
-                    <div><strong>GitHub Pages</strong> — Free, fast, reliable hosting for static sites</div>
-                </div>
-                <div class="goal-item" style="background: transparent; padding-left: 0;">
-                    <span>🤖</span>
-                    <div><strong>AI Assistance</strong> — Speeds up development dramatically</div>
+                <div class="glass-card">
+                    <div class="glass-body">
+                        <p style="color: var(--color-text-secondary);">GitHub stats will appear here...</p>
+                    </div>
                 </div>
             </div>
-        </div>
+
+            <div id="insights" class="tab-content">
+                <div class="page-header">
+                    <div class="page-title-wrapper">
+                        <div class="greeting">What you've learned</div>
+                        <h1>Insights</h1>
+                    </div>
+                </div>
+                <div class="glass-card">
+                    <div class="glass-body">
+                        <p style="color: var(--color-text-secondary);">Key learnings will appear here...</p>
+                    </div>
+                </div>
+            </div>
+        </main>
     </div>
 
     <script>
