@@ -598,6 +598,14 @@
                         <span class="nav-icon">🎯</span>
                         <span>Skills</span>
                     </div>
+                    <div class="nav-item" onclick="showTab('setup', this)">
+                        <span class="nav-icon">⚙️</span>
+                        <span>Setup</span>
+                    </div>
+                    <div class="nav-item" onclick="showTab('agents', this)">
+                        <span class="nav-icon">🤖</span>
+                        <span>Agents</span>
+                    </div>
                 </div>
             </nav>
         </aside>
@@ -855,6 +863,287 @@
                         <div class="timeline-item" style="background: transparent; border: none; padding-left: 0;">
                             <span>🎨</span>
                             <div><strong>Design Systems</strong> — Consistency creates speed and quality</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Setup Tab -->
+            <div id="setup" class="tab-content">
+                <div class="page-header">
+                    <div class="page-title-wrapper">
+                        <div class="greeting">System configuration</div>
+                        <h1>Setup & Access</h1>
+                    </div>
+                </div>
+
+                <!-- System Access Status -->
+                <div class="bento-grid" style="margin-bottom: var(--space-xl);">
+                    <div class="bento-card">
+                        <div class="bento-icon">📧</div>
+                        <div class="bento-label">Gmail</div>
+                        <div class="bento-value" style="font-size: 1.5rem; color: #ef4444;">❌</div>
+                        <div style="font-size: 0.75rem; color: var(--color-text-muted); margin-top: var(--space-sm);">OAuth pending</div>
+                    </div>
+                    <div class="bento-card">
+                        <div class="bento-icon">📅</div>
+                        <div class="bento-label">Calendar</div>
+                        <div class="bento-value" style="font-size: 1.5rem; color: #ef4444;">❌</div>
+                        <div style="font-size: 0.75rem; color: var(--color-text-muted); margin-top: var(--space-sm);">Not configured</div>
+                    </div>
+                    <div class="bento-card">
+                        <div class="bento-icon">📝</div>
+                        <div class="bento-label">Notes</div>
+                        <div class="bento-value" style="font-size: 1.5rem; color: #ef4444;">❌</div>
+                        <div style="font-size: 0.75rem; color: var(--color-text-muted); margin-top: var(--space-sm);">Not configured</div>
+                    </div>
+                    <div class="bento-card">
+                        <div class="bento-icon">📈</div>
+                        <div class="bento-label">Stocks API</div>
+                        <div class="bento-value" style="font-size: 1.5rem; color: #ef4444;">❌</div>
+                        <div style="font-size: 0.75rem; color: var(--color-text-muted); margin-top: var(--space-sm);">Not configured</div>
+                    </div>
+                    <div class="bento-card">
+                        <div class="bento-icon">🐦</div>
+                        <div class="bento-label">X/Twitter</div>
+                        <div class="bento-value" style="font-size: 1.5rem; color: #ef4444;">❌</div>
+                        <div style="font-size: 0.75rem; color: var(--color-text-muted); margin-top: var(--space-sm);">Not configured</div>
+                    </div>
+                    <div class="bento-card">
+                        <div class="bento-icon">💼</div>
+                        <div class="bento-label">LinkedIn</div>
+                        <div class="bento-value" style="font-size: 1.5rem; color: #ef4444;">❌</div>
+                        <div style="font-size: 0.75rem; color: var(--color-text-muted); margin-top: var(--space-sm);">Not configured</div>
+                    </div>
+                </div>
+
+                <!-- User Preferences -->
+                <div class="glass-card" style="margin-bottom: var(--space-xl);">
+                    <div class="glass-header">
+                        <div class="glass-title">👤 User Preferences</div>
+                    </div>
+                    <div class="glass-body">
+                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-lg);">
+                            <div>
+                                <div style="font-weight: 600; margin-bottom: var(--space-sm); color: var(--color-text-muted);">Daily Workflow</div>
+                                <div style="background: var(--color-surface); padding: var(--space-md); border-radius: var(--radius-md); font-size: 0.875rem; min-height: 80px;">
+                                    <em style="color: var(--color-text-muted);">Not documented yet - interview pending</em>
+                                </div>
+                            </div>
+                            <div>
+                                <div style="font-weight: 600; margin-bottom: var(--space-sm); color: var(--color-text-muted);">Core Apps</div>
+                                <div style="background: var(--color-surface); padding: var(--space-md); border-radius: var(--radius-md); font-size: 0.875rem; min-height: 80px;">
+                                    <em style="color: var(--color-text-muted);">Not documented yet - interview pending</em>
+                                </div>
+                            </div>
+                            <div>
+                                <div style="font-weight: 600; margin-bottom: var(--space-sm); color: var(--color-text-muted);">Decision Patterns</div>
+                                <div style="background: var(--color-surface); padding: var(--space-md); border-radius: var(--radius-md); font-size: 0.875rem; min-height: 80px;">
+                                    <em style="color: var(--color-text-muted);">Not documented yet - interview pending</em>
+                                </div>
+                            </div>
+                            <div>
+                                <div style="font-weight: 600; margin-bottom: var(--space-sm); color: var(--color-text-muted);">Risk Tolerance</div>
+                                <div style="background: var(--color-surface); padding: var(--space-md); border-radius: var(--radius-md); font-size: 0.875rem; min-height: 80px;">
+                                    <em style="color: var(--color-text-muted);">Not documented yet - interview pending</em>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Integration Checklist -->
+                <div class="glass-card">
+                    <div class="glass-header">
+                        <div class="glass-title">✅ Integration Checklist</div>
+                    </div>
+                    <div class="glass-body">
+                        <div class="project-card" style="margin-bottom: var(--space-md);">
+                            <div class="project-header">
+                                <div class="project-title">Phase 1: Communication</div>
+                                <span class="project-status status-pending">Pending</span>
+                            </div>
+                            <div class="project-desc">Gmail OAuth, Telegram bot confirmation, notification preferences</div>
+                        </div>
+                        <div class="project-card" style="margin-bottom: var(--space-md);">
+                            <div class="project-header">
+                                <div class="project-title">Phase 2: Knowledge</div>
+                                <span class="project-status status-pending">Pending</span>
+                            </div>
+                            <div class="project-desc">Note-taking app integration, document access, research workflows</div>
+                        </div>
+                        <div class="project-card" style="margin-bottom: var(--space-md);">
+                            <div class="project-header">
+                                <div class="project-title">Phase 3: Finance</div>
+                                <span class="project-status status-pending">Pending</span>
+                            </div>
+                            <div class="project-desc">Stock broker API, investment tracking, financial data access</div>
+                        </div>
+                        <div class="project-card" style="margin-bottom: var(--space-md);">
+                            <div class="project-header">
+                                <div class="project-title">Phase 4: Social</div>
+                                <span class="project-status status-pending">Pending</span>
+                            </div>
+                            <div class="project-desc">X/Twitter API, LinkedIn access, social automation permissions</div>
+                        </div>
+                        <div class="project-card">
+                            <div class="project-header">
+                                <div class="project-title">Phase 5: Advanced</div>
+                                <span class="project-status status-pending">Pending</span>
+                            </div>
+                            <div class="project-desc">Calendar write access, email send approval, autonomous actions</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Agents Tab -->
+            <div id="agents" class="tab-content">
+                <div class="page-header">
+                    <div class="page-title-wrapper">
+                        <div class="greeting">Our AI workforce</div>
+                        <h1>Sub-Agent Army</h1>
+                    </div>
+                </div>
+
+                <!-- Agent Stats -->
+                <div class="bento-grid" style="margin-bottom: var(--space-xl);">
+                    <div class="bento-card">
+                        <div class="bento-icon">👥</div>
+                        <div class="bento-label">Active Agents</div>
+                        <div class="bento-value">2</div>
+                    </div>
+                    <div class="bento-card">
+                        <div class="bento-icon">✅</div>
+                        <div class="bento-label">Completed Tasks</div>
+                        <div class="bento-value">2</div>
+                    </div>
+                    <div class="bento-card">
+                        <div class="bento-icon">⏱️</div>
+                        <div class="bento-label">Total Runtime</div>
+                        <div class="bento-value">4m</div>
+                    </div>
+                    <div class="bento-card">
+                        <div class="bento-icon">🧠</div>
+                        <div class="bento-label">Tokens Used</div>
+                        <div class="bento-value">76.6k</div>
+                    </div>
+                </div>
+
+                <!-- Active Agents -->
+                <div class="glass-card" style="margin-bottom: var(--space-xl);">
+                    <div class="glass-header">
+                        <div class="glass-title">🟢 Active Agents</div>
+                    </div>
+                    <div class="glass-body">
+                        <!-- Agent 1 -->
+                        <div class="project-card" style="margin-bottom: var(--space-md); border-left: 4px solid #8b5cf6;">
+                            <div class="project-header">
+                                <div style="display: flex; align-items: center; gap: var(--space-md);">
+                                    <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #8b5cf6, #a78bfa); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 24px;">🧠</div>
+                                    <div>
+                                        <div class="project-title" style="font-size: 1.1rem;">The Architect</div>
+                                        <div style="font-size: 0.875rem; color: var(--color-text-muted);">System Design Specialist • Permanent</div>
+                                    </div>
+                                </div>
+                                <span class="project-status status-live" style="background: rgba(34, 197, 94, 0.2); color: #22c55e;">IDLE</span>
+                            </div>
+                            <div class="project-desc" style="margin-top: var(--space-md);">
+                                <strong>Role:</strong> Designs comprehensive system architectures and technical plans<br>
+                                <strong>Personality:</strong> Methodical, thorough, strategic thinker. Always considers edge cases and long-term implications. Speaks in structured, organized ways.<br>
+                                <strong>Specialty:</strong> Contextual Intelligence Systems, Multi-Agent Orchestration, Technical Architecture
+                            </div>
+                            <div style="margin-top: var(--space-md); padding-top: var(--space-md); border-top: 1px solid var(--color-border); display: flex; gap: var(--space-md); flex-wrap: wrap;">
+                                <span style="font-size: 0.75rem; padding: var(--space-xs) var(--space-sm); background: rgba(139, 92, 246, 0.1); border-radius: var(--radius-sm); color: #a78bfa;">System Design</span>
+                                <span style="font-size: 0.75rem; padding: var(--space-xs) var(--space-sm); background: rgba(139, 92, 246, 0.1); border-radius: var(--radius-sm); color: #a78bfa;">Research</span>
+                                <span style="font-size: 0.75rem; padding: var(--space-xs) var(--space-sm); background: rgba(139, 92, 246, 0.1); border-radius: var(--radius-sm); color: #a78bfa;">Planning</span>
+                            </div>
+                        </div>
+
+                        <!-- Agent 2 -->
+                        <div class="project-card" style="border-left: 4px solid #06b6d4;">
+                            <div class="project-header">
+                                <div style="display: flex; align-items: center; gap: var(--space-md);">
+                                    <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #06b6d4, #22d3ee); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 24px;">🔍</div>
+                                    <div>
+                                        <div class="project-title" style="font-size: 1.1rem;">The Analyst</div>
+                                        <div style="font-size: 0.875rem; color: var(--color-text-muted);">Value Research Specialist • Permanent</div>
+                                    </div>
+                                </div>
+                                <span class="project-status status-live" style="background: rgba(34, 197, 94, 0.2); color: #22c55e;">IDLE</span>
+                            </div>
+                            <div class="project-desc" style="margin-top: var(--space-md);">
+                                <strong>Role:</strong> Researches what makes systems valuable, analyzes patterns, identifies durable value opportunities<br>
+                                <strong>Personality:</strong> Curious, evidence-driven, pattern-seeking. Questions assumptions and digs deep. Provides data-backed insights with practical recommendations.<br>
+                                <strong>Specialty:</strong> User Research, Pattern Analysis, ROI Evaluation, Market Research
+                            </div>
+                            <div style="margin-top: var(--space-md); padding-top: var(--space-md); border-top: 1px solid var(--color-border); display: flex; gap: var(--space-md); flex-wrap: wrap;">
+                                <span style="font-size: 0.75rem; padding: var(--space-xs) var(--space-sm); background: rgba(6, 182, 212, 0.1); border-radius: var(--radius-sm); color: #22d3ee;">Research</span>
+                                <span style="font-size: 0.75rem; padding: var(--space-xs) var(--space-sm); background: rgba(6, 182, 212, 0.1); border-radius: var(--radius-sm); color: #22d3ee;">Analysis</span>
+                                <span style="font-size: 0.75rem; padding: var(--space-xs) var(--space-sm); background: rgba(6, 182, 212, 0.1); border-radius: var(--radius-sm); color: #22d3ee;">Strategy</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Agent Roster Template -->
+                <div class="glass-card" style="margin-bottom: var(--space-xl);">
+                    <div class="glass-header">
+                        <div class="glass-title">📝 Agent Roster</div>
+                    </div>
+                    <div class="glass-body">
+                        <p style="color: var(--color-text-secondary); margin-bottom: var(--space-lg);">Template for spawning future agents. Each agent gets a name, role, personality, and specialty.</p>
+                        
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: var(--space-md);">
+                            <div style="padding: var(--space-md); background: var(--color-surface); border-radius: var(--radius-md); border: 1px dashed var(--color-border);">
+                                <div style="font-weight: 600; margin-bottom: var(--space-sm);">🔧 The Builder</div>
+                                <div style="font-size: 0.875rem; color: var(--color-text-muted);">Implementation specialist. Fast, pragmatic, gets things done. Temporary agent for coding tasks.</div>
+                            </div>
+                            <div style="padding: var(--space-md); background: var(--color-surface); border-radius: var(--radius-md); border: 1px dashed var(--color-border);">
+                                <div style="font-weight: 600; margin-bottom: var(--space-sm);">🎨 The Designer</div>
+                                <div style="font-size: 0.875rem; color: var(--color-text-muted);">UI/UX perfectionist. Detail-oriented, aesthetic-focused. Temporary agent for design tasks.</div>
+                            </div>
+                            <div style="padding: var(--space-md); background: var(--color-surface); border-radius: var(--radius-md); border: 1px dashed var(--color-border);">
+                                <div style="font-weight: 600; margin-bottom: var(--space-sm);">🧪 The Tester</div>
+                                <div style="font-size: 0.875rem; color: var(--color-text-muted);">Quality assurance expert. Thorough, edge-case hunter. Temporary agent for testing.</div>
+                            </div>
+                            <div style="padding: var(--space-md); background: var(--color-surface); border-radius: var(--radius-md); border: 1px dashed var(--color-border);">
+                                <div style="font-weight: 600; margin-bottom: var(--space-sm);">📚 The Librarian</div>
+                                <div style="font-size: 0.875rem; color: var(--color-text-muted);">Documentation and organization. Structured, methodical. Permanent agent for knowledge management.</div>
+                            </div>
+                            <div style="padding: var(--space-md); background: var(--color-surface); border-radius: var(--radius-md); border: 1px dashed var(--color-border);">
+                                <div style="font-weight: 600; margin-bottom: var(--space-sm);">⚡ The Optimizer</div>
+                                <div style="font-size: 0.875rem; color: var(--color-text-muted);">Performance and efficiency. Data-driven, metric-focused. Temporary agent for optimization.</div>
+                            </div>
+                            <div style="padding: var(--space-md); background: var(--color-surface); border-radius: var(--radius-md); border: 1px dashed var(--color-border);">
+                                <div style="font-weight: 600; margin-bottom: var(--space-sm);">🎭 The Creative</div>
+                                <div style="font-size: 0.875rem; color: var(--color-text-muted);">Content and ideas. Imaginative, unconventional. Temporary agent for creative tasks.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Spawn History -->
+                <div class="glass-card">
+                    <div class="glass-header">
+                        <div class="glass-title">📊 Spawn History</div>
+                    </div>
+                    <div class="glass-body">
+                        <div class="timeline-item">
+                            <span>🧠</span>
+                            <div>
+                                <strong>The Architect</strong> spawned for Personal Intelligence System planning<br>
+                                <span style="font-size: 0.875rem; color: var(--color-text-muted);">Mar 20, 2026 • 2m 5s runtime • 36.6k tokens</span><br>
+                                <span style="font-size: 0.875rem; color: #22c55e;">✅ Completed: Created comprehensive system architecture report</span>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <span>🔍</span>
+                            <div>
+                                <strong>The Analyst</strong> spawned for Durable Value research<br>
+                                <span style="font-size: 0.875rem; color: var(--color-text-muted);">Mar 20, 2026 • 2m 14s runtime • 40.0k tokens</span><br>
+                                <span style="font-size: 0.875rem; color: #22c55e;">✅ Completed: Analyzed patterns in lasting AI systems</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1303,10 +1592,10 @@
                         </div>
                         <div class="project-card" style="border: 2px solid #8b5cf6; margin-top: var(--space-md);">
                             <div class="project-header">
-                                <div class="project-title">🚀 Day 51: OpenViking Memory Integration</div>
+                                <div class="project-title">🚀 Day 52: Meta Ads Automation System</div>
                                 <span class="project-status status-beta" style="background: rgba(139, 92, 246, 0.2); color: #8b5cf6;">BONUS</span>
                             </div>
-                            <div class="project-desc">Integrate ByteDance's OpenViking memory system for hierarchical, file-system-like AI memory with tiered context loading (L0/L1/L2) and massive token savings.</div>
+                            <div class="project-desc">Autonomous Meta (Facebook/Instagram) Ads manager - daily health checks, auto-pause bleeders, budget optimization, AI copy generation, and direct ad publishing.</div>
                         </div>
                     </div>
                 </div>
