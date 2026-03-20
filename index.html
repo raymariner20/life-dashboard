@@ -1596,8 +1596,15 @@
             // Update desktop nav
             updateDesktopNavActive(tabName);
             
-            // Close menu
-            toggleMobileMenu();
+            // Close hamburger menu if open
+            const menu = document.getElementById('mobileMenu');
+            const btn = document.querySelector('.hamburger-btn');
+            if (menu && menu.classList.contains('active')) {
+                menu.classList.remove('active');
+            }
+            if (btn && btn.classList.contains('active')) {
+                btn.classList.remove('active');
+            }
             
             // Scroll to top
             window.scrollTo({ top: 0, behavior: 'smooth' });
