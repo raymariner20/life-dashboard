@@ -305,9 +305,9 @@
             .bento-card { padding: var(--space-lg); }
             .bento-card.featured { grid-column: span 1; }
             .bento-value { font-size: 2rem; }
-            .main { margin-left: 0; padding: var(--space-md); max-width: 100%; padding-bottom: 100px; }
-            .sidebar { display: none; }
-            .mobile-nav { display: flex; }
+            .main { margin-left: 0; padding: var(--space-md); max-width: 100%; padding-bottom: 120px !important; }
+            .sidebar { display: none !important; }
+            .mobile-nav { display: flex !important; }
             .page-header { flex-direction: column; gap: var(--space-md); align-items: flex-start; }
             .page-header h1 { font-size: 1.75rem; }
             .header-actions { width: 100%; }
@@ -333,11 +333,11 @@
             bottom: 0;
             left: 0;
             right: 0;
-            background: rgba(15, 15, 15, 0.95);
+            background: rgba(15, 15, 15, 0.98);
             backdrop-filter: blur(20px);
             border-top: 1px solid var(--color-border);
-            padding: var(--space-sm) 0;
-            z-index: 1000;
+            padding: var(--space-sm) 0 calc(var(--space-sm) + env(safe-area-inset-bottom));
+            z-index: 9999;
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
         }
