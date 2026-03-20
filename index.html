@@ -301,10 +301,29 @@
         }
 
         @media (max-width: 768px) {
-            .bento-grid { grid-template-columns: 1fr; }
-            .main { margin-left: 0; padding: var(--space-lg); max-width: 100%; padding-bottom: 100px; }
+            .bento-grid { grid-template-columns: 1fr; gap: var(--space-md); }
+            .bento-card { padding: var(--space-lg); }
+            .bento-card.featured { grid-column: span 1; }
+            .bento-value { font-size: 2rem; }
+            .main { margin-left: 0; padding: var(--space-md); max-width: 100%; padding-bottom: 100px; }
             .sidebar { display: none; }
             .mobile-nav { display: flex; }
+            .page-header { flex-direction: column; gap: var(--space-md); align-items: flex-start; }
+            .page-header h1 { font-size: 1.75rem; }
+            .header-actions { width: 100%; }
+            .header-actions .btn { flex: 1; justify-content: center; }
+            .glass-header { flex-direction: column; gap: var(--space-sm); align-items: flex-start; }
+            .command-grid { grid-template-columns: 1fr; }
+            .project-card { padding: var(--space-md); }
+            .timeline-item { padding: var(--space-md); }
+            .nav-section-title { font-size: 0.75rem; }
+            .insight-box { padding: var(--space-lg); }
+            .metric-value { font-size: 2rem; }
+            .repo-header { flex-direction: column; gap: var(--space-sm); }
+            .skill-tags { flex-wrap: wrap; }
+            .bento-grid.agents { grid-template-columns: 1fr; }
+            .agent-card { padding: var(--space-md); }
+            .setup-grid { grid-template-columns: 1fr; }
         }
         
         /* Mobile Navigation */
@@ -340,9 +359,11 @@
             cursor: pointer;
             transition: all 0.2s ease;
             min-width: 60px;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
         }
         
-        .mobile-nav-item:hover {
+        .mobile-nav-item:hover, .mobile-nav-item:active {
             background: rgba(255,255,255,0.05);
         }
         
