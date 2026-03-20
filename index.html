@@ -379,6 +379,8 @@
             .bento-grid.agents { grid-template-columns: 1fr; }
             .agent-card { padding: var(--space-md); }
             .setup-grid { grid-template-columns: 1fr; }
+            .mobile-header { display: flex !important; }
+            .main { padding-top: 80px !important; }
         }
 
         .bento-card {
@@ -602,6 +604,111 @@
         .content-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: var(--space-xl); }
         @media (max-width: 1200px) { .content-grid { grid-template-columns: 1fr; } }
 
+        /* Mobile Header & Hamburger */
+        .mobile-header {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(15, 15, 15, 0.98);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--color-border);
+            padding: var(--space-md);
+            z-index: 9999;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .mobile-header-logo {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .hamburger-btn {
+            width: 44px;
+            height: 44px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .hamburger-btn span {
+            display: block;
+            width: 20px;
+            height: 2px;
+            background: var(--color-text);
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .hamburger-btn.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .hamburger-btn.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger-btn.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 70px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(15, 15, 15, 0.98);
+            backdrop-filter: blur(20px);
+            z-index: 9998;
+            padding: var(--space-lg);
+            overflow-y: auto;
+        }
+
+        .mobile-menu.active {
+            display: block;
+        }
+
+        .mobile-menu-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+            padding: var(--space-md);
+            border-radius: var(--radius-md);
+            margin-bottom: var(--space-sm);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .mobile-menu-item:hover, .mobile-menu-item.active {
+            background: rgba(249, 115, 22, 0.15);
+            color: #f97316;
+        }
+
+        .mobile-menu-icon {
+            font-size: 1.5rem;
+            width: 40px;
+            text-align: center;
+        }
+
+        .mobile-menu-label {
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
         /* Tab Content */
         .tab-content { display: none; }
         .tab-content.active { display: block; animation: fadeIn 0.3s ease; }
@@ -622,6 +729,51 @@
     <!-- Animated Background -->
     <div class="bg-mesh"></div>
     <div class="bg-grid"></div>
+
+    <!-- Mobile Header -->
+    <header class="mobile-header">
+        <div class="mobile-header-logo">
+            <span style="font-size: 1.5rem;">🔬</span>
+            <span>AI Being Labs</span>
+        </div>
+        <button class="hamburger-btn" onclick="toggleMobileMenu()" aria-label="Menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </header>
+
+    <!-- Mobile Menu -->
+    <nav class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-item active" onclick="showTabMobileMenu('overview')">
+            <span class="mobile-menu-icon">🏠</span>
+            <span class="mobile-menu-label">Dashboard</span>
+        </div>
+        <div class="mobile-menu-item" onclick="showTabMobileMenu('diaries')">
+            <span class="mobile-menu-icon">📓</span>
+            <span class="mobile-menu-label">Diaries</span>
+        </div>
+        <div class="mobile-menu-item" onclick="showTabMobileMenu('projects')">
+            <span class="mobile-menu-icon">🚀</span>
+            <span class="mobile-menu-label">Projects</span>
+        </div>
+        <div class="mobile-menu-item" onclick="showTabMobileMenu('fiftyprojects')">
+            <span class="mobile-menu-icon">🔥</span>
+            <span class="mobile-menu-label">50 Projects</span>
+        </div>
+        <div class="mobile-menu-item" onclick="showTabMobileMenu('skills')">
+            <span class="mobile-menu-icon">🎯</span>
+            <span class="mobile-menu-label">Skills</span>
+        </div>
+        <div class="mobile-menu-item" onclick="showTabMobileMenu('agents')">
+            <span class="mobile-menu-icon">🤖</span>
+            <span class="mobile-menu-label">Agents</span>
+        </div>
+        <div class="mobile-menu-item" onclick="showTabMobileMenu('setup')">
+            <span class="mobile-menu-icon">⚙️</span>
+            <span class="mobile-menu-label">Setup</span>
+        </div>
+    </nav>
 
     <div class="app-container">
         <!-- Sidebar -->
@@ -1311,6 +1463,45 @@
             
             // Update desktop nav if mobile nav was clicked
             updateDesktopNavActive(tabName);
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            const btn = document.querySelector('.hamburger-btn');
+            menu.classList.toggle('active');
+            btn.classList.toggle('active');
+        }
+        
+        function showTabMobileMenu(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Remove active from all menu items
+            document.querySelectorAll('.mobile-menu-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Remove active from desktop nav
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+            
+            // Update active state in menu
+            event.currentTarget.classList.add('active');
+            
+            // Update desktop nav
+            updateDesktopNavActive(tabName);
+            
+            // Close menu
+            toggleMobileMenu();
             
             // Scroll to top
             window.scrollTo({ top: 0, behavior: 'smooth' });
