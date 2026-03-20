@@ -745,31 +745,31 @@
 
     <!-- Mobile Menu -->
     <nav class="mobile-menu" id="mobileMenu">
-        <div class="mobile-menu-item active" onclick="showTabMobileMenu('overview')">
+        <div class="mobile-menu-item active" onclick="showTabMobileMenu('overview', this)">
             <span class="mobile-menu-icon">🏠</span>
             <span class="mobile-menu-label">Dashboard</span>
         </div>
-        <div class="mobile-menu-item" onclick="showTabMobileMenu('diaries')">
+        <div class="mobile-menu-item" onclick="showTabMobileMenu('diaries', this)">
             <span class="mobile-menu-icon">📓</span>
             <span class="mobile-menu-label">Diaries</span>
         </div>
-        <div class="mobile-menu-item" onclick="showTabMobileMenu('projects')">
+        <div class="mobile-menu-item" onclick="showTabMobileMenu('projects', this)">
             <span class="mobile-menu-icon">🚀</span>
             <span class="mobile-menu-label">Projects</span>
         </div>
-        <div class="mobile-menu-item" onclick="showTabMobileMenu('fiftyprojects')">
+        <div class="mobile-menu-item" onclick="showTabMobileMenu('fiftyprojects', this)">
             <span class="mobile-menu-icon">🔥</span>
             <span class="mobile-menu-label">50 Projects</span>
         </div>
-        <div class="mobile-menu-item" onclick="showTabMobileMenu('skills')">
+        <div class="mobile-menu-item" onclick="showTabMobileMenu('skills', this)">
             <span class="mobile-menu-icon">🎯</span>
             <span class="mobile-menu-label">Skills</span>
         </div>
-        <div class="mobile-menu-item" onclick="showTabMobileMenu('agents')">
+        <div class="mobile-menu-item" onclick="showTabMobileMenu('agents', this)">
             <span class="mobile-menu-icon">🤖</span>
             <span class="mobile-menu-label">Agents</span>
         </div>
-        <div class="mobile-menu-item" onclick="showTabMobileMenu('setup')">
+        <div class="mobile-menu-item" onclick="showTabMobileMenu('setup', this)">
             <span class="mobile-menu-icon">⚙️</span>
             <span class="mobile-menu-label">Setup</span>
         </div>
@@ -1475,7 +1475,7 @@
             btn.classList.toggle('active');
         }
         
-        function showTabMobileMenu(tabName) {
+        function showTabMobileMenu(tabName, element) {
             // Hide all tabs
             document.querySelectorAll('.tab-content').forEach(tab => {
                 tab.classList.remove('active');
@@ -1492,10 +1492,18 @@
             });
             
             // Show selected tab
-            document.getElementById(tabName).classList.add('active');
+            const tab = document.getElementById(tabName);
+            if (tab) {
+                tab.classList.add('active');
+            } else {
+                console.error('Tab not found:', tabName);
+                return;
+            }
             
             // Update active state in menu
-            event.currentTarget.classList.add('active');
+            if (element) {
+                element.classList.add('active');
+            }
             
             // Update desktop nav
             updateDesktopNavActive(tabName);
