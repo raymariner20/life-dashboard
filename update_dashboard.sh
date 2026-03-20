@@ -331,4 +331,10 @@ cat > "$DASHBOARD_DIR/index.html" << EOF
 </html>
 EOF
 
-echo "✅ Dashboard updated at $(date)"
+# Push to GitHub
+cd "$DASHBOARD_DIR"
+git add index.html
+git commit -m "Auto-update dashboard - $(date +"%Y-%m-%d %H:%M")" || true
+git push origin main || echo "GitHub push failed - may need authentication"
+
+echo "✅ Dashboard updated and pushed to GitHub at $(date)"
