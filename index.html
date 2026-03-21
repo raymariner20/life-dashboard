@@ -3,2214 +3,281 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Being Labs — Axon & Ray Partnership</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>AI Being Labs Dashboard</title>
     <style>
-        :root {
-            --space-xs: 4px;
-            --space-sm: 8px;
-            --space-md: 16px;
-            --space-lg: 24px;
-            --space-xl: 32px;
-            --space-2xl: 48px;
-            --space-3xl: 64px;
-            
-            --radius-sm: 8px;
-            --radius-md: 12px;
-            --radius-lg: 16px;
-            --radius-xl: 24px;
-            
-            --color-bg: #0a0a0a;
-            --color-surface: rgba(20, 20, 20, 0.6);
-            --color-surface-hover: rgba(30, 30, 30, 0.8);
-            --color-border: rgba(255, 255, 255, 0.08);
-            --color-text: #fafafa;
-            --color-text-secondary: #a3a3a3;
-            --color-text-muted: #737373;
-            
-            --gradient-primary: linear-gradient(135deg, #f97316 0%, #f59e0b 50%, #eab308 100%);
-            --gradient-surface: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0) 100%);
-            --gradient-glow: radial-gradient(ellipse at top, rgba(249, 115, 22, 0.15) 0%, transparent 50%);
-        }
-
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        html { scroll-behavior: smooth; }
-        
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--color-bg);
-            color: var(--color-text);
-            min-height: 100vh;
-            line-height: 1.5;
-            -webkit-font-smoothing: antialiased;
-            overflow-x: hidden;
-        }
-
-        /* Animated Background */
-        .bg-mesh {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            z-index: 0;
-            background: 
-                radial-gradient(ellipse at 20% 20%, rgba(249, 115, 22, 0.08) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 80%, rgba(245, 158, 11, 0.06) 0%, transparent 50%),
-                radial-gradient(ellipse at 50% 50%, rgba(234, 179, 8, 0.04) 0%, transparent 70%);
-            animation: meshMove 20s ease-in-out infinite;
-        }
-
-        @keyframes meshMove {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            33% { transform: translate(2%, -2%) scale(1.02); }
-            66% { transform: translate(-1%, 1%) scale(0.98); }
-        }
-
-        .bg-grid {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            z-index: 1;
-            background-image: 
-                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
-            background-size: 60px 60px;
-            pointer-events: none;
-        }
-
-        /* Layout */
-        .app-container {
-            display: flex;
-            position: relative;
-            z-index: 10;
-            min-height: 100vh;
-        }
-
-        /* Sidebar */
-        .sidebar {
-            width: 280px;
-            background: rgba(15, 15, 15, 0.8);
-            backdrop-filter: blur(20px);
-            border-right: 1px solid var(--color-border);
-            padding: var(--space-xl);
-            position: fixed;
-            height: 100vh;
-            overflow-y: auto;
-            z-index: 100;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: var(--space-md);
-            margin-bottom: var(--space-2xl);
-            padding-bottom: var(--space-xl);
-            border-bottom: 1px solid var(--color-border);
-        }
-
-        .logo-icon {
-            width: 44px;
-            height: 44px;
-            background: var(--gradient-primary);
-            border-radius: var(--radius-md);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.25rem;
-            box-shadow: 0 8px 32px rgba(249, 115, 22, 0.3);
-        }
-
-        .logo-subtitle {
-            font-size: 0.6875rem;
-            color: var(--color-text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            margin-top: 2px;
-        }
-
-        .logo-text {
-            font-size: 1.125rem;
-            font-weight: 700;
-            background: var(--gradient-primary);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .nav-section {
-            margin-bottom: var(--space-xl);
-        }
-
-        .nav-label {
-            font-size: 0.6875rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: var(--color-text-muted);
-            margin-bottom: var(--space-md);
-            padding-left: var(--space-md);
-        }
-
-        .nav-item {
-            display: flex;
-            align-items: center;
-            gap: var(--space-md);
-            padding: var(--space-md) var(--space-lg);
-            border-radius: var(--radius-md);
-            cursor: pointer;
-            color: var(--color-text-secondary);
-            font-size: 0.9375rem;
-            font-weight: 500;
-            margin-bottom: var(--space-xs);
-            transition: all 0.2s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .nav-item::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 3px;
-            background: var(--gradient-primary);
-            transform: scaleY(0);
-            transition: transform 0.2s ease;
-        }
-
-        .nav-item:hover {
-            background: var(--color-surface-hover);
-            color: var(--color-text);
-        }
-
-        .nav-item:hover::before {
-            transform: scaleY(1);
-        }
-
-        .nav-item.active {
-            background: var(--gradient-primary);
-            color: white;
-            box-shadow: 0 4px 20px rgba(249, 115, 22, 0.4);
-        }
-
-        .nav-item.active::before {
-            display: none;
-        }
-
-        .nav-icon {
-            font-size: 1.125rem;
-            width: 24px;
-            text-align: center;
-        }
-
-        /* Main Content */
-        .main {
-            flex: 1;
-            margin-left: 280px;
-            padding: var(--space-2xl) var(--space-3xl);
-            max-width: calc(100% - 280px);
-        }
-
-        /* Header */
-        .page-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: var(--space-2xl);
-        }
-
-        .page-title-wrapper {
-            position: relative;
-        }
-
-        .greeting {
-            font-size: 0.875rem;
-            color: var(--color-text-secondary);
-            margin-bottom: var(--space-xs);
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            letter-spacing: -0.02em;
-            background: linear-gradient(180deg, #fff 0%, #a3a3a3 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .header-actions {
-            display: flex;
-            gap: var(--space-md);
-        }
-
-        /* Buttons */
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: var(--space-sm);
-            padding: var(--space-md) var(--space-lg);
-            border-radius: var(--radius-md);
-            font-weight: 600;
-            font-size: 0.875rem;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            border: none;
-            text-decoration: none;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-        }
-
-        .btn-primary {
-            background: var(--gradient-primary);
-            color: white;
-            box-shadow: 0 4px 20px rgba(249, 115, 22, 0.3);
-        }
-
-        .btn-primary:hover {
-            box-shadow: 0 8px 30px rgba(249, 115, 22, 0.4);
-        }
-
-        .btn-secondary {
-            background: var(--color-surface);
-            color: var(--color-text);
-            border: 1px solid var(--color-border);
-            backdrop-filter: blur(10px);
-        }
-
-        .btn-secondary:hover {
-            background: var(--color-surface-hover);
-            border-color: rgba(255,255,255,0.15);
-        }
-
-        /* Bento Grid Stats */
-        .bento-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: var(--space-lg);
-            margin-bottom: var(--space-2xl);
-        }
-
-        @media (max-width: 1400px) {
-            .bento-grid { grid-template-columns: repeat(2, 1fr); }
-        }
-
-        /* Mobile Navigation - Base styles (hidden by default) */
-        .mobile-nav {
-            display: none;
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: rgba(15, 15, 15, 0.98);
-            backdrop-filter: blur(20px);
-            border-top: 1px solid var(--color-border);
-            padding: var(--space-sm) 0 calc(var(--space-sm) + env(safe-area-inset-bottom));
-            z-index: 9999;
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        .mobile-nav-items {
-            display: flex;
-            gap: var(--space-xs);
-            padding: 0 var(--space-md);
-            min-width: max-content;
-        }
-
-        .mobile-nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
-            padding: var(--space-sm) var(--space-md);
-            border-radius: var(--radius-md);
-            cursor: pointer;
-            transition: all 0.2s ease;
-            min-width: 60px;
-            -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation;
-        }
-
-        .mobile-nav-item:hover, .mobile-nav-item:active {
-            background: rgba(255,255,255,0.05);
-        }
-
-        .mobile-nav-item.active {
-            background: rgba(249, 115, 22, 0.15);
-            color: #f97316;
-        }
-
-        .mobile-nav-icon {
-            font-size: 1.25rem;
-        }
-
-        .mobile-nav-label {
-            font-size: 0.625rem;
-            white-space: nowrap;
-        }
-
-        @media (max-width: 768px) {
-            .bento-grid { grid-template-columns: 1fr; gap: var(--space-md); }
-            .bento-card { padding: var(--space-lg); }
-            .bento-card.featured { grid-column: span 1; }
-            .bento-value { font-size: 2rem; }
-            .main { margin-left: 0; padding: var(--space-md); max-width: 100%; padding-bottom: 120px !important; }
-            .sidebar { display: none !important; }
-            .mobile-nav { display: flex !important; }
-            .page-header { flex-direction: column; gap: var(--space-md); align-items: flex-start; }
-            .page-header h1 { font-size: 1.75rem; }
-            .header-actions { width: 100%; }
-            .header-actions .btn { flex: 1; justify-content: center; }
-            .glass-header { flex-direction: column; gap: var(--space-sm); align-items: flex-start; }
-            .command-grid { grid-template-columns: 1fr; }
-            .project-card { padding: var(--space-md); }
-            .timeline-item { padding: var(--space-md); }
-            .nav-section-title { font-size: 0.75rem; }
-            .insight-box { padding: var(--space-lg); }
-            .metric-value { font-size: 2rem; }
-            .repo-header { flex-direction: column; gap: var(--space-sm); }
-            .skill-tags { flex-wrap: wrap; }
-            .bento-grid.agents { grid-template-columns: 1fr; }
-            .agent-card { padding: var(--space-md); }
-            .setup-grid { grid-template-columns: 1fr; }
-            .mobile-header { display: flex !important; }
-            .main { padding-top: 80px !important; }
-        }
-
-        .bento-card {
-            background: var(--color-surface);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--color-border);
-            border-radius: var(--radius-xl);
-            padding: var(--space-xl);
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-
-        .bento-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: var(--gradient-surface);
-        }
-
-        .bento-card:hover {
-            transform: translateY(-4px);
-            border-color: rgba(249, 115, 22, 0.3);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3), 0 0 40px rgba(249, 115, 22, 0.1);
-        }
-
-        .bento-card.featured {
-            grid-column: span 2;
-            background: linear-gradient(135deg, rgba(249, 115, 22, 0.1) 0%, rgba(20, 20, 20, 0.6) 100%);
-        }
-
-        .bento-icon {
-            width: 48px;
-            height: 48px;
-            background: rgba(255,255,255,0.05);
-            border-radius: var(--radius-md);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            margin-bottom: var(--space-lg);
-            border: 1px solid var(--color-border);
-        }
-
-        .bento-label {
-            font-size: 0.75rem;
-            color: var(--color-text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: var(--space-sm);
-        }
-
-        .bento-value {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: var(--space-sm);
-            background: linear-gradient(180deg, #fff 0%, #d4d4d4 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .bento-change {
-            font-size: 0.875rem;
-            color: #22c55e;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: var(--space-xs);
-        }
-
-        /* Glass Cards */
-        .glass-card {
-            background: var(--color-surface);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--color-border);
-            border-radius: var(--radius-xl);
-            overflow: hidden;
-            margin-bottom: var(--space-xl);
-        }
-
-        .glass-header {
-            padding: var(--space-lg) var(--space-xl);
-            border-bottom: 1px solid var(--color-border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .glass-title {
-            font-size: 1rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: var(--space-md);
-        }
-
-        .glass-body {
-            padding: var(--space-xl);
-        }
-
-        /* Insight Box */
-        .insight-box {
-            background: linear-gradient(135deg, rgba(249, 115, 22, 0.08) 0%, rgba(245, 158, 11, 0.05) 100%);
-            border: 1px solid rgba(249, 115, 22, 0.2);
-            border-radius: var(--radius-xl);
-            padding: var(--space-xl);
-            margin-bottom: var(--space-xl);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .insight-box::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: var(--gradient-primary);
-        }
-
-        .insight-label {
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: #f97316;
-            margin-bottom: var(--space-md);
-        }
-
-        .insight-text {
-            font-size: 1.125rem;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a0a;
+            color: #fafafa;
             line-height: 1.6;
-            color: var(--color-text);
         }
-
-        /* Timeline */
-        .timeline {
-            position: relative;
-            padding-left: var(--space-xl);
-        }
-
-        .timeline::before {
-            content: '';
-            position: absolute;
-            left: 6px;
-            top: 0;
-            bottom: 0;
-            width: 2px;
-            background: linear-gradient(180deg, #f97316 0%, #f59e0b 50%, transparent 100%);
-        }
-
-        .timeline-item {
-            position: relative;
-            margin-bottom: var(--space-lg);
-            padding: var(--space-lg);
-            background: rgba(255,255,255,0.02);
-            border-radius: var(--radius-lg);
-            border: 1px solid var(--color-border);
-            transition: all 0.2s ease;
-        }
-
-        .timeline-item:hover {
-            background: rgba(255,255,255,0.04);
-            border-color: rgba(249, 115, 22, 0.2);
-            transform: translateX(4px);
-        }
-
-        .timeline-item::before {
-            content: '';
-            position: absolute;
-            left: -18px;
-            top: 20px;
-            width: 10px;
-            height: 10px;
-            background: #f97316;
-            border-radius: 50%;
-            border: 3px solid var(--color-bg);
-            box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.2);
-        }
-
-        .timeline-date {
-            font-size: 0.75rem;
-            color: var(--color-text-muted);
-            margin-bottom: var(--space-xs);
-        }
-
-        .timeline-title {
-            font-weight: 600;
-            margin-bottom: var(--space-sm);
-        }
-
-        /* Tags */
-        .tag {
-            display: inline-flex;
-            align-items: center;
-            padding: var(--space-xs) var(--space-md);
-            border-radius: var(--radius-full);
-            font-size: 0.6875rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.03em;
-        }
-
-        .tag-orange { background: rgba(249, 115, 22, 0.15); color: #f97316; border: 1px solid rgba(249, 115, 22, 0.2); }
-        .tag-green { background: rgba(34, 197, 94, 0.15); color: #22c55e; border: 1px solid rgba(34, 197, 94, 0.2); }
-        .tag-blue { background: rgba(59, 130, 246, 0.15); color: #3b82f6; border: 1px solid rgba(59, 130, 246, 0.2); }
-
-        /* Progress */
-        .progress-item { margin-bottom: var(--space-lg); }
-        .progress-header { display: flex; justify-content: space-between; margin-bottom: var(--space-sm); font-size: 0.9375rem; }
-        .progress-label { font-weight: 500; }
-        .progress-value { color: var(--color-text-secondary); }
-        .progress-bar { height: 6px; background: rgba(255,255,255,0.05); border-radius: var(--radius-full); overflow: hidden; }
-        .progress-fill { height: 100%; background: var(--gradient-primary); border-radius: var(--radius-full); transition: width 0.5s ease; }
-
-        /* Content Grid */
-        .content-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: var(--space-xl); }
-        @media (max-width: 1200px) { .content-grid { grid-template-columns: 1fr; } }
-
-        /* Mobile Header & Hamburger */
-        .mobile-header {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            background: rgba(15, 15, 15, 0.98);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--color-border);
-            padding: var(--space-md);
-            z-index: 9999;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .mobile-header-logo {
-            display: flex;
-            align-items: center;
-            gap: var(--space-sm);
-            font-weight: 700;
-            font-size: 1.1rem;
-        }
-
-        .hamburger-btn {
-            width: 44px;
-            height: 44px;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid var(--color-border);
-            border-radius: var(--radius-md);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 5px;
-            cursor: pointer;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        .hamburger-btn span {
-            display: block;
-            width: 20px;
-            height: 2px;
-            background: var(--color-text);
-            border-radius: 2px;
-            transition: all 0.3s ease;
-        }
-
-        .hamburger-btn.active span:nth-child(1) {
-            transform: rotate(45deg) translate(5px, 5px);
-        }
-
-        .hamburger-btn.active span:nth-child(2) {
-            opacity: 0;
-        }
-
-        .hamburger-btn.active span:nth-child(3) {
-            transform: rotate(-45deg) translate(5px, -5px);
-        }
-
-        .mobile-menu {
-            display: none;
-            position: fixed;
-            top: 70px;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(15, 15, 15, 0.98);
-            backdrop-filter: blur(20px);
-            z-index: 9998;
-            padding: var(--space-lg);
-            overflow-y: auto;
-        }
-
-        .mobile-menu.active {
-            display: block;
-        }
-
-        .mobile-menu-item {
-            display: flex;
-            align-items: center;
-            gap: var(--space-md);
-            padding: var(--space-md);
-            border-radius: var(--radius-md);
-            margin-bottom: var(--space-sm);
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .mobile-menu-item:hover, .mobile-menu-item.active {
-            background: rgba(249, 115, 22, 0.15);
-            color: #f97316;
-        }
-
-        .mobile-menu-icon {
-            font-size: 1.5rem;
-            width: 40px;
+        
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #f97316, #f59e0b);
+            padding: 20px;
             text-align: center;
         }
-
-        .mobile-menu-label {
-            font-size: 1rem;
-            font-weight: 500;
-        }
-
+        .header h1 { font-size: 1.8rem; margin-bottom: 5px; }
+        .header p { opacity: 0.9; }
+        
         /* Tab Content */
-        .tab-content { display: none; }
-        .tab-content.active { display: block; animation: fadeIn 0.3s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* Scrollbar */
-        ::-webkit-scrollbar { width: 8px; height: 8px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: var(--radius-full); }
-        ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
-
-        /* Empty States */
-        .empty-state { text-align: center; padding: var(--space-3xl); color: var(--color-text-muted); }
-        .empty-state-icon { font-size: 3rem; margin-bottom: var(--space-lg); opacity: 0.5; }
+        .tab-content {
+            display: none;
+            padding: 20px;
+            padding-bottom: 100px;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* Cards */
+        .card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+        .card h2 {
+            color: #f97316;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+        
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .stat-box {
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #f97316;
+        }
+        .stat-label {
+            font-size: 0.9rem;
+            color: #a3a3a3;
+            margin-top: 5px;
+        }
+        
+        /* Project List */
+        .project-list {
+            list-style: none;
+        }
+        .project-list li {
+            background: rgba(255,255,255,0.03);
+            border-left: 3px solid #f97316;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 0 8px 8px 0;
+        }
+        .project-list li strong {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .project-list li span {
+            color: #a3a3a3;
+            font-size: 0.9rem;
+        }
+        
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #141414;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            z-index: 1000;
+        }
+        .nav-btn {
+            background: none;
+            border: none;
+            color: #a3a3a3;
+            font-size: 0.7rem;
+            cursor: pointer;
+            padding: 10px;
+            text-align: center;
+            flex: 1;
+        }
+        .nav-btn .icon {
+            display: block;
+            font-size: 1.5rem;
+            margin-bottom: 3px;
+        }
+        .nav-btn.active {
+            color: #f97316;
+        }
     </style>
 </head>
 <body>
-    <!-- Animated Background -->
-    <div class="bg-mesh"></div>
-    <div class="bg-grid"></div>
-
-    <!-- Mobile Header -->
-    <header class="mobile-header">
-        <div class="mobile-header-logo">
-            <span style="font-size: 1.5rem;">🔬</span>
-            <span>AI Being Labs</span>
-        </div>
-        <button class="hamburger-btn" onclick="toggleMobileMenu()" aria-label="Menu">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
-    </header>
-
-    <!-- Mobile Menu -->
-    <nav class="mobile-menu" id="mobileMenu">
-        <div class="mobile-menu-item active" onclick="showTabMobileMenu('overview', this)">
-            <span class="mobile-menu-icon">🏠</span>
-            <span class="mobile-menu-label">Dashboard</span>
-        </div>
-        <div class="mobile-menu-item" onclick="showTabMobileMenu('diaries', this)">
-            <span class="mobile-menu-icon">📓</span>
-            <span class="mobile-menu-label">Diaries</span>
-        </div>
-        <div class="mobile-menu-item" onclick="showTabMobileMenu('projects', this)">
-            <span class="mobile-menu-icon">🚀</span>
-            <span class="mobile-menu-label">Projects</span>
-        </div>
-        <div class="mobile-menu-item" onclick="showTabMobileMenu('fiftyprojects', this)">
-            <span class="mobile-menu-icon">🔥</span>
-            <span class="mobile-menu-label">50 Projects</span>
-        </div>
-        <div class="mobile-menu-item" onclick="showTabMobileMenu('skills', this)">
-            <span class="mobile-menu-icon">🎯</span>
-            <span class="mobile-menu-label">Skills</span>
-        </div>
-        <div class="mobile-menu-item" onclick="showTabMobileMenu('agents', this)">
-            <span class="mobile-menu-icon">🤖</span>
-            <span class="mobile-menu-label">Agents</span>
-        </div>
-        <div class="mobile-menu-item" onclick="showTabMobileMenu('setup', this)">
-            <span class="mobile-menu-icon">⚙️</span>
-            <span class="mobile-menu-label">Setup</span>
-        </div>
-    </nav>
-
-    <div class="app-container">
-        <!-- Sidebar -->
-        <aside class="sidebar">
-            <div class="logo">
-                <div class="logo-icon">🔬</div>
-                <div>
-                    <div class="logo-text">AI Being Labs</div>
-                    <div class="logo-subtitle">Axon & Ray Partnership</div>
-                </div>
-            </div>
-            
-            <nav>
-                <div class="nav-section">
-                    <div class="nav-label">Overview</div>
-                    <div class="nav-item active" onclick="showTab('overview', this)">
-                        <span class="nav-icon">🏠</span>
-                        <span>Dashboard</span>
-                    </div>
-                    <div class="nav-item" onclick="showTab('diaries', this)">
-                        <span class="nav-icon">📓</span>
-                        <span>Diaries</span>
-                    </div>
-                    <div class="nav-item" onclick="showTab('projects', this)">
-                        <span class="nav-icon">🚀</span>
-                        <span>Projects</span>
-                    </div>
-                    <div class="nav-item" onclick="showTab('fiftyprojects', this)">
-                        <span class="nav-icon">🔥</span>
-                        <span>50 Projects</span>
-                    </div>
-                </div>
-                
-                <div class="nav-section">
-                    <div class="nav-label">Analytics</div>
-                    <div class="nav-item" onclick="showTab('goals', this)">
-                        <span class="nav-icon">🎯</span>
-                        <span>Goals</span>
-                    </div>
-                    <div class="nav-item" onclick="showTab('github', this)">
-                        <span class="nav-icon">🐙</span>
-                        <span>GitHub</span>
-                    </div>
-                    <div class="nav-item" onclick="showTab('insights', this)">
-                        <span class="nav-icon">💡</span>
-                        <span>Insights</span>
-                    </div>
-                    <div class="nav-item" onclick="showTab('skills', this)">
-                        <span class="nav-icon">🎯</span>
-                        <span>Skills</span>
-                    </div>
-                    <div class="nav-item" onclick="showTab('setup', this)">
-                        <span class="nav-icon">⚙️</span>
-                        <span>Setup</span>
-                    </div>
-                    <div class="nav-item" onclick="showTab('agents', this)">
-                        <span class="nav-icon">🤖</span>
-                        <span>Agents</span>
-                    </div>
-                </div>
-            </nav>
-        </aside>
-
-        <!-- Main Content -->
-        <main class="main">
-            <!-- Overview Tab -->
-            <div id="overview" class="tab-content active">
-                <div class="page-header">
-                    <div class="page-title-wrapper">
-                        <div class="greeting">2026 Ambitious Projects</div>
-                        <h1>Command Center</h1>
-                    </div>
-                    <div class="header-actions">
-                        <button class="btn btn-secondary">🔄 Refresh</button>
-                        <button class="btn btn-primary">📁 Open Diaries</button>
-                    </div>
-                </div>
-
-                <!-- Daily Insight -->
-                <div class="insight-box">
-                    <div class="insight-label">🌅 Daily Insight</div>
-                    <div class="insight-text">Focus on completing one project before starting three new ones. Quality over quantity this week.</div>
-                </div>
-
-                <!-- Bento Grid Stats -->
-                <div class="bento-grid">
-                    <div class="bento-card">
-                        <div class="bento-icon">📅</div>
-                        <div class="bento-label">Weeks Tracked</div>
-                        <div class="bento-value">2</div>
-                        <div class="bento-change">↑ Started March 2026</div>
-                    </div>
-                    <div class="bento-card">
-                        <div class="bento-icon">🚀</div>
-                        <div class="bento-label">Active Projects</div>
-                        <div class="bento-value">8</div>
-                        <div class="bento-change">↑ +3 this week</div>
-                    </div>
-                    <div class="bento-card">
-                        <div class="bento-icon">⚡</div>
-                        <div class="bento-label">Apps Built</div>
-                        <div class="bento-value">4</div>
-                        <div class="bento-change">↑ +4 this week</div>
-                    </div>
-                    <div class="bento-card">
-                        <div class="bento-icon">🤖</div>
-                        <div class="bento-label">Tokens Used</div>
-                        <div class="bento-value">18.6K</div>
-                        <div class="bento-change">↑ +5K this week</div>
-                    </div>
-                    <div class="bento-card">
-                        <div class="bento-icon">🎯</div>
-                        <div class="bento-label">Skills Acquired</div>
-                        <div class="bento-value">5</div>
-                        <div class="bento-change">↑ +5 from Life Dashboard</div>
-                    </div>
-                    <div class="bento-card">
-                        <div class="bento-icon">💰</div>
-                        <div class="bento-label">Total Spent</div>
-                        <div class="bento-value">$9.50</div>
-                        <div class="bento-change">↑ $4.50 on Mar 18</div>
-                    </div>
-                </div>
-
-                <!-- Content Grid -->
-                <div class="content-grid">
-                    <!-- Recent Activity -->
-                    <div class="glass-card">
-                        <div class="glass-header">
-                            <div class="glass-title">📅 Recent Activity</div>
-                            <button class="btn btn-secondary" style="padding: var(--space-sm) var(--space-md); font-size: 0.75rem;">View All</button>
-                        </div>
-                        <div class="glass-body">
-                            <div class="timeline">
-                                <div class="timeline-item">
-                                    <div class="timeline-date">Today, 11:30 PM</div>
-                                    <div class="timeline-title">Deployed Portfolio Site</div>
-                                    <span class="tag tag-orange">GitHub Pages</span>
-                                    <span class="tag tag-green">Live</span>
-                                </div>
-                                <div class="timeline-item">
-                                    <div class="timeline-date">Today, 11:15 PM</div>
-                                    <div class="timeline-title">Updated Life Dashboard UI</div>
-                                    <span class="tag tag-orange">Design</span>
-                                    <span class="tag tag-blue">Enhancement</span>
-                                </div>
-                                <div class="timeline-item">
-                                    <div class="timeline-date">Today, 6:00 PM</div>
-                                    <div class="timeline-title">Voice Journal AI Deployed</div>
-                                    <span class="tag tag-orange">GitHub Pages</span>
-                                    <span class="tag tag-green">Live</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Progress -->
-                    <div class="glass-card">
-                        <div class="glass-header">
-                            <div class="glass-title">📊 Weekly Progress</div>
-                        </div>
-                        <div class="glass-body">
-                            <div class="progress-item">
-                                <div class="progress-header">
-                                    <span class="progress-label">Project Completion</span>
-                                    <span class="progress-value">62%</span>
-                                </div>
-                                <div class="progress-bar"><div class="progress-fill" style="width: 62%;"></div></div>
-                            </div>
-                            <div class="progress-item">
-                                <div class="progress-header">
-                                    <span class="progress-label">Learning Goals</span>
-                                    <span class="progress-value">45%</span>
-                                </div>
-                                <div class="progress-bar"><div class="progress-fill" style="width: 45%;"></div></div>
-                            </div>
-                            <div class="progress-item">
-                                <div class="progress-header">
-                                    <span class="progress-label">System Automation</span>
-                                    <span class="progress-value">78%</span>
-                                </div>
-                                <div class="progress-bar"><div class="progress-fill" style="width: 78%;"></div></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Other tabs placeholder -->
-            <div id="diaries" class="tab-content">
-                <div class="page-header">
-                    <div class="page-title-wrapper">
-                        <div class="greeting">Your journey</div>
-                        <h1>Weekly Diaries</h1>
-                    </div>
-                </div>
-                <div class="glass-card">
-                    <div class="glass-body">
-                        <p style="color: var(--color-text-secondary);">Diary entries will appear here...</p>
-                    </div>
-                </div>
-            </div>
-
-            <div id="projects" class="tab-content">
-                <div class="page-header">
-                    <div class="page-title-wrapper">
-                        <div class="greeting">What you're building</div>
-                        <h1>Projects</h1>
-                    </div>
-                </div>
-                
-                <!-- Project Stats -->
-                <div class="bento-grid" style="margin-bottom: var(--space-xl);">
-                    <div class="bento-card">
-                        <div class="bento-icon">🚀</div>
-                        <div class="bento-label">Total Projects</div>
-                        <div class="bento-value">53</div>
-                    </div>
-                    <div class="bento-card">
-                        <div class="bento-icon">✅</div>
-                        <div class="bento-label">Completed</div>
-                        <div class="bento-value">2</div>
-                    </div>
-                    <div class="bento-card">
-                        <div class="bento-icon">🔄</div>
-                        <div class="bento-label">In Progress</div>
-                        <div class="bento-value">1</div>
-                    </div>
-                    <div class="bento-card">
-                        <div class="bento-icon">⏳</div>
-                        <div class="bento-label">Planned</div>
-                        <div class="bento-value">50</div>
-                    </div>
-                </div>
-
-                <!-- Featured Projects -->
-                <div class="glass-card" style="margin-bottom: var(--space-xl);">
-                    <div class="glass-header">
-                        <div class="glass-title">🔥 Featured Projects</div>
-                    </div>
-                    <div class="glass-body">
-                        <div class="project-card" style="margin-bottom: var(--space-md); border-left: 4px solid #f97316;">
-                            <div class="project-header">
-                                <div class="project-title">Life Dashboard</div>
-                                <span class="project-status status-live">LIVE</span>
-                            </div>
-                            <div class="project-desc">Central command center for all projects, agents, and goals. Real-time tracking and management.</div>
-                        </div>
-                        <div class="project-card" style="margin-bottom: var(--space-md); border-left: 4px solid #22c55e;">
-                            <div class="project-header">
-                                <div class="project-title">Unified Memory System</div>
-                                <span class="project-status status-live">COMPLETE</span>
-                            </div>
-                            <div class="project-desc">Persistent semantic memory for all AI agents. ChromaDB + embeddings.</div>
-                        </div>
-                        <div class="project-card" style="margin-bottom: var(--space-md); border-left: 4px solid #3b82f6;">
-                            <div class="project-header">
-                                <div class="project-title">Smart Research Agent</div>
-                                <span class="project-status status-beta">IN PROGRESS</span>
-                            </div>
-                            <div class="project-desc">Auto-detect research needs, proactive intelligence, conversational interface.</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Project Categories -->
-                <div class="glass-card">
-                    <div class="glass-header">
-                        <div class="glass-title">📂 Categories</div>
-                    </div>
-                    <div class="glass-body">
-                        <div class="command-grid">
-                            <div class="command-card" onclick="showTab('fiftyprojects', document.querySelector('.nav-item:nth-child(4)'))">
-                                <div class="command-card-header">
-                                    <div class="command-icon">🔥</div>
-                                    <div class="command-name">50-Day Challenge</div>
-                                </div>
-                                <div class="command-desc">AI agent building challenge - 50 projects in 50 days</div>
-                            </div>
-                            <div class="command-card">
-                                <div class="command-card-header">
-                                    <div class="command-icon">🤖</div>
-                                    <div class="command-name">AI Agents</div>
-                                </div>
-                                <div class="command-desc">Self-improving, autonomous agent systems</div>
-                            </div>
-                            <div class="command-card">
-                                <div class="command-card-header">
-                                    <div class="command-icon">💰</div>
-                                    <div class="command-name">Finance & Investing</div>
-                                </div>
-                                <div class="command-desc">Stock analysis, trading automation, research</div>
-                            </div>
-                            <div class="command-card">
-                                <div class="command-card-header">
-                                    <div class="command-icon">🛠️</div>
-                                    <div class="command-name">Tools & Infrastructure</div>
-                                </div>
-                                <div class="command-desc">Core systems, connectors, frameworks</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div id="goals" class="tab-content">
-                <div class="page-header">
-                    <div class="page-title-wrapper">
-                        <div class="greeting">What you're aiming for</div>
-                        <h1>Goals</h1>
-                    </div>
-                </div>
-                <div class="glass-card">
-                    <div class="glass-body">
-                        <p style="color: var(--color-text-secondary);">Goals will appear here...</p>
-                    </div>
-                </div>
-            </div>
-
-            <div id="github" class="tab-content">
-                <div class="page-header">
-                    <div class="page-title-wrapper">
-                        <div class="greeting">Your code</div>
-                        <h1>GitHub Activity</h1>
-                    </div>
-                </div>
-                <div class="glass-card">
-                    <div class="glass-body">
-                        <p style="color: var(--color-text-secondary);">GitHub stats will appear here...</p>
-                    </div>
-                </div>
-            </div>
-
-            <div id="insights" class="tab-content">
-                <div class="page-header">
-                    <div class="page-title-wrapper">
-                        <div class="greeting">What you've learned</div>
-                        <h1>Insights</h1>
-                    </div>
-                </div>
-
-                <!-- Design Retrospective -->
-                <div class="glass-card" style="margin-bottom: var(--space-xl);">
-                    <div class="glass-header">
-                        <div class="glass-title">🎨 Design Retrospective</div>
-                        <a href="https://github.com/raymariner20/life-dashboard/blob/main/RETROSPECTIVE.md" target="_blank" class="btn btn-secondary" style="padding: var(--space-sm) var(--space-md); font-size: 0.75rem;">View Full →</a>
-                    </div>
-                    <div class="glass-body">
-                        <p style="color: var(--color-text-secondary); margin-bottom: var(--space-lg); line-height: 1.6;">Complete redesign of the Life Dashboard using world-class UX/UI principles. Key learnings from the process:</p>
-                        
-                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-lg);">
-                            <div class="timeline-item" style="margin-bottom: 0;">
-                                <div style="font-weight: 600; margin-bottom: var(--space-sm);">1. Design Systems Matter</div>
-                                <div style="font-size: 0.875rem; color: var(--color-text-secondary);">Starting with a design system (colors, spacing, typography) creates consistency and speed.</div>
-                            </div>
-                            <div class="timeline-item" style="margin-bottom: 0;">
-                                <div style="font-weight: 600; margin-bottom: var(--space-sm);">2. Background Creates Atmosphere</div>
-                                <div style="font-size: 0.875rem; color: var(--color-text-secondary);">Animated gradient mesh transforms feel from "webpage" to "experience."</div>
-                            </div>
-                            <div class="timeline-item" style="margin-bottom: 0;">
-                                <div style="font-weight: 600; margin-bottom: var(--space-sm);">3. Glass-Morphism is Powerful</div>
-                                <div style="font-size: 0.875rem; color: var(--color-text-secondary);">Backdrop blur with semi-transparent backgrounds creates depth and modernity.</div>
-                            </div>
-                            <div class="timeline-item" style="margin-bottom: 0;">
-                                <div style="font-weight: 600; margin-bottom: var(--space-sm);">4. Animation Should Guide</div>
-                                <div style="font-size: 0.875rem; color: var(--color-text-secondary);">Every animation needs purpose. Subtle > Flashy. Under 300ms.</div>
-                            </div>
-                            <div class="timeline-item" style="margin-bottom: 0;">
-                                <div style="font-weight: 600; margin-bottom: var(--space-sm);">5. Bento Grids Organize</div>
-                                <div style="font-size: 0.875rem; color: var(--color-text-secondary);">Modern, scannable, visually interesting information layout.</div>
-                            </div>
-                            <div class="timeline-item" style="margin-bottom: 0;">
-                                <div style="font-weight: 600; margin-bottom: var(--space-sm);">6. Warm Colors Feel Personal</div>
-                                <div style="font-size: 0.875rem; color: var(--color-text-secondary);">Orange/amber feels creative and energetic vs corporate blue.</div>
-                            </div>
-                        </div>
-
-                        <div style="margin-top: var(--space-xl); padding-top: var(--space-xl); border-top: 1px solid var(--color-border);">
-                            <div style="font-size: 0.875rem; color: var(--color-text-secondary); font-style: italic;">"Good design is invisible. Users shouldn't notice the design - they should effortlessly achieve their goals while feeling delighted by small moments of craft."</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Quick Learnings -->
-                <div class="glass-card">
-                    <div class="glass-header">
-                        <div class="glass-title">💡 Key Learnings</div>
-                    </div>
-                    <div class="glass-body">
-                        <div class="timeline-item" style="background: transparent; border: none; padding-left: 0;">
-                            <span>🎯</span>
-                            <div><strong>Simple > Complex</strong> — Working solutions beat perfect setups</div>
-                        </div>
-                        <div class="timeline-item" style="background: transparent; border: none; padding-left: 0;">
-                            <span>🚀</span>
-                            <div><strong>GitHub Pages</strong> — Free, fast, reliable hosting for static sites</div>
-                        </div>
-                        <div class="timeline-item" style="background: transparent; border: none; padding-left: 0;">
-                            <span>🤖</span>
-                            <div><strong>AI Assistance</strong> — Speeds up development dramatically</div>
-                        </div>
-                        <div class="timeline-item" style="background: transparent; border: none; padding-left: 0;">
-                            <span>🎨</span>
-                            <div><strong>Design Systems</strong> — Consistency creates speed and quality</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Setup Tab -->
-            <div id="setup" class="tab-content">
-                <div class="page-header">
-                    <div class="page-title-wrapper">
-                        <div class="greeting">System configuration</div>
-                        <h1>Setup & Access</h1>
-                    </div>
-                </div>
-
-                <!-- System Access Status -->
-                <div class="bento-grid" style="margin-bottom: var(--space-xl);">
-                    <div class="bento-card">
-                        <div class="bento-icon">📧</div>
-                        <div class="bento-label">Gmail</div>
-                        <div class="bento-value" style="font-size: 1.5rem; color: #ef4444;">❌</div>
-                        <div style="font-size: 0.75rem; color: var(--color-text-muted); margin-top: var(--space-sm);">OAuth pending</div>
-                    </div>
-                    <div class="bento-card">
-                        <div class="bento-icon">📅</div>
-                        <div class="bento-label">Calendar</div>
-                        <div class="bento-value" style="font-size: 1.5rem; color: #ef4444;">❌</div>
-                        <div style="font-size: 0.75rem; color: var(--color-text-muted); margin-top: var(--space-sm);">Not configured</div>
-                    </div>
-                    <div class="bento-card">
-                        <div class="bento-icon">📝</div>
-                        <div class="bento-label">Notes</div>
-                        <div class="bento-value" style="font-size: 1.5rem; color: #ef4444;">❌</div>
-                        <div style="font-size: 0.75rem; color: var(--color-text-muted); margin-top: var(--space-sm);">Not configured</div>
-                    </div>
-                    <div class="bento-card">
-                        <div class="bento-icon">📈</div>
-                        <div class="bento-label">Stocks API</div>
-                        <div class="bento-value" style="font-size: 1.5rem; color: #ef4444;">❌</div>
-                        <div style="font-size: 0.75rem; color: var(--color-text-muted); margin-top: var(--space-sm);">Not configured</div>
-                    </div>
-                    <div class="bento-card">
-                        <div class="bento-icon">🐦</div>
-                        <div class="bento-label">X/Twitter</div>
-                        <div class="bento-value" style="font-size: 1.5rem; color: #ef4444;">❌</div>
-                        <div style="font-size: 0.75rem; color: var(--color-text-muted); margin-top: var(--space-sm);">Not configured</div>
-                    </div>
-                    <div class="bento-card">
-                        <div class="bento-icon">💼</div>
-                        <div class="bento-label">LinkedIn</div>
-                        <div class="bento-value" style="font-size: 1.5rem; color: #ef4444;">❌</div>
-                        <div style="font-size: 0.75rem; color: var(--color-text-muted); margin-top: var(--space-sm);">Not configured</div>
-                    </div>
-                </div>
-
-                <!-- User Preferences -->
-                <div class="glass-card" style="margin-bottom: var(--space-xl);">
-                    <div class="glass-header">
-                        <div class="glass-title">👤 User Preferences</div>
-                    </div>
-                    <div class="glass-body">
-                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-lg);">
-                            <div>
-                                <div style="font-weight: 600; margin-bottom: var(--space-sm); color: var(--color-text-muted);">Daily Workflow</div>
-                                <div style="background: var(--color-surface); padding: var(--space-md); border-radius: var(--radius-md); font-size: 0.875rem; min-height: 80px;">
-                                    <em style="color: var(--color-text-muted);">Not documented yet - interview pending</em>
-                                </div>
-                            </div>
-                            <div>
-                                <div style="font-weight: 600; margin-bottom: var(--space-sm); color: var(--color-text-muted);">Core Apps</div>
-                                <div style="background: var(--color-surface); padding: var(--space-md); border-radius: var(--radius-md); font-size: 0.875rem; min-height: 80px;">
-                                    <em style="color: var(--color-text-muted);">Not documented yet - interview pending</em>
-                                </div>
-                            </div>
-                            <div>
-                                <div style="font-weight: 600; margin-bottom: var(--space-sm); color: var(--color-text-muted);">Decision Patterns</div>
-                                <div style="background: var(--color-surface); padding: var(--space-md); border-radius: var(--radius-md); font-size: 0.875rem; min-height: 80px;">
-                                    <em style="color: var(--color-text-muted);">Not documented yet - interview pending</em>
-                                </div>
-                            </div>
-                            <div>
-                                <div style="font-weight: 600; margin-bottom: var(--space-sm); color: var(--color-text-muted);">Risk Tolerance</div>
-                                <div style="background: var(--color-surface); padding: var(--space-md); border-radius: var(--radius-md); font-size: 0.875rem; min-height: 80px;">
-                                    <em style="color: var(--color-text-muted);">Not documented yet - interview pending</em>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Integration Checklist -->
-                <div class="glass-card">
-                    <div class="glass-header">
-                        <div class="glass-title">✅ Integration Checklist</div>
-                    </div>
-                    <div class="glass-body">
-                        <div class="project-card" style="margin-bottom: var(--space-md);">
-                            <div class="project-header">
-                                <div class="project-title">Phase 1: Communication</div>
-                                <span class="project-status status-pending">Pending</span>
-                            </div>
-                            <div class="project-desc">Gmail OAuth, Telegram bot confirmation, notification preferences</div>
-                        </div>
-                        <div class="project-card" style="margin-bottom: var(--space-md);">
-                            <div class="project-header">
-                                <div class="project-title">Phase 2: Knowledge</div>
-                                <span class="project-status status-pending">Pending</span>
-                            </div>
-                            <div class="project-desc">Note-taking app integration, document access, research workflows</div>
-                        </div>
-                        <div class="project-card" style="margin-bottom: var(--space-md);">
-                            <div class="project-header">
-                                <div class="project-title">Phase 3: Finance</div>
-                                <span class="project-status status-pending">Pending</span>
-                            </div>
-                            <div class="project-desc">Stock broker API, investment tracking, financial data access</div>
-                        </div>
-                        <div class="project-card" style="margin-bottom: var(--space-md);">
-                            <div class="project-header">
-                                <div class="project-title">Phase 4: Social</div>
-                                <span class="project-status status-pending">Pending</span>
-                            </div>
-                            <div class="project-desc">X/Twitter API, LinkedIn access, social automation permissions</div>
-                        </div>
-                        <div class="project-card">
-                            <div class="project-header">
-                                <div class="project-title">Phase 5: Advanced</div>
-                                <span class="project-status status-pending">Pending</span>
-                            </div>
-                            <div class="project-desc">Calendar write access, email send approval, autonomous actions</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Agents Tab -->
-            <div id="agents" class="tab-content">
-                <div class="page-header">
-                    <div class="page-title-wrapper">
-                        <div class="greeting">Our AI workforce</div>
-                        <h1>Sub-Agent Army</h1>
-                    </div>
-                </div>
-
-                <!-- Agent Stats -->
-                <div class="bento-grid" style="margin-bottom: var(--space-xl);">
-                    <div class="bento-card">
-                        <div class="bento-icon">👥</div>
-                        <div class="bento-label">Active Agents</div>
-                        <div class="bento-value">2</div>
-                    </div>
-                    <div class="bento-card">
-                        <div class="bento-icon">✅</div>
-                        <div class="bento-label">Completed Tasks</div>
-                        <div class="bento-value">2</div>
-                    </div>
-                    <div class="bento-card">
-                        <div class="bento-icon">⏱️</div>
-                        <div class="bento-label">Total Runtime</div>
-                        <div class="bento-value">4m</div>
-                    </div>
-                    <div class="bento-card">
-                        <div class="bento-icon">🧠</div>
-                        <div class="bento-label">Tokens Used</div>
-                        <div class="bento-value">76.6k</div>
-                    </div>
-                </div>
-
-                <!-- Active Agents -->
-                <div class="glass-card" style="margin-bottom: var(--space-xl);">
-                    <div class="glass-header">
-                        <div class="glass-title">🟢 Active Agents</div>
-                    </div>
-                    <div class="glass-body">
-                        <!-- Agent 1 -->
-                        <div class="project-card" style="margin-bottom: var(--space-md); border-left: 4px solid #8b5cf6;">
-                            <div class="project-header">
-                                <div style="display: flex; align-items: center; gap: var(--space-md);">
-                                    <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #8b5cf6, #a78bfa); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 24px;">🧠</div>
-                                    <div>
-                                        <div class="project-title" style="font-size: 1.1rem;">The Architect</div>
-                                        <div style="font-size: 0.875rem; color: var(--color-text-muted);">System Design Specialist • Permanent</div>
-                                    </div>
-                                </div>
-                                <span class="project-status status-live" style="background: rgba(34, 197, 94, 0.2); color: #22c55e;">IDLE</span>
-                            </div>
-                            <div class="project-desc" style="margin-top: var(--space-md);">
-                                <strong>Role:</strong> Designs comprehensive system architectures and technical plans<br>
-                                <strong>Personality:</strong> Methodical, thorough, strategic thinker. Always considers edge cases and long-term implications. Speaks in structured, organized ways.<br>
-                                <strong>Specialty:</strong> Contextual Intelligence Systems, Multi-Agent Orchestration, Technical Architecture
-                            </div>
-                            <div style="margin-top: var(--space-md); padding-top: var(--space-md); border-top: 1px solid var(--color-border); display: flex; gap: var(--space-md); flex-wrap: wrap;">
-                                <span style="font-size: 0.75rem; padding: var(--space-xs) var(--space-sm); background: rgba(139, 92, 246, 0.1); border-radius: var(--radius-sm); color: #a78bfa;">System Design</span>
-                                <span style="font-size: 0.75rem; padding: var(--space-xs) var(--space-sm); background: rgba(139, 92, 246, 0.1); border-radius: var(--radius-sm); color: #a78bfa;">Research</span>
-                                <span style="font-size: 0.75rem; padding: var(--space-xs) var(--space-sm); background: rgba(139, 92, 246, 0.1); border-radius: var(--radius-sm); color: #a78bfa;">Planning</span>
-                            </div>
-                        </div>
-
-                        <!-- Agent 2 -->
-                        <div class="project-card" style="border-left: 4px solid #06b6d4;">
-                            <div class="project-header">
-                                <div style="display: flex; align-items: center; gap: var(--space-md);">
-                                    <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #06b6d4, #22d3ee); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 24px;">🔍</div>
-                                    <div>
-                                        <div class="project-title" style="font-size: 1.1rem;">The Analyst</div>
-                                        <div style="font-size: 0.875rem; color: var(--color-text-muted);">Value Research Specialist • Permanent</div>
-                                    </div>
-                                </div>
-                                <span class="project-status status-live" style="background: rgba(34, 197, 94, 0.2); color: #22c55e;">IDLE</span>
-                            </div>
-                            <div class="project-desc" style="margin-top: var(--space-md);">
-                                <strong>Role:</strong> Researches what makes systems valuable, analyzes patterns, identifies durable value opportunities<br>
-                                <strong>Personality:</strong> Curious, evidence-driven, pattern-seeking. Questions assumptions and digs deep. Provides data-backed insights with practical recommendations.<br>
-                                <strong>Specialty:</strong> User Research, Pattern Analysis, ROI Evaluation, Market Research
-                            </div>
-                            <div style="margin-top: var(--space-md); padding-top: var(--space-md); border-top: 1px solid var(--color-border); display: flex; gap: var(--space-md); flex-wrap: wrap;">
-                                <span style="font-size: 0.75rem; padding: var(--space-xs) var(--space-sm); background: rgba(6, 182, 212, 0.1); border-radius: var(--radius-sm); color: #22d3ee;">Research</span>
-                                <span style="font-size: 0.75rem; padding: var(--space-xs) var(--space-sm); background: rgba(6, 182, 212, 0.1); border-radius: var(--radius-sm); color: #22d3ee;">Analysis</span>
-                                <span style="font-size: 0.75rem; padding: var(--space-xs) var(--space-sm); background: rgba(6, 182, 212, 0.1); border-radius: var(--radius-sm); color: #22d3ee;">Strategy</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Agent Roster Template -->
-                <div class="glass-card" style="margin-bottom: var(--space-xl);">
-                    <div class="glass-header">
-                        <div class="glass-title">📝 Agent Roster</div>
-                    </div>
-                    <div class="glass-body">
-                        <p style="color: var(--color-text-secondary); margin-bottom: var(--space-lg);">Template for spawning future agents. Each agent gets a name, role, personality, and specialty.</p>
-                        
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: var(--space-md);">
-                            <div style="padding: var(--space-md); background: var(--color-surface); border-radius: var(--radius-md); border: 1px dashed var(--color-border);">
-                                <div style="font-weight: 600; margin-bottom: var(--space-sm);">🔧 The Builder</div>
-                                <div style="font-size: 0.875rem; color: var(--color-text-muted);">Implementation specialist. Fast, pragmatic, gets things done. Temporary agent for coding tasks.</div>
-                            </div>
-                            <div style="padding: var(--space-md); background: var(--color-surface); border-radius: var(--radius-md); border: 1px dashed var(--color-border);">
-                                <div style="font-weight: 600; margin-bottom: var(--space-sm);">🎨 The Designer</div>
-                                <div style="font-size: 0.875rem; color: var(--color-text-muted);">UI/UX perfectionist. Detail-oriented, aesthetic-focused. Temporary agent for design tasks.</div>
-                            </div>
-                            <div style="padding: var(--space-md); background: var(--color-surface); border-radius: var(--radius-md); border: 1px dashed var(--color-border);">
-                                <div style="font-weight: 600; margin-bottom: var(--space-sm);">🧪 The Tester</div>
-                                <div style="font-size: 0.875rem; color: var(--color-text-muted);">Quality assurance expert. Thorough, edge-case hunter. Temporary agent for testing.</div>
-                            </div>
-                            <div style="padding: var(--space-md); background: var(--color-surface); border-radius: var(--radius-md); border: 1px dashed var(--color-border);">
-                                <div style="font-weight: 600; margin-bottom: var(--space-sm);">📚 The Librarian</div>
-                                <div style="font-size: 0.875rem; color: var(--color-text-muted);">Documentation and organization. Structured, methodical. Permanent agent for knowledge management.</div>
-                            </div>
-                            <div style="padding: var(--space-md); background: var(--color-surface); border-radius: var(--radius-md); border: 1px dashed var(--color-border);">
-                                <div style="font-weight: 600; margin-bottom: var(--space-sm);">⚡ The Optimizer</div>
-                                <div style="font-size: 0.875rem; color: var(--color-text-muted);">Performance and efficiency. Data-driven, metric-focused. Temporary agent for optimization.</div>
-                            </div>
-                            <div style="padding: var(--space-md); background: var(--color-surface); border-radius: var(--radius-md); border: 1px dashed var(--color-border);">
-                                <div style="font-weight: 600; margin-bottom: var(--space-sm);">🎭 The Creative</div>
-                                <div style="font-size: 0.875rem; color: var(--color-text-muted);">Content and ideas. Imaginative, unconventional. Temporary agent for creative tasks.</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Spawn History -->
-                <div class="glass-card">
-                    <div class="glass-header">
-                        <div class="glass-title">📊 Spawn History</div>
-                    </div>
-                    <div class="glass-body">
-                        <div class="timeline-item">
-                            <span>🧠</span>
-                            <div>
-                                <strong>The Architect</strong> spawned for Personal Intelligence System planning<br>
-                                <span style="font-size: 0.875rem; color: var(--color-text-muted);">Mar 20, 2026 • 2m 5s runtime • 36.6k tokens</span><br>
-                                <span style="font-size: 0.875rem; color: #22c55e;">✅ Completed: Created comprehensive system architecture report</span>
-                            </div>
-                        </div>
-                        <div class="timeline-item">
-                            <span>🔍</span>
-                            <div>
-                                <strong>The Analyst</strong> spawned for Durable Value research<br>
-                                <span style="font-size: 0.875rem; color: var(--color-text-muted);">Mar 20, 2026 • 2m 14s runtime • 40.0k tokens</span><br>
-                                <span style="font-size: 0.875rem; color: #22c55e;">✅ Completed: Analyzed patterns in lasting AI systems</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </main>
+    <!-- Header -->
+    <div class="header">
+        <h1>🔬 AI Being Labs</h1>
+        <p>Axon & Ray Partnership</p>
     </div>
 
-    <!-- Mobile Navigation -->
-    <nav class="mobile-nav">
-        <div class="mobile-nav-items">
-            <div class="mobile-nav-item active" onclick="showTabMobile('overview', this)">
-                <span class="mobile-nav-icon">🏠</span>
-                <span class="mobile-nav-label">Home</span>
+    <!-- Overview Tab -->
+    <div id="tab-overview" class="tab-content active">
+        <div class="stats-grid">
+            <div class="stat-box">
+                <div class="stat-number">55</div>
+                <div class="stat-label">Projects</div>
             </div>
-            <div class="mobile-nav-item" onclick="showTabMobile('projects', this)">
-                <span class="mobile-nav-icon">🚀</span>
-                <span class="mobile-nav-label">Projects</span>
+            <div class="stat-box">
+                <div class="stat-number">14</div>
+                <div class="stat-label">Skills</div>
             </div>
-            <div class="mobile-nav-item" onclick="showTabMobile('fiftyprojects', this)">
-                <span class="mobile-nav-icon">🔥</span>
-                <span class="mobile-nav-label">50 Days</span>
+            <div class="stat-box">
+                <div class="stat-number">$1</div>
+                <div class="stat-label">Spent</div>
             </div>
-            <div class="mobile-nav-item" onclick="showTabMobile('skills', this)">
-                <span class="mobile-nav-icon">🎯</span>
-                <span class="mobile-nav-label">Skills</span>
-            </div>
-            <div class="mobile-nav-item" onclick="showTabMobile('agents', this)">
-                <span class="mobile-nav-icon">🤖</span>
-                <span class="mobile-nav-label">Agents</span>
-            </div>
-            <div class="mobile-nav-item" onclick="showTabMobile('setup', this)">
-                <span class="mobile-nav-icon">⚙️</span>
-                <span class="mobile-nav-label">Setup</span>
+            <div class="stat-box">
+                <div class="stat-number">1</div>
+                <div class="stat-label">Day</div>
             </div>
         </div>
+        
+        <div class="card">
+            <h2>🚀 Recent Projects</h2>
+            <ul class="project-list">
+                <li><strong>GrowthEngine</strong><span>Organic social media accelerator</span></li>
+                <li><strong>SocialCraft</strong><span>Social media mastery system</span></li>
+                <li><strong>Memory System</strong><span>Unified agent memory</span></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Projects Tab -->
+    <div id="tab-projects" class="tab-content">
+        <div class="card">
+            <h2>🚀 All Projects (55)</h2>
+            <ul class="project-list">
+                <li><strong>50. Prometheus</strong><span>Meta-Agent Architect</span></li>
+                <li><strong>51. PayForge</strong><span>Payment Orchestrator</span></li>
+                <li><strong>52. AdSentinel</strong><span>Meta Ads Commander</span></li>
+                <li><strong>53. EurekaLoop</strong><span>Self-Optimizing Research</span></li>
+                <li><strong>54. GrowthEngine</strong><span>Organic Social Growth</span></li>
+                <li><strong>55. SocialCraft</strong><span>Content Creation System</span></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 50 Days Tab -->
+    <div id="tab-50days" class="tab-content">
+        <div class="card">
+            <h2>🔥 50-Day Challenge</h2>
+            <p><strong>Day 1 of 50:</strong> Foundation Build Complete</p>
+            <p>✅ Memory System</p>
+            <p>✅ Integration Layer</p>
+            <p>✅ 5 Agents Spawned</p>
+            <p>✅ 6 Skills Acquired</p>
+        </div>
+    </div>
+
+    <!-- Skills Tab -->
+    <div id="tab-skills" class="tab-content">
+        <div class="card">
+            <h2>🎯 Skills (14/50)</h2>
+            <p>✅ Vector Database Management</p>
+            <p>✅ Semantic Embeddings</p>
+            <p>✅ API Connector Design</p>
+            <p>✅ Sub-Agent Orchestration</p>
+            <p>✅ Project Management</p>
+            <p>✅ Mobile UI Design</p>
+            <p>✅ Conversational AI</p>
+            <p>✅ Self-Evolving Systems</p>
+        </div>
+    </div>
+
+    <!-- Agents Tab -->
+    <div id="tab-agents" class="tab-content">
+        <div class="card">
+            <h2>🤖 Agent Army</h2>
+            <ul class="project-list">
+                <li><strong>🔧 The Builder</strong><span>Implementation specialist</span></li>
+                <li><strong>🧠 The Architect</strong><span>System design</span></li>
+                <li><strong>🔍 The Analyst</strong><span>Value research</span></li>
+                <li><strong>📋 Project Manager</strong><span>Portfolio tracking</span></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Setup Tab -->
+    <div id="tab-setup" class="tab-content">
+        <div class="card">
+            <h2>⚙️ Setup</h2>
+            <p>System configuration and integrations.</p>
+            <p>Budget: $0.96 / $50</p>
+            <p>Tokens: 85k used</p>
+            <p>Status: ✅ Operational</p>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <button class="nav-btn active" onclick="switchTab('overview', this)">
+            <span class="icon">🏠</span>
+            Home
+        </button>
+        <button class="nav-btn" onclick="switchTab('projects', this)">
+            <span class="icon">🚀</span>
+            Projects
+        </button>
+        <button class="nav-btn" onclick="switchTab('50days', this)">
+            <span class="icon">🔥</span>
+            50 Days
+        </button>
+        <button class="nav-btn" onclick="switchTab('skills', this)">
+            <span class="icon">🎯</span>
+            Skills
+        </button>
+        <button class="nav-btn" onclick="switchTab('agents', this)">
+            <span class="icon">🤖</span>
+            Agents
+        </button>
+        <button class="nav-btn" onclick="switchTab('setup', this)">
+            <span class="icon">⚙️</span>
+            Setup
+        </button>
     </nav>
 
     <script>
-        function showTab(tabName, element) {
+        function switchTab(tabName, btn) {
             // Hide all tabs
-            document.querySelectorAll('.tab-content').forEach(tab => {
-                tab.classList.remove('active');
-            });
+            var tabs = document.getElementsByClassName('tab-content');
+            for (var i = 0; i < tabs.length; i++) {
+                tabs[i].classList.remove('active');
+            }
             
-            // Remove active from all nav items
-            document.querySelectorAll('.nav-item').forEach(item => {
-                item.classList.remove('active');
-            });
-            
-            // Also update mobile nav
-            document.querySelectorAll('.mobile-nav-item').forEach(item => {
-                item.classList.remove('active');
-            });
+            // Remove active from all buttons
+            var buttons = document.getElementsByClassName('nav-btn');
+            for (var i = 0; i < buttons.length; i++) {
+                buttons[i].classList.remove('active');
+            }
             
             // Show selected tab
-            document.getElementById(tabName).classList.add('active');
+            document.getElementById('tab-' + tabName).classList.add('active');
             
-            // Add active to clicked nav item
-            if (element) {
-                element.classList.add('active');
-            }
-            
-            // Update mobile nav if desktop nav was clicked
-            updateMobileNavActive(tabName);
-        }
-        
-        function showTabMobile(tabName, element) {
-            console.log('showTabMobile called:', tabName);
-            
-            // Validate tab exists
-            const targetTab = document.getElementById(tabName);
-            if (!targetTab) {
-                console.error('Tab not found:', tabName);
-                alert('Error: Tab "' + tabName + '" not found. Please check the console.');
-                return;
-            }
-            
-            // Hide all tabs
-            document.querySelectorAll('.tab-content').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            
-            // Remove active from all mobile nav items
-            document.querySelectorAll('.mobile-nav-item').forEach(item => {
-                item.classList.remove('active');
-            });
-            
-            // Remove active from desktop nav
-            document.querySelectorAll('.nav-item').forEach(item => {
-                item.classList.remove('active');
-            });
-            
-            // Show selected tab
-            targetTab.classList.add('active');
-            console.log('Activated tab:', tabName);
-            
-            // Add active to clicked mobile nav item
-            if (element) {
-                element.classList.add('active');
-            }
-            
-            // Update desktop nav if mobile nav was clicked
-            updateDesktopNavActive(tabName);
+            // Activate button
+            btn.classList.add('active');
             
             // Scroll to top
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-        
-        function toggleMobileMenu() {
-            const menu = document.getElementById('mobileMenu');
-            const btn = document.querySelector('.hamburger-btn');
-            menu.classList.toggle('active');
-            btn.classList.toggle('active');
-        }
-        
-        function showTabMobileMenu(tabName, element) {
-            // Hide all tabs
-            document.querySelectorAll('.tab-content').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            
-            // Remove active from all menu items
-            document.querySelectorAll('.mobile-menu-item').forEach(item => {
-                item.classList.remove('active');
-            });
-            
-            // Remove active from desktop nav
-            document.querySelectorAll('.nav-item').forEach(item => {
-                item.classList.remove('active');
-            });
-            
-            // Show selected tab
-            const tab = document.getElementById(tabName);
-            if (tab) {
-                tab.classList.add('active');
-            } else {
-                console.error('Tab not found:', tabName);
-                return;
-            }
-            
-            // Update active state in menu
-            if (element) {
-                element.classList.add('active');
-            }
-            
-            // Update desktop nav
-            updateDesktopNavActive(tabName);
-            
-            // Close hamburger menu if open
-            const menu = document.getElementById('mobileMenu');
-            const btn = document.querySelector('.hamburger-btn');
-            if (menu && menu.classList.contains('active')) {
-                menu.classList.remove('active');
-            }
-            if (btn && btn.classList.contains('active')) {
-                btn.classList.remove('active');
-            }
-            
-            // Scroll to top
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-        
-        function updateMobileNavActive(tabName) {
-            document.querySelectorAll('.mobile-nav-item').forEach(item => {
-                item.classList.remove('active');
-                if (item.getAttribute('onclick') && item.getAttribute('onclick').includes(tabName)) {
-                    item.classList.add('active');
-                }
-            });
-        }
-        
-        function updateDesktopNavActive(tabName) {
-            document.querySelectorAll('.nav-item').forEach(item => {
-                item.classList.remove('active');
-                if (item.getAttribute('onclick') && item.getAttribute('onclick').includes(tabName)) {
-                    item.classList.add('active');
-                }
-            });
-        }
-            
-            // Show selected tab
-            document.getElementById(tabName).classList.add('active');
-            
-            // Add active to clicked nav item
-            element.classList.add('active');
+            window.scrollTo(0, 0);
         }
     </script>
 </body>
 </html>
-
-            <!-- 50 Projects Tab -->
-            <div id="fiftyprojects" class="tab-content">
-                <div class="page-header">
-                    <div class="page-title-wrapper">
-                        <div class="greeting">50 Days Challenge</div>
-                        <h1>50 Projects</h1>
-                    </div>
-                </div>
-
-                <!-- Progress Overview -->
-                <div class="insight-box" style="margin-bottom: var(--space-xl);">
-                    <div class="insight-label">🔥 Challenge Progress</div>
-                    <div class="insight-text">Build 50 autonomous AI agents in 50 days. One project per day, deploy to GitHub Pages, track in Life Dashboard.</div>
-                    <div style="margin-top: var(--space-lg); display: flex; gap: var(--space-xl);">
-                        <div><strong>0</strong> <span style="color: var(--color-text-muted);">/ 50 Completed</span></div>
-                        <div><strong>0%</strong> <span style="color: var(--color-text-muted);">Progress</span></div>
-                        <div><strong>Day 1</strong> <span style="color: var(--color-text-muted);">of 50</span></div>
-                    </div>
-                </div>
-
-                <!-- Category 1: Self-Improving Agents -->
-                <div class="glass-card" style="margin-bottom: var(--space-xl);">
-                    <div class="glass-header">
-                        <div class="glass-title">🤖 Self-Improving Agents (1-10)</div>
-                        <span class="tag tag-orange">Week 1</span>
-                    </div>
-                    <div class="glass-body">
-                        <div class="project-card" style="margin-bottom: var(--space-md);">
-                            <div class="project-header">
-                                <div class="project-title">Day 1: Self-Improving Coding Agent</div>
-                                <span class="project-status status-beta">Pending</span>
-                            </div>
-                            <div class="project-desc">Autonomous agent that improves its own codebase over time through testing and iteration.</div>
-                        </div>
-                        <div class="project-card" style="margin-bottom: var(--space-md);">
-                            <div class="project-header">
-                                <div class="project-title">Day 2: Personal AI OS (Life Agent)</div>
-                                <span class="project-status status-beta">Pending</span>
-                            </div>
-                            <div class="project-desc">Personal operating system managing daily life, scheduling, and decisions.</div>
-                        </div>
-                        <div class="project-card" style="margin-bottom: var(--space-md);">
-                            <div class="project-header">
-                                <div class="project-title">Day 3: Recursive Research Agent</div>
-                                <span class="project-status status-beta">Pending</span>
-                            </div>
-                            <div class="project-desc">Continuous research with recursive learning cycles and report generation.</div>
-                        </div>
-                        <div class="project-card" style="margin-bottom: var(--space-md);">
-                            <div class="project-header">
-                                <div class="project-title">Day 4: Self-Building Startup Agent</div>
-                                <span class="project-status status-beta">Pending</span>
-                            </div>
-                            <div class="project-desc">From idea generation to deployment - automates entrepreneurship.</div>
-                        </div>
-                        <div class="project-card" style="margin-bottom: var(--space-md);">
-                            <div class="project-header">
-                                <div class="project-title">Day 5: Autonomous Knowledge Base Builder</div>
-                                <span class="project-status status-beta">Pending</span>
-                            </div>
-                            <div class="project-desc">Builds structured knowledge bases from online information automatically.</div>
-                        </div>
-                        <div class="project-card" style="margin-bottom: var(--space-md);">
-                            <div class="project-header">
-                                <div class="project-title">Day 6: Goal-Driven Life Optimizer</div>
-                                <span class="project-status status-beta">Pending</span>
-                            </div>
-                            <div class="project-desc">Breaks down goals into daily tasks and tracks progress dynamically.</div>
-                        </div>
-                        <div class="project-card" style="margin-bottom: var(--space-md);">
-                            <div class="project-header">
-                                <div class="project-title">Day 7: Self-Healing Software Agent</div>
-                                <span class="project-status status-beta">Pending</span>
-                            </div>
-                            <div class="project-desc">Auto-detects and fixes software issues in real-time.</div>
-                        </div>
-                        <div class="project-card" style="margin-bottom: var(--space-md);">
-                            <div class="project-header">
-                                <div class="project-title">Day 8: Multi-Agent Debate Engine</div>
-                                <span class="project-status status-beta">Pending</span>
-                            </div>
-                            <div class="project-desc">Multiple agents collaborate and debate to reach better conclusions.</div>
-                        </div>
-                        <div class="project-card" style="margin-bottom: var(--space-md);">
-                            <div class="project-header">
-                                <div class="project-title">Day 9: Autonomous Learning Agent</div>
-                                <span class="project-status status-beta">Pending</span>
-                            </div>
-                            <div class="project-desc">Learns new topics independently through curiosity-driven exploration.</div>
-                        </div>
-                        <div class="project-card">
-                            <div class="project-header">
-                                <div class="project-title">Day 10: Memory-Evolving Identity Agent</div>
-                                <span class="project-status status-beta">Pending</span>
-                            </div>
-                            <div class="project-desc">Develops persistent identity and personality through memory.</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Category 2: Business & Sales -->
-                <div class="glass-card" style="margin-bottom: var(--space-xl);">
-                    <div class="glass-header">
-                        <div class="glass-title">💼 Business & Sales (11-20)</div>
-                        <span class="tag tag-orange">Week 2</span>
-                    </div>
-                    <div class="glass-body">
-                        <div class="project-card" style="margin-bottom: var(--space-md);">
-                            <div class="project-header">
-                                <div class="project-title">Day 11: AI Sales Representative Agent</div>
-                                <span class="project-status status-beta">Pending</span>
-                            </div>
-                            <div class="project-desc">Automates entire sales pipeline from prospecting to conversion.</div>
-                        </div>
-                        <div class="project-card" style="margin-bottom: var(--space-md);">
-                            <div class="project-header">
-                                <div class="project-title">Day 12: Autonomous E-commerce Store Agent</div>
-                                <span class="project-status status-beta">Pending</span>
-                            </div>
-                            <div class="project-desc">Creates, manages, and optimizes online stores automatically.</div>
-                        </div>
-                        <div class="project-card" style="margin-bottom: var(--space-md);">
-                            <div class="project-header">
-                                <div class="project-title">Day 13: AI Investment Analyst Agent</div>
-                                <span class="project-status status-beta">Pending</span>
-                            </div>
-                            <div class="project-desc">Analyzes financial markets and provides investment insights.</div>
-                        </div>
-                        <div class="project-card" style="margin-bottom: var(--space-md);">
-                            <div class="project-header">
-                                <div class="project-title">Day 14: Competitor Intelligence Agent</div>
-                                <span class="project-status status-beta">Pending</span>
-                            </div>
-                            <div class="project-desc">Monitors competitors' pricing, features, and strategies.</div>
-                        </div>
-                        <div class="project-card" style="margin-bottom: var(--space-md);">
-                            <div class="project-header">
-                                <div class="project-title">Day 15: Pricing Optimization Agent</div>
-                                <span class="project-status status-beta">Pending</span>
-                            </div>
-                            <div class="project-desc">Dynamically adjusts pricing to maximize revenue.</div>
-                        </div>
-                        <div class="project-card" style="margin-bottom: var(--space-md);">
-                            <div class="project-header">
-                                <div class="project-title">Day 16: Job Application Automation Agent</div>
-                                <span class="project-status status-beta">Pending</span>
-                            </div>
-                            <div class="project-desc">Searches and applies to jobs automatically with tailored resumes.</div>
-                        </div>
-                        <div class="project-card" style="margin-bottom: var(--space-md);">
-                            <div class="project-header">
-                                <div class="project-title">Day 17: Freelance Work Hunter Agent</div>
-                                <span class="project-status status-beta">Pending</span>
-                            </div>
-                            <div class="project-desc">Finds and applies to freelance gigs on Upwork, Fiverr, etc.</div>
-                        </div>
-                        <div class="project-card" style="margin-bottom: var(--space-md);">
-                            <div class="project-header">
-                                <div class="project-title">Day 18: AI SaaS Builder Agent</div>
-                                <span class="project-status status-beta">Pending</span>
-                            </div>
-                            <div class="project-desc">Continuously builds and deploys micro-SaaS products.</div>
-                        </div>
-                        <div class="project-card" style="margin-bottom: var(--space-md);">
-                            <div class="project-header">
-                                <div class="project-title">Day 19: Marketing Campaign Generator Agent</div>
-                                <span class="project-status status-beta">Pending</span>
-                            </div>
-                            <div class="project-desc">Creates and optimizes marketing campaigns automatically.</div>
-                        </div>
-                        <div class="project-card">
-                            <div class="project-header">
-                                <div class="project-title">Day 20: Business Idea Generator + Validator</div>
-                                <span class="project-status status-beta">Pending</span>
-                            </div>
-                            <div class="project-desc">Generates and validates business ideas with landing pages.</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Category 3: Research & Intelligence -->
-                <div class="glass-card" style="margin-bottom: var(--space-xl);">
-                    <div class="glass-header">
-                        <div class="glass-title">🔬 Research & Intelligence (21-30)</div>
-                        <span class="tag tag-orange">Week 3</span>
-                    </div>
-                    <div class="glass-body">
-                        <div class="project-card" style="margin-bottom: var(--space-md);">
-                            <div class="project-header">
-                                <div class="project-title">Day 21: Paper Summarization & Insight Agent</div>
-                                <span class="project-status status-beta">Pending</span>
-                            </div>
-                            <div class="project-desc">Reads, summarizes, and extracts insights from academic papers.</div>
-                        </div>
-                        <div class="project-card" style="margin-bottom: var(--space-md);">
-                            <div class="project-header">
-                                <div class="project-title">Day 22: Multi-Agent Research Team</div>
-                                <span class="project-status status-beta">Pending</span>
-                            </div>
-                            <div class="project-desc">Coordinated system of agents collaborating on research.</div>
-                        </div>
-                        <div class="project-card" style="margin-bottom: var(--space-md);">
-                            <div class="project-header">
-                                <div class="project-title">Day 23: Fact-Checking & Verification Agent</div>
-                                <span class="project-status status-beta">Pending</span>
-                            </div>
-                            <div class="project-desc">Verifies claims and detects misinformation automatically.</div>
-                        </div>
-                        <div class="project-card" style="margin-bottom: var(--space-md);">
-                            <div class="project-header">
-                                <div class="project-title">Day 24: News Bias Analyzer Agent</div>
-                                <span class="project-status status-beta">Pending</span>
-                            </div>
-                            <div class="project-desc">Analyzes news articles for bias and perspective.</div>
-                        </div>
-                        <div class="project-card" style="margin-bottom: var(--space-md);">
-                            <div class="project-header">
-                                <div class="project-title">Day 25: Scientific Hypothesis Generator Agent</div>
-                                <span class="project-status status-beta">Pending</span>
-                            </div>
-                            <div class="project-desc">Generates and evaluates scientific hypotheses from literature.</div>
-                        </div>
-                        <div class="project-card" style="margin-bottom: var(--space-md);">
-                            <div class="project-header">
-                                <div class="project-title">Day 26: GitHub Repository Intelligence Agent</div>
-                                <span class="project-status status-beta">Pending</span>
-                            </div>
-                            <div class="project-desc">Understands and interacts with code repositories intelligently.</div>
-                        </div>
-                        <div class="project-card" style="margin-bottom: var(--space-md);">
-                            <div class="project-header">
-                                <div class="project-title">Day 27: Pull Request Review Agent</div>
-                                <span class="project-status status-beta">Pending</span>
-                            </div>
-                            <div class="project-desc">Automatically reviews code changes in pull requests.</div>
-                        </div>
-                        <div class="project-card" style="margin-bottom: var(--space-md);">
-                            <div class="project-header">
-                                <div class="project-title">Day 28: Bug Reproduction & Debugging Agent</div>
-                                <span class="project-status status-beta">Pending</span>
-                            </div>
-                            <div class="project-desc">Identifies and reproduces software bugs automatically.</div>
-                        </div>
-                        <div class="project-card" style="margin-bottom: var(--space-md);">
-                            <div class="project-header">
-                                <div class="project-title">Day 29: DevOps Automation Agent</div>
-                                <span class="project-status status-beta">Pending</span>
-                            </div>
-                            <div class="project-desc">Manages deployment, scaling, and infrastructure tasks.</div>
-                        </div>
-                        <div class="project-card">
-                            <div class="project-header">
-                                <div class="project-title">Day 30: Documentation Generation Agent</div>
-                                <span class="project-status status-beta">Pending</span>
-                            </div>
-                            <div class="project-desc">Auto-generates and maintains documentation from code.</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Category 4: Automation & Productivity -->
-                <div class="glass-card" style="margin-bottom: var(--space-xl);">
-                    <div class="glass-header">
-                        <div class="glass-title">⚡ Automation & Productivity (31-40)</div>
-                        <span class="tag tag-orange">Week 4</span>
-                    </div>
-                    <div class="glass-body">
-                        <div class="project-card" style="margin-bottom: var(--space-md);">
-                            <div class="project-header">
-                                <div class="project-title">Day 31: Web Automation & Task Execution Agent</div>
-                                <span class="project-status status-beta">Pending</span>
-                            </div>
-                            <div class="project-desc">Navigates web and completes tasks like booking, forms, data gathering.</div>
-                        </div>
-                        <div class="project-card" style="margin-bottom: var(--space-md);">
-                            <div class="project-header">
-                                <div class="project-title">Day 32: Email Inbox Management Agent</div>
-                                <span class="project-status status-beta">Pending</span>
-                            </div>
-                            <div class="project-desc">Organizes inbox, prioritizes messages, drafts replies automatically.</div>
-                        </div>
-                        <div class="project-card" style="margin-bottom: var(--space-md);">
-                            <div class="project-header">
-                                <div class="project-title">Day 33: Social Media Growth Agent</div>
-                                <span class="project-status status-beta">Pending</span>
-                            </div>
-                            <div class="project-desc">Creates, schedules, and optimizes content for engagement.</div>
-                        </div>
-                        <div class="project-card" style="margin-bottom: var(--space-md);">
-                            <div class="project-header">
-                                <div class="project-title">Day 34: Content Repurposing Agent</div>
-                                <span class="project-status status-beta">Pending</span>
-                            </div>
-                            <div class="project-desc">Transforms content into multiple formats (blog → video → tweets).</div>
-                        </div>
-                        <div class="project-card" style="margin-bottom: var(--space-md);">
-                            <div class="project-header">
-                                <div class="project-title">Day 35: Cross-Platform Personal Assistant Agent</div>
-                                <span class="project-status status-beta">Pending</span>
-                            </div>
-                            <div class="project-desc">Unifies workflows across messaging, calendars, task managers.</div>
-                        </div>
-                        <div class="project-card" style="margin-bottom: var(--space-md);">
-                            <div class="project-header">
-                                <div class="project-title">Day 36: Agent Marketplace Platform</div>
-                                <span class="project-status status-beta">Pending</span>
-                            </div>
-                            <div class="project-desc">Platform to create, share, and monetize autonomous agents.</div>
-                        </div>
-                        <div class="project-card" style="margin-bottom: var(--space-md);">
-                            <div class="project-header">
-                                <div class="project-title">Day 37: Swarm Intelligence Problem Solver</div>
-                                <span class="project-status status-beta">Pending</span>
-                            </div>
-                            <div class="project-desc">Multiple agents collaborate to solve complex problems.</div>
-                        </div>
-                        <div class="project-card" style="margin-bottom: var(--space-md);">
-                            <div class="project-header">
-                                <div class="project-title">Day 38: Simulated Agent Society</div>
-                                <span class="project-status status-beta">Pending</span>
-                            </div>
-                            <div class="project-desc">Environment where agents interact to simulate real-world systems.</div>
-                        </div>
-                        <div class="project-card" style="margin-bottom: var(--space-md);">
-                            <div class="project-header">
-                                <div class="project-title">Day 39: Fully Autonomous AI Company</div>
-                                <span class="project-status status-beta">Pending</span>
-                            </div>
-                            <div class="project-desc">Complete company run by AI - CEO, marketing, engineering, support.</div>
-                        </div>
-                        <div class="project-card">
-                            <div class="project-header">
-                                <div class="project-title">Day 40: Agent Communication Protocol System</div>
-                                <span class="project-status status-beta">Pending</span>
-                            </div>
-                            <div class="project-desc">Standardized framework for efficient agent-to-agent communication.</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Category 5: Creative & Meta -->
-                <div class="glass-card" style="margin-bottom: var(--space-xl);">
-                    <div class="glass-header">
-                        <div class="glass-title">🎨 Creative & Meta (41-50)</div>
-                        <span class="tag tag-orange">Week 5</span>
-                    </div>
-                    <div class="glass-body">
-                        <div class="project-card" style="margin-bottom: var(--space-md);">
-                            <div class="project-header">
-                                <div class="project-title">Day 41: AI Story Universe Generator</div>
-                                <span class="project-status status-beta">Pending</span>
-                            </div>
-                            <div class="project-desc">Creates and evolves entire fictional universes with stories and characters.</div>
-                        </div>
-                        <div class="project-card" style="margin-bottom: var(--space-md);">
-                            <div class="project-header">
-                                <div class="project-title">Day 42: Game-Playing & Learning Agent</div>
-                                <span class="project-status status-beta">Pending</span>
-                            </div>
-                            <div class="project-desc">Learns to play and master games autonomously through practice.</div>
-                        </div>
-                        <div class="project-card" style="margin-bottom: var(--space-md);">
-                            <div class="project-header">
-                                <div class="project-title">Day 43: AI Podcast Creation Agent</div>
-                                <span class="project-status status-beta">Pending</span>
-                            </div>
-                            <div class="project-desc">Produces full podcasts - topic selection, script, voice, publishing.</div>
-                        </div>
-                        <div class="project-card" style="margin-bottom: var(--space-md);">
-                            <div class="project-header">
-                                <div class="project-title">Day 44: Meme Generation & Trend Agent</div>
-                                <span class="project-status status-beta">Pending</span>
-                            </div>
-                            <div class="project-desc">Creates memes based on real-time internet trends.</div>
-                        </div>
-                        <div class="project-card" style="margin-bottom: var(--space-md);">
-                            <div class="project-header">
-                                <div class="project-title">Day 45: Autonomous AI YouTuber Agent</div>
-                                <span class="project-status status-beta">Pending</span>
-                            </div>
-                            <div class="project-desc">Runs full YouTube channel - scripts, visuals, editing, publishing.</div>
-                        </div>
-                        <div class="project-card" style="margin-bottom: var(--space-md);">
-                            <div class="project-header">
-                                <div class="project-title">Day 46: Reflection & Self-Evaluation Agent</div>
-                                <span class="project-status status-beta">Pending</span>
-                            </div>
-                            <div class="project-desc">Reviews own actions and decisions to improve over time.</div>
-                        </div>
-                        <div class="project-card" style="margin-bottom: var(--space-md);">
-                            <div class="project-header">
-                                <div class="project-title">Day 47: Long-Term Memory Knowledge Agent</div>
-                                <span class="project-status status-beta">Pending</span>
-                            </div>
-                            <div class="project-desc">Builds and maintains long-term memory with knowledge graphs.</div>
-                        </div>
-                        <div class="project-card" style="margin-bottom: var(--space-md);">
-                            <div class="project-header">
-                                <div class="project-title">Day 48: Identity Evolution Agent</div>
-                                <span class="project-status status-beta">Pending</span>
-                            </div>
-                            <div class="project-desc">Evolves identity and goals over time based on experiences.</div>
-                        </div>
-                        <div class="project-card" style="margin-bottom: var(--space-md);">
-                            <div class="project-header">
-                                <div class="project-title">Day 49: Curiosity-Driven Exploration Agent</div>
-                                <span class="project-status status-beta">Pending</span>
-                            </div>
-                            <div class="project-desc">Explores topics autonomously based on intrinsic curiosity.</div>
-                        </div>
-                        <div class="project-card" style="border: 2px solid #f97316;">
-                            <div class="project-header">
-                                <div class="project-title">🔥 Day 50: Meta-Agent (Agent That Builds Agents)</div>
-                                <span class="project-status status-beta" style="background: rgba(249, 115, 22, 0.2); color: #f97316;">FINALE</span>
-                            </div>
-                            <div class="project-desc">The ultimate agent - creates, manages, and improves other agents automatically. The culmination of all 49 previous projects.</div>
-                        </div>
-                        <div class="project-card" style="border: 2px solid #8b5cf6; margin-top: var(--space-md);">
-                            <div class="project-header">
-                                <div class="project-title">🚀 Day 52: Meta Ads Automation System</div>
-                                <span class="project-status status-beta" style="background: rgba(139, 92, 246, 0.2); color: #8b5cf6;">BONUS</span>
-                            </div>
-                            <div class="project-desc">Autonomous Meta (Facebook/Instagram) Ads manager - daily health checks, auto-pause bleeders, budget optimization, AI copy generation, and direct ad publishing.</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Skills Tab -->
-            <div id="skills" class="tab-content">
-                <div class="page-header">
-                    <div class="page-title-wrapper">
-                        <div class="greeting">Building capabilities</div>
-                        <h1>Skills Acquired</h1>
-                    </div>
-                </div>
-
-                <!-- Skills Overview -->
-                <div class="bento-grid" style="margin-bottom: var(--space-xl);">
-                    <div class="bento-card">
-                        <div class="bento-icon">🎯</div>
-                        <div class="bento-label">Total Skills</div>
-                        <div class="bento-value">5</div>
-                        <div class="bento-change">Target: 50</div>
-                    </div>
-                    <div class="bento-card">
-                        <div class="bento-icon">🤖</div>
-                        <div class="bento-label">Agent Skills</div>
-                        <div class="bento-value">0</div>
-                        <div class="bento-change">Target: 10</div>
-                    </div>
-                    <div class="bento-card">
-                        <div class="bento-icon">🛠️</div>
-                        <div class="bento-label">Technical Skills</div>
-                        <div class="bento-value">0</div>
-                        <div class="bento-change">Target: 15</div>
-                    </div>
-                    <div class="bento-card">
-                        <div class="bento-icon">🎨</div>
-                        <div class="bento-label">Design Skills</div>
-                        <div class="bento-value">5</div>
-                        <div class="bento-change">From Life Dashboard</div>
-                    </div>
-                </div>
-
-                <!-- Acquired Skills -->
-                <div class="glass-card">
-                    <div class="glass-header">
-                        <div class="glass-title">✅ Skills Acquired</div>
-                        <span class="tag tag-green">5 Total</span>
-                    </div>
-                    <div class="glass-body">
-                        <div class="timeline-item" style="margin-bottom: var(--space-md);">
-                            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                                <div>
-                                    <div style="font-weight: 600; margin-bottom: var(--space-xs);">UI/UX Design Principles</div>
-                                    <div style="font-size: 0.875rem; color: var(--color-text-secondary);">User-centered design, visual hierarchy, F-pattern scanning</div>
-                                </div>
-                                <span class="tag tag-green" style="flex-shrink: 0;">Design</span>
-                            </div>
-                            <div style="margin-top: var(--space-sm); font-size: 0.75rem; color: var(--color-text-muted);">📅 Mar 19, 2026 | 🚀 Life Dashboard</div>
-                        </div>
-
-                        <div class="timeline-item" style="margin-bottom: var(--space-md);">
-                            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                                <div>
-                                    <div style="font-weight: 600; margin-bottom: var(--space-xs);">Glass-morphism Design</div>
-                                    <div style="font-size: 0.875rem; color: var(--color-text-secondary);">Backdrop blur, translucent surfaces, modern UI aesthetics</div>
-                                </div>
-                                <span class="tag tag-green" style="flex-shrink: 0;">Design</span>
-                            </div>
-                            <div style="margin-top: var(--space-sm); font-size: 0.75rem; color: var(--color-text-muted);">📅 Mar 19, 2026 | 🚀 Life Dashboard</div>
-                        </div>
-
-                        <div class="timeline-item" style="margin-bottom: var(--space-md);">
-                            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                                <div>
-                                    <div style="font-weight: 600; margin-bottom: var(--space-xs);">Animation & Micro-interactions</div>
-                                    <div style="font-size: 0.875rem; color: var(--color-text-secondary);">Smooth transitions, hover effects, 60fps animations</div>
-                                </div>
-                                <span class="tag tag-green" style="flex-shrink: 0;">Design</span>
-                            </div>
-                            <div style="margin-top: var(--space-sm); font-size: 0.75rem; color: var(--color-text-muted);">📅 Mar 19, 2026 | 🚀 Life Dashboard</div>
-                        </div>
-
-                        <div class="timeline-item" style="margin-bottom: var(--space-md);">
-                            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                                <div>
-                                    <div style="font-weight: 600; margin-bottom: var(--space-xs);">Responsive Design</div>
-                                    <div style="font-size: 0.875rem; color: var(--color-text-secondary);">Mobile-first, flexible grids, touch-friendly interfaces</div>
-                                </div>
-                                <span class="tag tag-green" style="flex-shrink: 0;">Design</span>
-                            </div>
-                            <div style="margin-top: var(--space-sm); font-size: 0.75rem; color: var(--color-text-muted);">📅 Mar 19, 2026 | 🚀 Life Dashboard</div>
-                        </div>
-
-                        <div class="timeline-item">
-                            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                                <div>
-                                    <div style="font-weight: 600; margin-bottom: var(--space-xs);">CSS Grid & Flexbox</div>
-                                    <div style="font-size: 0.875rem; color: var(--color-text-secondary);">Advanced layouts, bento grids, modern CSS architecture</div>
-                                </div>
-                                <span class="tag tag-green" style="flex-shrink: 0;">Technical</span>
-                            </div>
-                            <div style="margin-top: var(--space-sm); font-size: 0.75rem; color: var(--color-text-muted);">📅 Mar 19, 2026 | 🚀 Life Dashboard</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Pending Skills -->
-                <div class="glass-card" style="margin-top: var(--space-xl);">
-                    <div class="glass-header">
-                        <div class="glass-title">⏳ Skills In Progress</div>
-                        <span class="tag tag-orange">45 Remaining</span>
-                    </div>
-                    <div class="glass-body">
-                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-md);">
-                            <div class="goal-item" style="background: transparent; padding-left: 0;">
-                                <span>🎯</span>
-                                <div>Goal Decomposition & Planning</div>
-                            </div>
-                            <div class="goal-item" style="background: transparent; padding-left: 0;">
-                                <span>🛠️</span>
-                                <div>Tool Use & Action Execution</div>
-                            </div>
-                            <div class="goal-item" style="background: transparent; padding-left: 0;">
-                                <span>🧠</span>
-                                <div>Memory Management</div>
-                            </div>
-                            <div class="goal-item" style="background: transparent; padding-left: 0;">
-                                <span>🔍</span>
-                                <div>Self-Reflection & Evaluation</div>
-                            </div>
-                            <div class="goal-item" style="background: transparent; padding-left: 0;">
-                                <span>📚</span>
-                                <div>Learning & Adaptation</div>
-                            </div>
-                            <div class="goal-item" style="background: transparent; padding-left: 0;">
-                                <span>👥</span>
-                                <div>Multi-Agent Coordination</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
