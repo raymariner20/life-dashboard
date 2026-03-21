@@ -1526,6 +1526,16 @@
         }
         
         function showTabMobile(tabName, element) {
+            console.log('showTabMobile called:', tabName);
+            
+            // Validate tab exists
+            const targetTab = document.getElementById(tabName);
+            if (!targetTab) {
+                console.error('Tab not found:', tabName);
+                alert('Error: Tab "' + tabName + '" not found. Please check the console.');
+                return;
+            }
+            
             // Hide all tabs
             document.querySelectorAll('.tab-content').forEach(tab => {
                 tab.classList.remove('active');
@@ -1542,7 +1552,8 @@
             });
             
             // Show selected tab
-            document.getElementById(tabName).classList.add('active');
+            targetTab.classList.add('active');
+            console.log('Activated tab:', tabName);
             
             // Add active to clicked mobile nav item
             if (element) {

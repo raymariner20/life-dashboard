@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Mobile Nav Test</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #0a0a0a;
+            color: #fff;
+        }
+        .test-container {
+            max-width: 400px;
+            margin: 0 auto;
+            border: 2px solid #f97316;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .tab-content {
+            display: none;
+            padding: 40px 20px;
+            min-height: 300px;
+            background: #1a1a1a;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .mobile-nav {
+            display: flex;
+            justify-content: space-around;
+            background: #222;
+            padding: 10px 0;
+            position: sticky;
+            bottom: 0;
+        }
+        .mobile-nav-item {
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 8px;
+            font-size: 12px;
+            text-align: center;
+        }
+        .mobile-nav-item.active {
+            background: rgba(249, 115, 22, 0.3);
+            color: #f97316;
+        }
+        .debug-panel {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.9);
+            border: 1px solid #f97316;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 12px;
+            max-width: 200px;
+            z-index: 1000;
+        }
+        .debug-log {
+            margin: 5px 0;
+            padding: 5px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="debug-panel" id="debugPanel">
+        <strong>Debug Log:</strong>
+        <div id="debugLogs"></div>
+    </div>
+
+    <h2 style="text-align: center;">Mobile Nav Test</h2>
+    
+    <div class="test-container">
+        <div id="tab1" class="tab-content active">
+            <h3>🏠 Overview Tab</h3>
+            <p>This is the overview tab content.</p>
+            <p>Status: <span id="status1">Active</span></p>
+        </div>
+        
+        <div id="tab2" class="tab-content">
+            <h3>🚀 Projects Tab</h3>
+            <p>This is the projects tab content.</p>
+            <p>Status: <span id="status2">Inactive</span></p>
+        </div>
+        
+        <div id="tab3" class="tab-content">
+            <h3>🎯 Skills Tab</h3>
+            <p>This is the skills tab content.</p>
+            <p>Status: <span id="status3">Inactive</span></p>
+        </div>
+        
+        <nav class="mobile-nav">
+            <div class="mobile-nav-item active" onclick="testSwitchTab('tab1', this)">
+                <div>🏠</div>
+                <div>Home</div>
+            </div>
+            <div class="mobile-nav-item" onclick="testSwitchTab('tab2', this)">
+                <div>🚀</div>
+                <div>Projects</div>
+            </div>
+            <div class="mobile-nav-item" onclick="testSwitchTab('tab3', this)">
+                <div>🎯</div>
+                <div>Skills</div>
+            </div>
+        </nav>
+    </div>
+
+    <script>
+        function log(message) {
+            const debugLogs = document.getElementById('debugLogs');
+            const logEntry = document.createElement('div');
+            logEntry.className = 'debug-log';
+            logEntry.textContent = new Date().toLocaleTimeString() + ': ' + message;
+            debugLogs.appendChild(logEntry);
+            console.log(message);
+        }
+
+        function testSwitchTab(tabName, element) {
+            log('Clicked: ' + tabName);
+            
+            // Check if tab exists
+            const tab = document.getElementById(tabName);
+            if (!tab) {
+                log('ERROR: Tab ' + tabName + ' not found!');
+                return;
+            }
+            log('Tab found: ' + tabName);
+            
+            // Hide all tabs
+            const allTabs = document.querySelectorAll('.tab-content');
+            log('Found ' + allTabs.length + ' tabs');
+            allTabs.forEach(t => {
+                t.classList.remove('active');
+                log('Hid tab: ' + t.id);
+            });
+            
+            // Remove active from all nav items
+            const allNavItems = document.querySelectorAll('.mobile-nav-item');
+            log('Found ' + allNavItems.length + ' nav items');
+            allNavItems.forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Show selected tab
+            tab.classList.add('active');
+            log('Showed tab: ' + tabName);
+            
+            // Update active state
+            if (element) {
+                element.classList.add('active');
+                log('Updated active nav item');
+            }
+            
+            // Update status text
+            document.querySelectorAll('.tab-content').forEach(t => {
+                const statusSpan = t.querySelector('span');
+                if (statusSpan) {
+                    statusSpan.textContent = t.classList.contains('active') ? 'Active' : 'Inactive';
+                }
+            });
+            
+            log('Switch complete!');
+        }
+
+        // Test on load
+        log('Page loaded');
+        log('Testing tab detection...');
+        const tabs = document.querySelectorAll('.tab-content');
+        log('Tabs found: ' + tabs.length);
+        tabs.forEach(t => log('  - ' + t.id));
+    </script>
+</body>
+</html>
