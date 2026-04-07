@@ -203,6 +203,85 @@
             font-size: 0.75rem;
         }
         
+        /* Commits Section */
+        .commits-container {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .commit-item {
+            display: flex;
+            gap: 12px;
+            padding: 12px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            transition: background 0.2s;
+        }
+        .commit-item:hover {
+            background: rgba(255,255,255,0.02);
+        }
+        .commit-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #f97316, #f59e0b);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+        .commit-content {
+            flex: 1;
+            min-width: 0;
+        }
+        .commit-message {
+            color: #fafafa;
+            font-size: 0.9rem;
+            margin-bottom: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .commit-meta {
+            display: flex;
+            gap: 8px;
+            font-size: 0.8rem;
+            color: #6b7280;
+        }
+        .commit-author {
+            color: #f97316;
+        }
+        .commit-date {
+            color: #a3a3a3;
+        }
+        .commit-sha {
+            font-family: monospace;
+            font-size: 0.75rem;
+            color: #4b5563;
+        }
+        .loading-commits {
+            text-align: center;
+            padding: 20px;
+            color: #6b7280;
+        }
+        .error-commits {
+            text-align: center;
+            padding: 20px;
+            color: #ef4444;
+        }
+        .refresh-btn {
+            background: rgba(249,115,22,0.2);
+            color: #f97316;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            margin-left: auto;
+        }
+        .refresh-btn:hover {
+            background: rgba(249,115,22,0.3);
+        }
+        
         /* Footer */
         .footer {
             text-align: center;
@@ -264,6 +343,17 @@
             <div class="chart-labels">
                 <span>Apr 5</span>
                 <span>Today</span>
+            </div>
+        </div>
+        
+        <!-- GitHub Commits -->
+        <div class="card">
+            <h2 style="display: flex; justify-content: space-between; align-items: center;">
+                <span>🐙 Recent Commits</span>
+                <button class="refresh-btn" onclick="fetchCommits()">↻ Refresh</button>
+            </h2>
+            <div id="commits-container" class="commits-container">
+                <div class="loading-commits">Loading commits...</div>
             </div>
         </div>
         
@@ -462,9 +552,94 @@
         </div>
         
         <div class="footer">
-            <p>Last updated: Apr 7, 05:15 AM</p>
+            <p>Last updated: Apr 7, 05:31 AM</p>
             <p style="margin-top: 5px; font-size: 0.75rem;">OpenClaw Analytics Agent</p>
         </div>
     </div>
+
+    <script>
+        const GITHUB_API_URL = 'https://api.github.com/repos/raymariner20/life-dashboard/commits?per_page=20';
+        
+        function formatTimeAgo(dateString) {
+            const date = new Date(dateString);
+            const now = new Date();
+            const diffMs = now - date;
+            const diffMins = Math.floor(diffMs / 60000);
+            const diffHours = Math.floor(diffMs / 3600000);
+            const diffDays = Math.floor(diffMs / 86400000);
+            
+            if (diffMins < 1) return 'just now';
+            if (diffMins < 60) return diffMins + ' min ago';
+            if (diffHours < 24) return diffHours + ' hour' + (diffHours > 1 ? 's' : '') + ' ago';
+            if (diffDays === 1) return 'yesterday';
+            if (diffDays < 7) return diffDays + ' days ago';
+            return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+        }
+        
+        function getInitials(name) {
+            return name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+        }
+        
+        async function fetchCommits() {
+            const container = document.getElementById('commits-container');
+            container.innerHTML = '<div class="loading-commits">Loading commits...</div>';
+            
+            try {
+                const response = await fetch(GITHUB_API_URL, {
+                    headers: {
+                        'Accept': 'application/vnd.github.v3+json'
+                    }
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Failed to fetch commits');
+                }
+                
+                const commits = await response.json();
+                
+                if (!commits || commits.length === 0) {
+                    container.innerHTML = '<div class="loading-commits">No commits found</div>';
+                    return;
+                }
+                
+                container.innerHTML = commits.map(commit => {
+                    const message = commit.commit.message.split('\n')[0]; // First line only
+                    const author = commit.commit.author.name;
+                    const date = commit.commit.author.date;
+                    const sha = commit.sha.slice(0, 7);
+                    const url = commit.html_url;
+                    
+                    return `
+                        <div class="commit-item">
+                            <div class="commit-avatar">${getInitials(author)}</div>
+                            <div class="commit-content">
+                                <div class="commit-message" title="${message}">${message}</div>
+                                <div class="commit-meta">
+                                    <span class="commit-author">${author}</span>
+                                    <span class="commit-date">${formatTimeAgo(date)}</span>
+                                    <a href="${url}" target="_blank" class="commit-sha">${sha}</a>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+                
+            } catch (error) {
+                container.innerHTML = `
+                    <div class="error-commits">
+                        <p>Failed to load commits</p>
+                        <p style="font-size: 0.8rem; margin-top: 8px;">${error.message}</p>
+                        <button class="refresh-btn" style="margin-top: 12px;" onclick="fetchCommits()">Try Again</button>
+                    </div>
+                `;
+            }
+        }
+        
+        // Load commits on page load
+        fetchCommits();
+        
+        // Auto-refresh every 5 minutes
+        setInterval(fetchCommits, 300000);
+    </script>
 </body>
 </html>
