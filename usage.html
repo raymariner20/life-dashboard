@@ -36,7 +36,6 @@
         }
         .back-link:hover { text-decoration: underline; }
         
-        /* Stats Grid */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -65,7 +64,6 @@
             margin-top: 5px;
         }
         
-        /* Section Cards */
         .card {
             background: rgba(255,255,255,0.05);
             border: 1px solid rgba(255,255,255,0.1);
@@ -82,7 +80,6 @@
             gap: 8px;
         }
         
-        /* Daily Chart */
         .chart-container {
             height: 150px;
             display: flex;
@@ -98,9 +95,7 @@
             position: relative;
             transition: opacity 0.2s;
         }
-        .chart-bar:hover {
-            opacity: 0.8;
-        }
+        .chart-bar:hover { opacity: 0.8; }
         .chart-bar::after {
             content: attr(data-value);
             position: absolute;
@@ -113,9 +108,7 @@
             transition: opacity 0.2s;
             white-space: nowrap;
         }
-        .chart-bar:hover::after {
-            opacity: 1;
-        }
+        .chart-bar:hover::after { opacity: 1; }
         .chart-labels {
             display: flex;
             justify-content: space-between;
@@ -124,7 +117,6 @@
             margin-top: 8px;
         }
         
-        /* Agent Table */
         .agent-table {
             width: 100%;
             border-collapse: collapse;
@@ -141,18 +133,10 @@
             padding: 12px;
             border-bottom: 1px solid rgba(255,255,255,0.05);
         }
-        .agent-table tr:hover td {
-            background: rgba(255,255,255,0.02);
-        }
-        .agent-name {
-            font-weight: 500;
-            color: #f97316;
-        }
-        .agent-emoji {
-            margin-right: 6px;
-        }
+        .agent-table tr:hover td { background: rgba(255,255,255,0.02); }
+        .agent-name { font-weight: 500; color: #f97316; }
+        .agent-emoji { margin-right: 6px; }
         
-        /* Progress Bar */
         .progress-bar {
             height: 6px;
             background: rgba(255,255,255,0.1);
@@ -165,7 +149,6 @@
             border-radius: 3px;
         }
         
-        /* Sessions Table */
         .sessions-table {
             width: 100%;
             border-collapse: collapse;
@@ -184,16 +167,9 @@
             border-bottom: 1px solid rgba(255,255,255,0.05);
             color: #d1d5db;
         }
-        .sessions-table tr:hover td {
-            background: rgba(255,255,255,0.02);
-        }
-        .session-id {
-            font-family: monospace;
-            font-size: 0.8rem;
-            color: #6b7280;
-        }
+        .sessions-table tr:hover td { background: rgba(255,255,255,0.02); }
+        .session-id { font-family: monospace; font-size: 0.8rem; color: #6b7280; }
         
-        /* Model Tags */
         .model-tag {
             display: inline-block;
             padding: 2px 8px;
@@ -203,11 +179,7 @@
             font-size: 0.75rem;
         }
         
-        /* Commits Section */
-        .commits-container {
-            max-height: 400px;
-            overflow-y: auto;
-        }
+        .commits-container { max-height: 400px; overflow-y: auto; }
         .commit-item {
             display: flex;
             gap: 12px;
@@ -215,9 +187,7 @@
             border-bottom: 1px solid rgba(255,255,255,0.05);
             transition: background 0.2s;
         }
-        .commit-item:hover {
-            background: rgba(255,255,255,0.02);
-        }
+        .commit-item:hover { background: rgba(255,255,255,0.02); }
         .commit-avatar {
             width: 36px;
             height: 36px;
@@ -229,10 +199,7 @@
             font-size: 0.9rem;
             flex-shrink: 0;
         }
-        .commit-content {
-            flex: 1;
-            min-width: 0;
-        }
+        .commit-content { flex: 1; min-width: 0; }
         .commit-message {
             color: #fafafa;
             font-size: 0.9rem;
@@ -247,27 +214,11 @@
             font-size: 0.8rem;
             color: #6b7280;
         }
-        .commit-author {
-            color: #f97316;
-        }
-        .commit-date {
-            color: #a3a3a3;
-        }
-        .commit-sha {
-            font-family: monospace;
-            font-size: 0.75rem;
-            color: #4b5563;
-        }
-        .loading-commits {
-            text-align: center;
-            padding: 20px;
-            color: #6b7280;
-        }
-        .error-commits {
-            text-align: center;
-            padding: 20px;
-            color: #ef4444;
-        }
+        .commit-author { color: #f97316; }
+        .commit-date { color: #a3a3a3; }
+        .commit-sha { font-family: monospace; font-size: 0.75rem; color: #4b5563; }
+        .loading-commits { text-align: center; padding: 20px; color: #6b7280; }
+        .error-commits { text-align: center; padding: 20px; color: #ef4444; }
         .refresh-btn {
             background: rgba(249,115,22,0.2);
             color: #f97316;
@@ -278,11 +229,8 @@
             font-size: 0.8rem;
             margin-left: auto;
         }
-        .refresh-btn:hover {
-            background: rgba(249,115,22,0.3);
-        }
+        .refresh-btn:hover { background: rgba(249,115,22,0.3); }
         
-        /* Footer */
         .footer {
             text-align: center;
             padding: 20px;
@@ -290,18 +238,11 @@
             font-size: 0.85rem;
         }
         
-        /* Mobile */
         @media (max-width: 640px) {
-            .agent-table, .sessions-table {
-                font-size: 0.8rem;
-            }
+            .agent-table, .sessions-table { font-size: 0.8rem; }
             .agent-table th, .agent-table td,
-            .sessions-table th, .sessions-table td {
-                padding: 8px;
-            }
-            .chart-container {
-                height: 100px;
-            }
+            .sessions-table th, .sessions-table td { padding: 8px; }
+            .chart-container { height: 100px; }
         }
     </style>
 </head>
@@ -314,31 +255,29 @@
     <div class="container">
         <a href="index.html" class="back-link">← Back to Dashboard</a>
         
-        <!-- Key Metrics -->
         <div class="stats-grid">
             <div class="stat-card">
-                <div class="stat-number">17.3M</div>
+                <div class="stat-number">22.5M</div>
                 <div class="stat-label">Total Tokens</div>
             </div>
             <div class="stat-card">
-                <div class="stat-number">2.5M</div>
+                <div class="stat-number">7.7M</div>
                 <div class="stat-label">Today</div>
             </div>
             <div class="stat-card">
-                <div class="stat-number">17.3M</div>
+                <div class="stat-number">22.5M</div>
                 <div class="stat-label">This Week</div>
             </div>
             <div class="stat-card">
-                <div class="stat-number">25</div>
+                <div class="stat-number">24</div>
                 <div class="stat-label">Sessions</div>
             </div>
         </div>
         
-        <!-- Daily Trend -->
         <div class="card">
             <h2>📈 Daily Usage (Last 14 Days)</h2>
             <div class="chart-container">
-                <div class="chart-bar" style="height: 5.628942374671863%" data-value="789.2K"></div><div class="chart-bar" style="height: 100%" data-value="14.0M"></div><div class="chart-bar" style="height: 17.940530537550494%" data-value="2.5M"></div>
+                <div class="chart-bar" style="height: 5.64544198616418%" data-value="789.2K"></div><div class="chart-bar" style="height: 100%" data-value="14.0M"></div><div class="chart-bar" style="height: 55.10646674440499%" data-value="7.7M"></div>
             </div>
             <div class="chart-labels">
                 <span>Apr 5</span>
@@ -346,7 +285,6 @@
             </div>
         </div>
         
-        <!-- GitHub Commits -->
         <div class="card">
             <h2 style="display: flex; justify-content: space-between; align-items: center;">
                 <span>🐙 Recent Commits</span>
@@ -357,7 +295,6 @@
             </div>
         </div>
         
-        <!-- Agent Breakdown -->
         <div class="card">
             <h2>🤖 Usage by Agent</h2>
             <table class="agent-table">
@@ -372,13 +309,13 @@
                 <tbody>
                     <tr>
                         <td><span class="agent-emoji">🦞</span><span class="agent-name">main</span></td>
-                        <td>15.7M</td>
-                        <td>23</td>
+                        <td>20.8M</td>
+                        <td>22</td>
                         <td>
                             <div class="progress-bar">
-                                <div class="progress-fill" style="width: 90.6%"></div>
+                                <div class="progress-fill" style="width: 92.7%"></div>
                             </div>
-                            <small style="color: #6b7280;">90.6%</small>
+                            <small style="color: #6b7280;">92.7%</small>
                         </td>
                       </tr><tr>
                         <td><span class="agent-emoji">🌐</span><span class="agent-name">webmaster</span></td>
@@ -386,9 +323,9 @@
                         <td>1</td>
                         <td>
                             <div class="progress-bar">
-                                <div class="progress-fill" style="width: 5.2%"></div>
+                                <div class="progress-fill" style="width: 4.0%"></div>
                             </div>
-                            <small style="color: #6b7280;">5.2%</small>
+                            <small style="color: #6b7280;">4.0%</small>
                         </td>
                       </tr><tr>
                         <td><span class="agent-emoji">🔬</span><span class="agent-name">researcher</span></td>
@@ -396,16 +333,15 @@
                         <td>1</td>
                         <td>
                             <div class="progress-bar">
-                                <div class="progress-fill" style="width: 4.3%"></div>
+                                <div class="progress-fill" style="width: 3.3%"></div>
                             </div>
-                            <small style="color: #6b7280;">4.3%</small>
+                            <small style="color: #6b7280;">3.3%</small>
                         </td>
                       </tr>
                 </tbody>
             </table>
         </div>
         
-        <!-- Model Breakdown -->
         <div class="card">
             <h2>🧠 Usage by Model</h2>
             <table class="agent-table">
@@ -420,9 +356,9 @@
                 <tbody>
                     <tr>
                         <td><span class="model-tag">kimi-k2.5</span></td>
-                        <td>17.3M</td>
-                        <td>306</td>
-                        <td>80.8%</td>
+                        <td>22.5M</td>
+                        <td>342</td>
+                        <td>83.9%</td>
                       </tr><tr>
                         <td><span class="model-tag">delivery-mirror</span></td>
                         <td>0</td>
@@ -433,7 +369,6 @@
             </table>
         </div>
         
-        <!-- Recent Sessions -->
         <div class="card">
             <h2>📝 Recent Sessions</h2>
             <table class="sessions-table">
@@ -490,11 +425,6 @@
                         <td class="session-id">Apr 6</td>
                         <td>main</td>
                         <td><span class="model-tag">kimi-k2.5</span></td>
-                        <td>41.0K</td>
-                      </tr><tr>
-                        <td class="session-id">Apr 6</td>
-                        <td>main</td>
-                        <td><span class="model-tag">kimi-k2.5</span></td>
                         <td>60.1K</td>
                       </tr><tr>
                         <td class="session-id">Apr 6</td>
@@ -520,7 +450,7 @@
                         <td class="session-id">Apr 6</td>
                         <td>main</td>
                         <td><span class="model-tag">kimi-k2.5</span></td>
-                        <td>8.1M</td>
+                        <td>9.7M</td>
                       </tr><tr>
                         <td class="session-id">Apr 6</td>
                         <td>main</td>
@@ -546,13 +476,18 @@
                         <td>researcher</td>
                         <td><span class="model-tag">kimi-k2.5</span></td>
                         <td>738.6K</td>
+                      </tr><tr>
+                        <td class="session-id">Apr 6</td>
+                        <td>webmaster</td>
+                        <td><span class="model-tag">kimi-k2.5</span></td>
+                        <td>893.3K</td>
                       </tr>
                 </tbody>
             </table>
         </div>
         
         <div class="footer">
-            <p>Last updated: Apr 7, 10:01 PM</p>
+            <p>Last updated: Apr 7, 11:07 PM</p>
             <p style="margin-top: 5px; font-size: 0.75rem;">OpenClaw Analytics Agent</p>
         </div>
     </div>
@@ -586,14 +521,10 @@
             
             try {
                 const response = await fetch(GITHUB_API_URL, {
-                    headers: {
-                        'Accept': 'application/vnd.github.v3+json'
-                    }
+                    headers: { 'Accept': 'application/vnd.github.v3+json' }
                 });
                 
-                if (!response.ok) {
-                    throw new Error('Failed to fetch commits');
-                }
+                if (!response.ok) throw new Error('Failed to fetch commits');
                 
                 const commits = await response.json();
                 
@@ -603,42 +534,35 @@
                 }
                 
                 container.innerHTML = commits.map(commit => {
-                    const message = commit.commit.message.split('\n')[0]; // First line only
+                    const message = commit.commit.message.split('\n')[0];
                     const author = commit.commit.author.name;
                     const date = commit.commit.author.date;
                     const sha = commit.sha.slice(0, 7);
                     const url = commit.html_url;
                     
-                    return `
-                        <div class="commit-item">
-                            <div class="commit-avatar">${getInitials(author)}</div>
-                            <div class="commit-content">
-                                <div class="commit-message" title="${message}">${message}</div>
-                                <div class="commit-meta">
-                                    <span class="commit-author">${author}</span>
-                                    <span class="commit-date">${formatTimeAgo(date)}</span>
-                                    <a href="${url}" target="_blank" class="commit-sha">${sha}</a>
-                                </div>
+                    return `<div class="commit-item">
+                        <div class="commit-avatar">${getInitials(author)}</div>
+                        <div class="commit-content">
+                            <div class="commit-message" title="${message}">${message}</div>
+                            <div class="commit-meta">
+                                <span class="commit-author">${author}</span>
+                                <span class="commit-date">${formatTimeAgo(date)}</span>
+                                <a href="${url}" target="_blank" class="commit-sha">${sha}</a>
                             </div>
                         </div>
-                    `;
+                    </div>`;
                 }).join('');
                 
             } catch (error) {
-                container.innerHTML = `
-                    <div class="error-commits">
-                        <p>Failed to load commits</p>
-                        <p style="font-size: 0.8rem; margin-top: 8px;">${error.message}</p>
-                        <button class="refresh-btn" style="margin-top: 12px;" onclick="fetchCommits()">Try Again</button>
-                    </div>
-                `;
+                container.innerHTML = `<div class="error-commits">
+                    <p>Failed to load commits</p>
+                    <p style="font-size: 0.8rem; margin-top: 8px;">${error.message}</p>
+                    <button class="refresh-btn" style="margin-top: 12px;" onclick="fetchCommits()">Try Again</button>
+                </div>`;
             }
         }
         
-        // Load commits on page load
         fetchCommits();
-        
-        // Auto-refresh every 5 minutes
         setInterval(fetchCommits, 300000);
     </script>
 </body>
