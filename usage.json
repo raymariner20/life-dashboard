@@ -1,0 +1,428 @@
+{
+  "total": {
+    "input": 25187999,
+    "output": 430853,
+    "cacheRead": 76163578,
+    "cacheWrite": 0,
+    "totalTokens": 101782430,
+    "cost": 0,
+    "sessions": 21,
+    "messages": 1180
+  },
+  "byAgent": {
+    "main": {
+      "input": 100066517,
+      "output": 0,
+      "cacheRead": 0,
+      "cacheWrite": 0,
+      "totalTokens": 100066517,
+      "cost": 0,
+      "sessions": 18,
+      "messages": 2524
+    },
+    "researcher": {
+      "input": 822627,
+      "output": 0,
+      "cacheRead": 0,
+      "cacheWrite": 0,
+      "totalTokens": 822627,
+      "cost": 0,
+      "sessions": 2,
+      "messages": 75
+    },
+    "webmaster": {
+      "input": 893286,
+      "output": 0,
+      "cacheRead": 0,
+      "cacheWrite": 0,
+      "totalTokens": 893286,
+      "cost": 0,
+      "sessions": 1,
+      "messages": 69
+    }
+  },
+  "byModel": {
+    "kimi-k2.5": {
+      "input": 25187999,
+      "output": 430853,
+      "cacheRead": 76163578,
+      "cacheWrite": 0,
+      "totalTokens": 101782430,
+      "cost": 0,
+      "messages": 1166
+    },
+    "delivery-mirror": {
+      "input": 0,
+      "output": 0,
+      "cacheRead": 0,
+      "cacheWrite": 0,
+      "totalTokens": 0,
+      "cost": 0,
+      "messages": 14
+    }
+  },
+  "byDate": {
+    "2026-04-16": {
+      "input": 1990098,
+      "output": 41373,
+      "cacheRead": 7321856,
+      "cacheWrite": 0,
+      "totalTokens": 9353327,
+      "cost": 0,
+      "messages": 185
+    },
+    "2026-04-07": {
+      "input": 2195813,
+      "output": 245945,
+      "cacheRead": 10973400,
+      "cacheWrite": 0,
+      "totalTokens": 13415158,
+      "cost": 0,
+      "messages": 193
+    },
+    "2026-04-06": {
+      "input": 155771,
+      "output": 12163,
+      "cacheRead": 621312,
+      "cacheWrite": 0,
+      "totalTokens": 789246,
+      "cost": 0,
+      "messages": 36
+    },
+    "2026-04-08": {
+      "input": 3742794,
+      "output": 27357,
+      "cacheRead": 7961088,
+      "cacheWrite": 0,
+      "totalTokens": 11731239,
+      "cost": 0,
+      "messages": 100
+    },
+    "2026-04-09": {
+      "input": 6096519,
+      "output": 83136,
+      "cacheRead": 30439424,
+      "cacheWrite": 0,
+      "totalTokens": 36619079,
+      "cost": 0,
+      "messages": 325
+    },
+    "2026-04-10": {
+      "input": 1863863,
+      "output": 5510,
+      "cacheRead": 5764352,
+      "cacheWrite": 0,
+      "totalTokens": 7633725,
+      "cost": 0,
+      "messages": 71
+    },
+    "2026-04-11": {
+      "input": 860128,
+      "output": 3406,
+      "cacheRead": 1835520,
+      "cacheWrite": 0,
+      "totalTokens": 2699054,
+      "cost": 0,
+      "messages": 46
+    },
+    "2026-04-13": {
+      "input": 2777408,
+      "output": 3632,
+      "cacheRead": 3171106,
+      "cacheWrite": 0,
+      "totalTokens": 5952146,
+      "cost": 0,
+      "messages": 73
+    },
+    "2026-04-14": {
+      "input": 2781105,
+      "output": 3035,
+      "cacheRead": 3420416,
+      "cacheWrite": 0,
+      "totalTokens": 6204556,
+      "cost": 0,
+      "messages": 61
+    },
+    "2026-04-17": {
+      "input": 331595,
+      "output": 717,
+      "cacheRead": 458496,
+      "cacheWrite": 0,
+      "totalTokens": 790808,
+      "cost": 0,
+      "messages": 18
+    },
+    "2026-04-12": {
+      "input": 1413511,
+      "output": 3255,
+      "cacheRead": 2611456,
+      "cacheWrite": 0,
+      "totalTokens": 4028222,
+      "cost": 0,
+      "messages": 50
+    },
+    "2026-04-15": {
+      "input": 979394,
+      "output": 1324,
+      "cacheRead": 1585152,
+      "cacheWrite": 0,
+      "totalTokens": 2565870,
+      "cost": 0,
+      "messages": 22
+    }
+  },
+  "sessions": [
+    {
+      "id": "c4b36f29-91af-4126-9e5c-a74935e1657c",
+      "agent": "main",
+      "model": "kimi-k2.5",
+      "date": "2026-04-17",
+      "tokens": 0,
+      "cost": 0,
+      "messages": 9
+    },
+    {
+      "id": "0184fd21-a684-4b27-a6b3-4c6e17c42c88",
+      "agent": "main",
+      "model": "kimi-k2.5",
+      "date": "2026-04-16",
+      "tokens": 69292,
+      "cost": 0,
+      "messages": 15
+    },
+    {
+      "id": "1163cbb7-8401-43b9-a424-58415c16749f",
+      "agent": "main",
+      "model": "kimi-k2.5",
+      "date": "2026-04-16",
+      "tokens": 79951,
+      "cost": 0,
+      "messages": 20
+    },
+    {
+      "id": "162cf2e6-3e34-4543-8112-184d2eb28f5d",
+      "agent": "main",
+      "model": "kimi-k2.5",
+      "date": "2026-04-16",
+      "tokens": 2814805,
+      "cost": 0,
+      "messages": 72
+    },
+    {
+      "id": "337adfa9-a43a-4cff-bd2d-9995b0876db9",
+      "agent": "main",
+      "model": "kimi-k2.5",
+      "date": "2026-04-16",
+      "tokens": 133753,
+      "cost": 0,
+      "messages": 29
+    },
+    {
+      "id": "4fcebe01-2b3d-467a-a8aa-4109d86c2d76",
+      "agent": "main",
+      "model": "kimi-k2.5",
+      "date": "2026-04-16",
+      "tokens": 143076,
+      "cost": 0,
+      "messages": 25
+    },
+    {
+      "id": "58c80f4c-b41b-4a27-b8b6-d80d8f887947",
+      "agent": "main",
+      "model": "kimi-k2.5",
+      "date": "2026-04-16",
+      "tokens": 641637,
+      "cost": 0,
+      "messages": 52
+    },
+    {
+      "id": "632a225b-dab3-4aab-b464-57410f44e9f4",
+      "agent": "main",
+      "model": "kimi-k2.5",
+      "date": "2026-04-16",
+      "tokens": 440320,
+      "cost": 0,
+      "messages": 54
+    },
+    {
+      "id": "7ee95900-7ca1-4635-90be-c216347776bf",
+      "agent": "main",
+      "model": "kimi-k2.5",
+      "date": "2026-04-16",
+      "tokens": 1865567,
+      "cost": 0,
+      "messages": 67
+    },
+    {
+      "id": "f43676a0-6ade-405b-8abd-feb5158e28fa",
+      "agent": "main",
+      "model": "kimi-k2.5",
+      "date": "2026-04-16",
+      "tokens": 43018,
+      "cost": 0,
+      "messages": 12
+    },
+    {
+      "id": "fdb08b74-9b0f-4189-96e9-3bb4ee44db03",
+      "agent": "main",
+      "model": "kimi-k2.5",
+      "date": "2026-04-16",
+      "tokens": 42190,
+      "cost": 0,
+      "messages": 18
+    },
+    {
+      "id": "23114fe0-3562-4986-a65c-9e329674ee79",
+      "agent": "researcher",
+      "model": "kimi-k2.5",
+      "date": "2026-04-09",
+      "tokens": 84034,
+      "cost": 0,
+      "messages": 14
+    },
+    {
+      "id": "15555a17-1009-4ab1-8651-8f208ba5ba9e",
+      "agent": "main",
+      "model": "kimi-k2.5",
+      "date": "2026-04-07",
+      "tokens": 81416,
+      "cost": 0,
+      "messages": 20
+    },
+    {
+      "id": "bb9bdb78-160a-414f-8528-4dcccba6a294",
+      "agent": "main",
+      "model": "kimi-k2.5",
+      "date": "2026-04-07",
+      "tokens": 2368760,
+      "cost": 0,
+      "messages": 61
+    },
+    {
+      "id": "ddd89b88-5dc7-4cad-b308-19196445dc52",
+      "agent": "main",
+      "model": "kimi-k2.5",
+      "date": "2026-04-07",
+      "tokens": 44792703,
+      "cost": 0,
+      "messages": 1064
+    },
+    {
+      "id": "29ca5d25-f6c2-4c32-8ee7-f04ae492fe23",
+      "agent": "researcher",
+      "model": "kimi-k2.5",
+      "date": "2026-04-07",
+      "tokens": 738593,
+      "cost": 0,
+      "messages": 61
+    },
+    {
+      "id": "c3b2c360-1afe-48fd-b2c7-b66e3e73f0c9",
+      "agent": "webmaster",
+      "model": "kimi-k2.5",
+      "date": "2026-04-07",
+      "tokens": 893286,
+      "cost": 0,
+      "messages": 69
+    },
+    {
+      "id": "3b1b9724-adeb-4947-968e-a2b882e4a9f5",
+      "agent": "main",
+      "model": "kimi-k2.5",
+      "date": "2026-04-06",
+      "tokens": 46228349,
+      "cost": 0,
+      "messages": 944
+    },
+    {
+      "id": "61398914-5f13-4c38-920c-11be81f2aa60",
+      "agent": "main",
+      "model": "kimi-k2.5",
+      "date": "2026-04-06",
+      "tokens": 185267,
+      "cost": 0,
+      "messages": 35
+    },
+    {
+      "id": "abad0003-d118-43ac-a064-a8892de61e5c",
+      "agent": "main",
+      "model": "kimi-k2.5",
+      "date": "2026-04-06",
+      "tokens": 16307,
+      "cost": 0,
+      "messages": 6
+    },
+    {
+      "id": "e10a069b-6e12-446f-9761-c10e0c9a35e8",
+      "agent": "main",
+      "model": "kimi-k2.5",
+      "date": "2026-04-06",
+      "tokens": 120106,
+      "cost": 0,
+      "messages": 21
+    }
+  ],
+  "lastUpdated": "2026-04-17T07:00:40.952Z",
+  "history": {
+    "2026-04-08": {
+      "totalTokens": 26671195,
+      "cost": 0,
+      "sessions": 18,
+      "timestamp": "2026-04-08T21:01:04.342Z"
+    },
+    "2026-04-09": {
+      "totalTokens": 70504599,
+      "cost": 0,
+      "sessions": 25,
+      "timestamp": "2026-04-09T23:01:08.757Z"
+    },
+    "2026-04-10": {
+      "totalTokens": 83461626,
+      "cost": 0,
+      "sessions": 29,
+      "timestamp": "2026-04-10T23:00:19.251Z"
+    },
+    "2026-04-11": {
+      "totalTokens": 87687253,
+      "cost": 0,
+      "sessions": 29,
+      "timestamp": "2026-04-11T23:00:19.167Z"
+    },
+    "2026-04-12": {
+      "totalTokens": 93114385,
+      "cost": 0,
+      "sessions": 29,
+      "timestamp": "2026-04-12T23:00:44.027Z"
+    },
+    "2026-04-13": {
+      "totalTokens": 102631732,
+      "cost": 0,
+      "sessions": 29,
+      "timestamp": "2026-04-13T23:01:00.561Z"
+    },
+    "2026-04-14": {
+      "totalTokens": 105021115,
+      "cost": 0,
+      "sessions": 29,
+      "timestamp": "2026-04-14T23:01:09.018Z"
+    },
+    "2026-04-15": {
+      "totalTokens": 105892203,
+      "cost": 0,
+      "sessions": 29,
+      "timestamp": "2026-04-15T23:00:17.630Z"
+    },
+    "2026-04-16": {
+      "totalTokens": 103640451,
+      "cost": 0,
+      "sessions": 24,
+      "timestamp": "2026-04-16T23:00:19.991Z"
+    },
+    "2026-04-17": {
+      "totalTokens": 101782430,
+      "cost": 0,
+      "sessions": 21,
+      "timestamp": "2026-04-17T07:00:41.027Z"
+    }
+  }
+}
