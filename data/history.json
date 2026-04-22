@@ -1,0 +1,92 @@
+{
+  "2026-04-08": {
+    "totalTokens": 26671195,
+    "cost": 0,
+    "sessions": 18,
+    "timestamp": "2026-04-08T21:01:04.342Z"
+  },
+  "2026-04-09": {
+    "totalTokens": 70504599,
+    "cost": 0,
+    "sessions": 25,
+    "timestamp": "2026-04-09T23:01:08.757Z"
+  },
+  "2026-04-10": {
+    "totalTokens": 83461626,
+    "cost": 0,
+    "sessions": 29,
+    "timestamp": "2026-04-10T23:00:19.251Z"
+  },
+  "2026-04-11": {
+    "totalTokens": 87687253,
+    "cost": 0,
+    "sessions": 29,
+    "timestamp": "2026-04-11T23:00:19.167Z"
+  },
+  "2026-04-12": {
+    "totalTokens": 93114385,
+    "cost": 0,
+    "sessions": 29,
+    "timestamp": "2026-04-12T23:00:44.027Z"
+  },
+  "2026-04-13": {
+    "totalTokens": 102631732,
+    "cost": 0,
+    "sessions": 29,
+    "timestamp": "2026-04-13T23:01:00.561Z"
+  },
+  "2026-04-14": {
+    "totalTokens": 105021115,
+    "cost": 0,
+    "sessions": 29,
+    "timestamp": "2026-04-14T23:01:09.018Z"
+  },
+  "2026-04-15": {
+    "totalTokens": 105892203,
+    "cost": 0,
+    "sessions": 29,
+    "timestamp": "2026-04-15T23:00:17.630Z"
+  },
+  "2026-04-16": {
+    "totalTokens": 103640451,
+    "cost": 0,
+    "sessions": 24,
+    "timestamp": "2026-04-16T23:00:19.991Z"
+  },
+  "2026-04-17": {
+    "totalTokens": 106909460,
+    "cost": 0,
+    "sessions": 23,
+    "timestamp": "2026-04-17T23:00:14.940Z"
+  },
+  "2026-04-18": {
+    "totalTokens": 114220444,
+    "cost": 0,
+    "sessions": 23,
+    "timestamp": "2026-04-18T23:00:51.253Z"
+  },
+  "2026-04-19": {
+    "totalTokens": 118067480,
+    "cost": 0,
+    "sessions": 23,
+    "timestamp": "2026-04-19T23:00:21.685Z"
+  },
+  "2026-04-20": {
+    "totalTokens": 128947495,
+    "cost": 0,
+    "sessions": 23,
+    "timestamp": "2026-04-20T23:00:16.540Z"
+  },
+  "2026-04-21": {
+    "totalTokens": 133599485,
+    "cost": 0,
+    "sessions": 23,
+    "timestamp": "2026-04-21T23:00:14.658Z"
+  },
+  "2026-04-22": {
+    "totalTokens": 134421410,
+    "cost": 0,
+    "sessions": 23,
+    "timestamp": "2026-04-22T07:00:34.361Z"
+  }
+}
